@@ -4,43 +4,45 @@ on:
     branches: [ai-guide-deployment-recovery-20260906]
     paths: [.github/workflows/ai-guide-recovery.yml, recovery/publish-ready.json]
 permissions:
-  contents: write
+  contents: read
 jobs:
-  check-route:
+  prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Inspect the existing public guide
-        shell: bash
+      - name: Prepare lossless source transfer
         run: |
-          set -euo pipefail
-          mkdir -p recovery
+          python -m pip install --disable-pip-version-check tiktoken==0.12.0
+          mkdir -p recovery-artifacts
           python - <<'PY'
-          import urllib.request, urllib.error, hashlib, json, pathlib
-          urls = [
-            'https://regalia-ai-field-guide-joe-regalias-projects.vercel.app',
-            'https://regalia-ai-field-guide-7vt5rq6hv-joe-regalias-projects.vercel.app',
-          ]
+          import tiktoken,re,json,pathlib,hashlib,urllib.request
+          root=pathlib.Path('recovery-artifacts')
+          enc=tiktoken.get_encoding('o200k_base')
+          words=[(rank, token.decode()[1:]) for token,rank in enc._mergeable_ranks.items() if re.fullmatch(rb' [A-Za-z]+',token)]
+          words=[w for rank,w in sorted(words)]
+          bits=min(15,len(words).bit_length()-1)
+          words=words[:2**bits]
+          data=('\n'.join(words)+'\n').encode()
+          (root/'dictionary.txt').write_bytes(data)
+          (root/'transfer-format.json').write_text(json.dumps({'bits':bits,'words':len(words),'dictionarySha256':hashlib.sha256(data).hexdigest()},indent=2))
           results=[]
-          for i,url in enumerate(urls):
+          for i,url in enumerate(['https://regalia-ai-field-guide-joe-regalias-projects.vercel.app','https://regalia-ai-field-guide-7vt5rq6hv-joe-regalias-projects.vercel.app']):
             try:
-              with urllib.request.urlopen(url, timeout=30) as r:
+              with urllib.request.urlopen(url,timeout=30) as r:
                 b=r.read()
-                result={'url':url,'status':r.status,'finalUrl':r.url,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'beginning':b[:600].decode('utf-8','replace')}
-                if r.status==200 and len(b)>100000 and b'The AI-Enabled Lawyer' in b:
-                  path=pathlib.Path('recovery')/('existing-live-'+str(i)+'.html')
-                  path.write_bytes(b)
-                  result['sourcePath']=str(path)
+                item={'url':url,'status':r.status,'finalUrl':r.url,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'beginning':b[:600].decode('utf-8','replace')}
+                if len(b)>100000 and b'The AI-Enabled Lawyer' in b:
+                  (root/('existing-live-'+str(i)+'.html')).write_bytes(b)
             except Exception as e:
-              result={'url':url,'error':str(e)}
-            results.append(result)
-          pathlib.Path('recovery/live-probe.json').write_text(json.dumps(results,indent=2))
-          print(json.dumps(results,indent=2))
+              item={'url':url,'error':str(e)}
+            results.append(item)
+          (root/'live-probe.json').write_text(json.dumps(results,indent=2))
+          print('Source-transfer format:',bits,'bits per word; existing public site inspected.')
           PY
-      - name: Record deployment diagnostics on the recovery branch
-        run: |
-          git config user.name 'Guide deployment'
-          git config user.email '156871333+Writedotlaw@users.noreply.github.com'
-          git add recovery/
-          git diff --cached --quiet || (git commit -m 'Record existing public guide response' && git push origin HEAD:ai-guide-deployment-recovery-20260906)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: recovery-transfer-support
+          path: recovery-artifacts/
+          retention-days: 7
+          if-no-files-found: error
