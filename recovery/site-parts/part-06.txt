@@ -1,0 +1,171 @@
+        "html": "<div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Principle from the slides</th><th scope=\"col\">How to apply it</th></tr></thead><tbody><tr><th scope=\"row\">Role and audience</th><td>Explain whose perspective would help and who needs to understand the eventual work.</td></tr><tr><th scope=\"row\">Context, data, and goals</th><td>Provide the background that affects this task and identify the desired result.</td></tr><tr><th scope=\"row\">Annotated examples</th><td>Show an example and explain the feature you want the tool to learn from it.</td></tr><tr><th scope=\"row\">Options, expansion, and critique</th><td>Ask for alternatives or objections when those would help you make a decision.</td></tr><tr><th scope=\"row\">Result requirements</th><td>State the useful form and scope of the answer rather than leaving them to guesswork.</td></tr><tr><th scope=\"row\">Follow-up</th><td>Explain what worked and what needs to change before requesting another version.</td></tr><tr><th scope=\"row\">Organized steps</th><td>Separate dependent tasks when doing so makes their results easier to check.</td></tr><tr><th scope=\"row\">Improve the instructions</th><td>Ask the tool to identify ambiguity in your proposed assignment, then decide what to clarify.</td></tr><tr><th scope=\"row\">Reset and reuse</th><td>Keep useful instructions and current source information so another session can start from an accurate record.</td></tr><tr><th scope=\"row\">Avoid AI-isms</th><td>Describe the writing problems to avoid and review whether the result actually communicates the substance.</td></tr></tbody></table></div><p>You may need only a few of these in a small request. Adding irrelevant instructions makes the assignment harder to understand rather than more complete.</p>"
+      },
+      {
+        "h": "Explain why an example works",
+        "html": "<p>An example helps most when you identify what to notice. Instead of saying “write like this,” explain that a heading names the actor and action, states the proposition in a full sentence, and preserves an important limit.</p><p>Be clear about what the example does not supply. A passage used to demonstrate style should not introduce facts or law into another matter. Likewise, an example’s tone may suit one audience and be inappropriate for another.</p><p>When working from your own writing, ask for a description you can test against the passages. “Clear and persuasive” tells you little. A description of how your opening sentences identify the dispute gives you something to agree with or correct.</p>"
+      },
+      {
+        "h": "Prepare instructions for your own assignment",
+        "html": "<p>The form below assembles a prompt from what you enter. Use a non-sensitive example, or begin with one of the supplied examples and revise it. The form does not evaluate the quality of your instructions or call an AI system.</p><p>When the assembled prompt reflects the assignment you intend, copy it into a tool you are allowed to use and supply the permitted materials there. Check every bracketed placeholder before sending it. The prompt text and your saved version are separate from any answer that another tool produces.</p><div data-widget=\"promptbuilder\"></div>"
+      },
+      {
+        "h": "Ask for clarification before the work begins",
+        "html": "<p>For a substantial assignment, it can help to inspect the tool’s proposed approach before it drafts. This is another opportunity to catch a missing source or an assumption about what you want.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>A request to review the assignment first</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Before performing this assignment, explain how you understand the task and identify anything important that is missing or ambiguous. Propose a manageable approach using only the permitted materials. Tell me which decisions you need me to make before you can proceed. Wait for my response before drafting.</pre></div><p>Review the proposed approach against the actual work. An organized plan can still choose the wrong priorities, so use your initial understanding to decide what should change.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You give the AI a strong heading as an example. What should you explain about it?",
+      "a": [
+        "Which client name and factual details it should reuse.",
+        "Which writing choices make the heading effective for this audience.",
+        "That the example is authoritative enough to follow without further review."
+      ],
+      "correct": 1,
+      "why": "An example can teach several different things. Pointing out the useful choices helps the AI distinguish the feature you want from details that belong only to the original assignment."
+    }
+  },
+  {
+    "id": "graphing",
+    "part": 1,
+    "title": "Map the work before you automate it",
+    "nav": "Mapping an AI workflow",
+    "desc": "Graphing an AI workflow means showing how the work should proceed: what each task needs, where its result goes, and when a person must decide whether to continue. You can begin with a work plan on paper.",
+    "sources": [
+      [
+        "graph",
+        "sections 1–10"
+      ],
+      [
+        "fall",
+        "pp. 10–14"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Use a map to make the work easier to supervise",
+        "html": "<p>A broad request such as “review these documents and recommend whether to terminate the vendor” leaves many choices to the system. A workflow map makes some of those choices explicit before the recommendation is written.</p><p>For example, you could identify the contract’s requirements and build a factual timeline in separate tasks. A later task would compare the two, but it would wait until both were ready. A missing fact could send the work back for investigation instead of forward to a draft.</p><p>Each box in the map represents a task. A connecting arrow shows what follows or what depends on that task’s result. Some tasks belong to AI, some to ordinary software, and some to a person. The useful part is deciding how they fit together.</p><p>A <strong>knowledge graph</strong> is a different kind of map. It shows relationships among information, such as people, events, or documents. This chapter concerns the sequence of the work rather than a map of the facts.</p>"
+      },
+      {
+        "h": "Begin with a defined question and approved materials",
+        "html": "<p>Our fictional client is unhappy with a software vendor. The materials include a signed agreement, an amendment, service records, and correspondence. The client needs to know what would have to be established or done before terminating for the reported failures.</p><p>For this teaching example, assume that the reviewing lawyer has also supplied the relevant governing-law analysis. Reviewing the contract and correspondence alone would not resolve every legal issue. The assignment is to identify the contractual conditions, compare them with the available evidence, and explain what remains unresolved.</p><p>One detail will matter throughout: the contract starts a cure period when written notice is <strong>received</strong>. The initial correspondence shows a message was sent, but does not establish receipt. Keep that distinction in mind as you move through the example.</p>"
+      },
+      {
+        "h": "Follow the example one step at a time",
+        "html": "<p>Click a task in the diagram to read what it needs and what it should produce. Then use the button beneath the status explanation to move through the example. When evidence is missing, the exercise asks you to decide how to handle the gap before a recommendation can proceed.</p><p>The example is a prepared demonstration, not a connected AI agent. Its source checks and responses illustrate the proposed process. They do not inspect documents or establish a legal conclusion.</p><div data-widget=\"graph\"></div>"
+      },
+      {
+        "h": "Give each task an assignment the next person can use",
+        "html": "<p>A box labeled “Analyze” is not enough to guide the work. Identify the source material, the question to answer, and the result the next task needs. Also explain what to do when the information is incomplete.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Part of the assignment</th><th scope=\"col\">Contract-review example</th></tr></thead><tbody><tr><th scope=\"row\">Question</th><td>Which provisions govern termination for the reported service failures?</td></tr><tr><th scope=\"row\">Materials</th><td>Read the agreement together with the supplied amendment and the lawyer’s assignment.</td></tr><tr><th scope=\"row\">Required result</th><td>Provide a table of requirements with the relevant language, source locations, and qualifications.</td></tr><tr><th scope=\"row\">Unresolved information</th><td>Identify missing referenced material or conflicts between provisions rather than supplying an assumed answer.</td></tr><tr><th scope=\"row\">Review</th><td>The lawyer checks the relevant provisions before the findings are used in the comparison.</td></tr></tbody></table></div><p>That result is useful beyond the first exchange. It tells the next task where the requirements came from and which questions have not yet been answered.</p>"
+      },
+      {
+        "h": "Keep extraction separate from the eventual recommendation",
+        "html": "<p>The contract review and timeline have different initial jobs. The first identifies what the documents require. The second identifies what the records show happened. Neither needs to settle whether termination is available.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Contract-review instructions</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Identify the provisions relevant to termination for the reported service failures. Read the agreement together with the amendment. For each requirement, give the relevant language and its location, including exceptions or qualifications. Identify any uncertainty about how the provisions fit together. Do not decide whether the client has satisfied the requirements yet.</pre></div><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Timeline instructions</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Build a timeline from the supplied records and correspondence. Cite the document and location supporting each entry. Distinguish what a source establishes from what someone alleges, and preserve conflicting accounts. Identify missing information. Do not treat evidence that notice was sent as evidence of receipt, or conclude that a contractual requirement has been satisfied.</pre></div><p>You can run these requests manually in separate chats. Give each the shared assignment and the materials it actually needs; do not assume that information will carry across automatically.</p>"
+      },
+      {
+        "h": "Carry sources and unresolved questions into the next task",
+        "html": "<p>When the two results come together, the comparison should retain access to the underlying documents. Summaries are useful working materials, but a later task may need to inspect an exception or resolve an apparent inconsistency.</p><p>For each proposed conclusion, identify the supporting requirement and factual evidence. Keep missing or disputed information visible. “Notice was sent on June 4” and “notice was received on June 4” are different findings. Passing only an unqualified date to the next task could conceal the difference.</p><p>In this example, the lawyer might seek evidence of receipt or approve a recommendation that expressly preserves the unresolved question. That decision should travel with the findings so the drafting task does not quietly choose a different approach.</p>"
+      },
+      {
+        "h": "Separate tasks when the separation helps",
+        "html": "<p>Ask what a task needs before it can begin. The initial timeline can be assembled without a completed contract analysis. The recommendation needs the relevant requirements, factual findings, and the lawyer’s decisions, so it should wait.</p><p>Separate work does not have to run simultaneously. You may perform two tasks one after another while testing the plan manually. What matters first is whether the separation makes their questions clearer and their results easier to review.</p><p>Keep connected issues together when separating them would hide their relationship. Several agreements, for example, may need initial individual review followed by a deliberate review of how their provisions interact. A workflow should serve the analysis rather than fragment it.</p>"
+      },
+      {
+        "h": "Specify what the final review must check",
+        "html": "<p>A final instruction to “check your work” does not define a useful review. Tell the reviewer which materials to compare and what kinds of changes would matter.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Source-check instructions</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Compare the draft with the underlying documents, approved findings, and the lawyer’s instructions. Identify unsupported assertions, omitted qualifications, and passages that treat an unresolved question as settled. For each issue, quote the draft language, identify the relevant source and location, and propose a correction or a question for the lawyer. Report anything you could not check.</pre></div><p>Inspect the important findings yourself. Another AI response may identify something worth investigating, but its agreement does not establish that the draft is accurate. Also decide when a revision cycle ends and a person must resolve what remains.</p>"
+      },
+      {
+        "h": "Test the map before building an automated version",
+        "html": "<p>Begin with a manageable assignment and run the steps yourself. Save the work products and note where you needed to clarify an instruction or correct a handoff. This gives you something concrete to improve before adding software.</p><p>Then change the example. Suppose a new email establishes receipt. Which work needs reconsideration? The timeline, comparison, recommendation, and final review are affected. The contract extraction may remain useful, subject to checking whether the new evidence makes another provision relevant.</p><p>Compare the mapped approach with a simpler approach using the same materials. Record important errors and the time needed for lawyer review, not just how quickly a draft appears. A map is worth keeping when it helps the actual work.</p><p>Automation can manage the handoffs and enforce some pauses, but those mechanisms must be implemented and tested. A diagram or written instruction does not itself prevent an external action. <a class=\"inline-link\" href=\"#/read/agents\">The chapter on supervising agents</a> explains how to specify those limits.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "The contract starts the cure period on receipt of notice, but the packet establishes only that an email was sent. What should happen next?",
+      "a": [
+        "Calculate from the sent date and mention the receipt issue in a footnote.",
+        "Let the drafting task decide whether the missing date is important.",
+        "Identify the missing evidence and seek the lawyer’s decision about further investigation or a qualified analysis."
+      ],
+      "correct": 2,
+      "why": "The comparison should preserve the distinction between sending and receipt. The lawyer must decide how to handle the gap before later work treats an unproved date as established."
+    }
+  },
+  {
+    "id": "harness",
+    "part": 1,
+    "title": "Organize the materials the AI needs",
+    "nav": "Sources and saved instructions",
+    "desc": "A well-written prompt cannot compensate for missing or outdated material. Organize the assignment so the system can identify the relevant sources and you can see what it used.",
+    "sources": [
+      [
+        "fall",
+        "p. 14"
+      ],
+      [
+        "student",
+        "pp. 4–8"
+      ],
+      [
+        "slides",
+        "pp. 33–37"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Understand what belongs around the prompt",
+        "html": "<p>The Fall guide calls the surrounding system a harness. It includes the sources and examples supplied for an assignment, the sequence of tasks, and the controls used to check results. The Student guide also uses the term for the software around a model.</p><p>You can begin practicing this kind of organization without building a new application. Prepare a reference folder containing the current assignment, permitted materials, and instructions you expect to reuse. Treat it as a deliberate source collection rather than an accumulation of everything that might be relevant.</p><p>A folder alone does not enforce permissions or perform a review. It helps you keep important information available; any software controls still need to be implemented in the system you use.</p>"
+      },
+      {
+        "h": "Make the current materials easy to identify",
+        "html": "<p>The following folder arrangement is an example for the vendor assignment, not a required format. Its purpose is to distinguish approved sources from unfinished work.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Material</th><th scope=\"col\">What to include</th></tr></thead><tbody><tr><th scope=\"row\">Assignment</th><td>The question, intended reader, client objective, and limits on the work.</td></tr><tr><th scope=\"row\">Source documents</th><td>The signed agreement, relevant amendment, approved records, and lawyer-supplied governing-law material.</td></tr><tr><th scope=\"row\">Reviewed findings</th><td>The requirements table and timeline, with source locations and unresolved issues retained.</td></tr><tr><th scope=\"row\">Instructions and examples</th><td>The writing or analysis instructions you intend to reuse, with examples that show what a useful result looks like.</td></tr><tr><th scope=\"row\">Decisions and open questions</th><td>The reviewer’s decisions, current qualifications, and information still needed before proceeding.</td></tr></tbody></table></div><p>Use filenames and dates that make the current version apparent. A superseded draft can still be useful history, but it should not look like the controlling instruction.</p>"
+      },
+      {
+        "h": "Check retrieval and interpretation separately",
+        "html": "<p>Retrieval means finding relevant material in a source collection and making it available to the model. The answer then depends both on what was found and on how that material was interpreted.</p><p>When reviewing a result, ask whether an important source is absent. A perfectly accurate summary of the agreement may be incomplete if the amendment changes the relevant provision. Conversely, retrieving both documents does not guarantee that the response explains their relationship correctly.</p><p>Require the system to identify material it could not access and retain the source locations for important findings. Those details help you investigate an omission or misreading rather than relying on a general statement that the documents were reviewed.</p>"
+      },
+      {
+        "h": "Prepare the next session to continue accurately",
+        "html": "<p>At the end of a substantial session, save enough information for another person or AI session to continue without reconstructing the entire conversation. Identify the current question, reviewed conclusions, unresolved issues, and next task. Distinguish your decisions from suggestions that were not adopted.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Instructions for a session summary</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Prepare a record for the next session. State the current assignment and approved source versions. Summarize the findings with source locations, preserving disputed facts and unresolved questions. Identify decisions I made and suggestions I rejected. Describe the next task and what must be checked before it begins. Do not present an unreviewed proposal as an approved finding.</pre></div><p>Read the summary before reusing it. A saved record can carry an error forward just as easily as a conversation can.</p>"
+      },
+      {
+        "h": "Connect organization with review",
+        "html": "<p>The Fall guide proposes a sequence beginning with a human-defined question, followed by source-supported work, structured results, critique, source review, approval, and an update to the process. The pieces matter because each helps the next person understand what they are receiving.</p><p>For example, a source table makes a comparison possible, while a record of unresolved facts tells the reviewer what a recommendation must not assume. After review, a short note explaining a recurring error can improve the instructions for the next assignment.</p><p>This is also why an additional model is only one possible review aid. Verification still depends on appropriate evidence, reliable checks, and someone responsible for deciding what can be used.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You are continuing an assignment in a new AI session. What should you provide?",
+      "a": [
+        "The latest draft, leaving the new session to infer how you reached it.",
+        "The reviewed findings and decisions, the unresolved questions, and access to the sources needed for the next task.",
+        "The entire conversation, without identifying which parts are still accurate."
+      ],
+      "correct": 1,
+      "why": "The next task needs to know what it may rely on and what remains unresolved. Keep the underlying sources available so a summary does not become an unsupported substitute for them."
+    }
+  },
+  {
+    "id": "agents",
+    "part": 1,
+    "title": "Supervise an AI system that takes several steps",
+    "nav": "Supervising AI agents",
+    "desc": "When AI can use tools and continue working between your instructions, you need to specify more than the final answer. You need to know what it may do along the way and when it must return to you.",
+    "sources": [
+      [
+        "fall",
+        "pp. 10–11"
+      ],
+      [
+        "short",
+        "pp. 1–2"
+      ],
+      [
+        "student",
+        "p. 8"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Start with the work and the authority it requires",
+        "html": "<p>An agent may pursue an assignment through several actions, such as reading documents, searching an approved collection, and preparing a comparison. The Fall guide emphasizes the chain of work because errors or unauthorized actions can occur before the final response reaches you.</p><p>For the vendor example, reading the approved correspondence is different from contacting the vendor for more information. Preparing a draft is different from sending it. Decide which actions belong in the assignment instead of granting access because a feature is available.</p><p>Also decide how you will inspect important intermediate results. A final paragraph may conceal the assumption on which the rest of the work depends. Seeing the requirements and factual findings before drafting gives you an opportunity to correct that assumption.</p>"
+      },
+      {
+        "h": "Write the assignment before launching the agent",
