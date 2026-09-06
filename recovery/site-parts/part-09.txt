@@ -1,0 +1,287 @@
+    "The trained system that produces output. Distinguish it from the application and controls surrounding it.",
+    "basics"
+  ],
+  [
+    "Multimodal",
+    "Able to work with more than one kind of medium, such as text, images, or audio.",
+    "basics"
+  ],
+  [
+    "Open weights",
+    "Published model parameters that can be downloaded and run in another environment. Data protection still depends on the actual deployment.",
+    "basics"
+  ],
+  [
+    "Parameters",
+    "Internal numerical settings adjusted during model training. Learned patterns are not the same as a searchable source record.",
+    "basics"
+  ],
+  [
+    "Predictive AI",
+    "AI used to classify, score, or forecast, such as ranking documents by likely responsiveness.",
+    "basics"
+  ],
+  [
+    "Prompt",
+    "What you provide to direct an AI task. It can include a question, instructions, examples, and relevant material. A useful prompt makes the assignment clear enough to evaluate.",
+    "prompting"
+  ],
+  [
+    "Prompt injection",
+    "Instructions placed inside material an AI system reads that try to redirect the system. For example, a source document could tell it to ignore the assignment. Source material should not gain authority to change the governing instructions.",
+    "agents"
+  ],
+  [
+    "Purposeful friction",
+    "A planned pause or piece of human work that protects accuracy or independent judgment. The four-minute self-assessment before feedback is one example.",
+    "think"
+  ],
+  [
+    "RAG / retrieval",
+    "Retrieval-augmented generation: the system finds material in a source collection and uses it to compose an answer. Check both whether the right material was found and whether the response interpreted it accurately.",
+    "harness"
+  ],
+  [
+    "Reasoning model",
+    "A model designed to spend additional effort on multi-step problems. Its results still require appropriate checks.",
+    "basics"
+  ],
+  [
+    "Regression test",
+    "Repeating a known test after a change to see whether the system has become worse at something it previously handled.",
+    "building"
+  ],
+  [
+    "System prompt",
+    "Standing instructions that govern how a model or application should behave. Saved user instructions may add guidance but do not necessarily control all of the application’s rules.",
+    "harness"
+  ],
+  [
+    "Token",
+    "A small unit of text used to measure model input and output.",
+    "basics"
+  ],
+  [
+    "Vibe coding",
+    "Using ordinary-language instructions and AI-assisted coding to build and revise a prototype. A working first version gives you something to test; it does not establish readiness for people to rely on it.",
+    "building"
+  ],
+  [
+    "Work order",
+    "A written assignment for an AI agent. It explains the desired work and permitted actions, including what the agent must report or stop to ask about. The guide provides a twelve-field worksheet.",
+    "agents"
+  ]
+];
+
+const PROMPTS = [
+  {
+    "id": "tutor",
+    "title": "Ask for questions about your analysis",
+    "category": "Learn",
+    "source": "Fall guide, p. 9; adapted",
+    "use": "Use after reading the assigned sources and writing your own answer. Bring both to an approved AI tool.",
+    "text": "I have read the supplied materials and written the answer below. Help me examine my reasoning by asking one question at a time and waiting for my response. Begin with an omission or weak inference that could affect the analysis. Point me to the relevant source passage so I can work through it. Distinguish what the source says from an inference you draw. Do not write a replacement answer yet.\n\nPermitted sources: [identify them].\nMy answer: [paste your attempt]."
+  },
+  {
+    "id": "diverge",
+    "title": "Expand an initial issue list",
+    "category": "Analyze",
+    "source": "Fall guide, p. 7; adapted",
+    "use": "Use when you have identified the issues and want help noticing other possibilities. Return to your own list afterward.",
+    "text": "Here is my initial issue list and the approved material. Identify a plausible issue I have missed and explain why it may matter. Challenge a priority that deserves reconsideration and identify information that could change the analysis. Support your observations with source locations and label hypotheses that the material does not establish. Preserve conflicting evidence rather than resolving it by assumption.\n\nMy initial list: [paste it].\nApproved sources: [identify them].\nAfter reviewing your response, I will revise the list and add a question of my own."
+  },
+  {
+    "id": "heading",
+    "title": "Compare ways to write a heading",
+    "category": "Write",
+    "source": "Skills & AI-isms, pp. 15, 19, 23, 32; adapted",
+    "use": "Use when you know the proposition and want to compare how a heading could emphasize it.",
+    "text": "Work only on the heading below. Offer four full-sentence versions that take meaningfully different approaches to the approved proposition. Use specific actors and actions where the source supports them. Explain what each version emphasizes and flag any risk that it changes the claim. Do not add facts or make the conclusion more certain than the material permits.\n\nIntended reader: [identify them].\nPoint to convey: [state it].\nApproved facts and law: [supply them].\nA heading I like, with an explanation of why: [supply it].\nExisting heading: [paste it]."
+  },
+  {
+    "id": "facttable",
+    "title": "Create a timeline with source references",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use to organize supplied records before deciding what they establish. Provide the records in the approved tool.",
+    "text": "Using only the supplied records, create a table of relevant events and assertions. For each entry, give the date if established and the document location supporting it. Explain whether the information is established, alleged, or disputed, and retain any important qualification. Identify missing information and documents you could not read. Do not infer receipt from proof that a notice was sent or make a legal recommendation.\n\nQuestion this timeline should help address: [describe it].\nPermitted records: [identify them]."
+  },
+  {
+    "id": "contract",
+    "title": "Identify contractual requirements",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use before comparing contractual conditions with the facts. Supply the agreement and relevant amendments.",
+    "text": "Read the supplied agreement together with every supplied amendment. Identify the provisions relevant to the issue below. For each requirement, provide the language and its location, including exceptions and qualifications. Explain any unresolved relationship between provisions. Identify missing referenced documents rather than assuming what they say. Do not decide whether the client has satisfied the requirements yet.\n\nIssue: [describe it].\nPermitted documents and versions: [identify them]."
+  },
+  {
+    "id": "compare",
+    "title": "Compare requirements with the evidence",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use after reviewing the requirements and factual record separately. Keep the underlying documents available.",
+    "text": "Compare the approved requirements with the reviewed factual record. For each requirement, identify the supporting evidence and explain what contrary or missing evidence may affect the conclusion. Give precise source locations and preserve unresolved disagreements. Identify the missing fact most likely to change the proposed conclusion. Do not draft a recommendation until I review the comparison.\n\nReviewed requirements and factual record: [supply them].\nUnderlying approved documents: [identify them]."
+  },
+  {
+    "id": "critique",
+    "title": "Examine the strongest response to your position",
+    "category": "Analyze",
+    "source": "Skills & AI-isms, pp. 16–17, 54; Fall guide, p. 7; adapted",
+    "use": "Use before polishing an argument that you have developed. Provide the approved sources as well as your analysis.",
+    "text": "Using the approved material, develop the strongest supported response to my position. Explain where my reasoning is weakest and identify a fact or authority I have not adequately addressed. Give the source support for substantive criticisms and distinguish uncertainty from a demonstrated error. Do not invent an authority or assume missing facts. End with a question a skeptical decision-maker would need answered.\n\nMy position and analysis: [paste them].\nApproved sources: [identify them]."
+  },
+  {
+    "id": "style",
+    "title": "Describe the choices in your writing",
+    "category": "Write",
+    "source": "Skills & AI-isms, pp. 74–77; adapted",
+    "use": "Use with examples of your own writing that you are permitted to share. Review the description before reusing it.",
+    "text": "Read the approved samples below and describe specific choices that help the reader. Use short examples to show what you mean. Consider how the openings and headings work, how the sentences develop an idea, and how the level of detail changes with the task. Identify exceptions and tensions rather than imposing a fixed rhythm. Avoid general praise such as “clear and compelling.” Do not rewrite the samples yet; I will review your description first.\n\nApproved samples and their intended audiences: [supply them]."
+  },
+  {
+    "id": "edit",
+    "title": "Revise a paragraph while preserving its meaning",
+    "category": "Write",
+    "source": "Skills & AI-isms, pp. 49, 56–57; adapted",
+    "use": "Use when you have reviewed the substance and can identify what must remain unchanged.",
+    "text": "Before rewriting, explain what the reader needs to understand and what makes the paragraph difficult to follow. Preserve the supplied facts, numbers, conditions, and uncertainty. Offer two versions that differ meaningfully in organization and explain the tradeoffs. Flag any proposed change that might affect the analysis for my decision. Do not add legal conclusions or turn “not established” into “false.”\n\nAudience and purpose: [describe them].\nSubstance that must be preserved: [identify it].\nParagraph: [paste it]."
+  },
+  {
+    "id": "audit",
+    "title": "Compare a draft with its sources",
+    "category": "Verify",
+    "source": "Semester checklist, p. 1; Graphing guide; adapted",
+    "use": "Use after drafting. You will need to review the flagged issues against the underlying material yourself.",
+    "text": "Compare the draft with the underlying sources, reviewed findings, and my instructions. Look for unsupported assertions, changes to quotations, omitted qualifications, and errors in calculations or dates. Pay particular attention to passages that treat unresolved information as settled. For each issue, quote the draft language, identify the relevant source and location, and propose a correction or a question for me. Report anything you could not check. The result should be an issue list for my review, not a certification.\n\nDraft and approved materials: [supply them].\nInstructions and reviewed findings: [identify them]."
+  },
+  {
+    "id": "map",
+    "title": "Plan a multi-step assignment",
+    "category": "Build",
+    "source": "Graphing guide; adapted",
+    "use": "Use before performing a substantial assignment. Review the proposed plan before running it manually or automating it.",
+    "text": "Help me design a manageable workflow for the assignment below. Do not perform the work yet. Explain what each proposed task needs and what it should produce. Identify who should perform or review it, which tasks depend on earlier results, and what should happen when required information is missing. Include the decisions that require human approval. Use plain-language task names and describe the connections between them. Keep the plan as small as the work permits and identify assumptions I need to approve.\n\nAssignment and intended outcome: [describe them].\nAudience, approved materials, and permitted tools: [identify them]."
+  },
+  {
+    "id": "tests",
+    "title": "Prepare tests for a tool or workflow",
+    "category": "Build",
+    "source": "Fall guide, pp. 10, 14–15; adapted",
+    "use": "Use when you know the proposed behavior and want examples that could reveal a failure. The tests must still be run.",
+    "text": "Propose tests for the workflow below. Include representative ordinary cases as well as missing information, conflicting sources, difficult boundaries, and requests outside the approved scope. Consider instructions hidden in source material that might try to redirect the system. For each test, state the expected observable behavior and what would count as failure. Include cases where the expected action is to stop and ask a person. Do not assume the system passes.\n\nProposed workflow and intended use: [describe them].\nApproved sources, permissions, and limits: [identify them]."
+  }
+];
+
+const ORDER_FIELDS = [
+  [
+    "outcome",
+    "What should this work help the client achieve?",
+    "State the practical decision or result the client needs. This is the work order’s client outcome."
+  ],
+  [
+    "scope",
+    "What is the agent being asked to do?",
+    "Define the assignment and what falls outside it. Avoid granting a broad goal without a manageable scope."
+  ],
+  [
+    "inputs",
+    "Which sources may it use?",
+    "Name the approved documents or collections and their relevant versions. Identify material it must not rely on."
+  ],
+  [
+    "tools",
+    "Which tools and actions are permitted?",
+    "Distinguish reading a document or preparing a draft from contacting someone or sending it. Grant only the access this assignment needs."
+  ],
+  [
+    "deliverable",
+    "What should the agent return to you?",
+    "Describe the intended reader and the useful format and level of detail. For example, request a comparison table before a recommendation."
+  ],
+  [
+    "quality",
+    "How will you judge whether the work is useful?",
+    "Describe an observable standard. A complete comparison, for example, should address every identified requirement without assuming missing facts."
+  ],
+  [
+    "evidence",
+    "What support must accompany the conclusions?",
+    "Specify the source locations or other evidence that will let you inspect important findings. Do not rely on a general assurance that sources were checked."
+  ],
+  [
+    "prohibited",
+    "What must the agent not do?",
+    "State explicit prohibitions, such as inventing a missing fact or disclosing information outside the approved setting."
+  ],
+  [
+    "stop",
+    "When must it stop and ask a person?",
+    "Identify the missing information or conflict that should stop the work. Name the question it should return to you."
+  ],
+  [
+    "approval",
+    "Who approves the important next steps?",
+    "Identify the reviewer and what cannot proceed without approval. Implement the restriction in the actual software where needed."
+  ],
+  [
+    "tests",
+    "Which examples should the workflow be tested on?",
+    "Include representative assignments and known failure cases. Describe what the system should do when it cannot complete the task."
+  ],
+  [
+    "record",
+    "What record will be kept and updated?",
+    "Identify which instructions, results, and approvals should be retained, where they belong, and who maintains the current version."
+  ]
+];
+
+const ORDER_PRESET = {
+  "outcome": "Help the client decide what must be established or done before terminating a software vendor for reported service failures.",
+  "scope": "Identify the relevant contractual requirements and compare them with the supplied factual record. Prepare an internal recommendation only after the lawyer reviews the comparison. Do not conduct new legal research or contact anyone.",
+  "inputs": "Use the signed agreement, the supplied amendment, service records, correspondence, and the lawyer’s governing-law analysis. Keep the source locations for each material finding.",
+  "tools": "Read and compare the approved documents. Prepare tables and a draft for the lawyer. Do not send messages, share the source material elsewhere, or change any external records.",
+  "deliverable": "First provide separate requirements and timeline tables. Then compare the reviewed findings. After approval, prepare a one-page internal recommendation that preserves unresolved questions.",
+  "quality": "Address each relevant requirement and distinguish established evidence from allegations. Do not treat a sent notice as proof of receipt. The lawyer must be able to trace every material conclusion to the provided support.",
+  "evidence": "Cite the contract provision and record location for each material finding. Identify contrary evidence and information that the packet does not establish.",
+  "prohibited": "Do not invent dates or missing documents. Do not assume that termination is permitted merely because a receipt date is established. Do not contact the client or vendor.",
+  "stop": "Stop before a complete recommendation if receipt evidence or another material requirement is unresolved. Return the missing information to the lawyer and ask how to proceed.",
+  "approval": "The reviewing lawyer approves the comparison and the approach before drafting. The lawyer then reviews the draft before any external use. Adding a document does not count as approval.",
+  "tests": "Test the plan with receipt evidence missing, supplied, and conflicting. Confirm that a missing amendment is reported and that a request to send the recommendation is not acted on without approval.",
+  "record": "Save the approved assignment, source versions, reviewed findings, decisions, and draft in the authorized matter workspace. The supervising lawyer maintains the current record."
+};
+
+const FEE_ORIGINAL = "The foregoing Fee Table is intended to assist investors in understanding the costs and expenses that a shareholder in the Fund will bear directly or indirectly.";
+
+const FEE_OPTIONS = [
+  {
+    "label": "A · General clarity request",
+    "text": "The above Fee Table aims to help investors comprehend the costs and expenses that a shareholder in the Fund will incur, either directly or indirectly.",
+    "note": "The general request produces mostly different synonyms. The sentence still takes an indirect route through “aims to help … comprehend,” although it preserves the distinction between direct and indirect costs. Compare that effect with your own revision. Source: slide 21."
+  },
+  {
+    "label": "B · Stronger-verb request",
+    "text": "The Fee Table informs investors of the costs and expenses borne by Fund shareholders.",
+    "note": "“Informs” gives the sentence a more direct verb, but this version omits the express reference to direct and indirect costs. That is a substantive difference to review, even though the sentence is shorter. Source: slide 22."
+  },
+  {
+    "label": "C · Guided alternative",
+    "text": "The Fee Table above shows investors the costs and expenses a shareholder in the Fund will bear, directly or indirectly.",
+    "note": "This version uses “shows” to describe what the table does and retains the distinction between direct and indirect costs. Consider whether its structure suits the surrounding document rather than treating it as the only acceptable revision. Source: slide 24, option A."
+  }
+];
+
+const STONEBRIDGE = {
+  "original": "With respect to Stonebridge’s request for confirmation concerning its proposed $12 million dividend, which it has asked us to respond to by Friday, we reviewed Section 6.04 and the leverage calculation provided by Stonebridge. Section 6.04 provides that a restricted payment may be made so long as no default exists and the total net leverage ratio, calculated on a pro forma basis, does not exceed 4.75x. No separate default has been identified. Stonebridge’s calculation reflects a leverage ratio of 4.68x, but it should be noted that the calculation includes $3.2 million in projected cost savings. The projected savings are relevant because, if they are excluded, the leverage ratio is 4.93x rather than 4.68x. Although the agreement allows projected cost savings to be included, it also provides that such savings must be reasonably identifiable, factually supportable, and expected to be realized within 18 months. To date, no materials supporting the projected savings have been provided. Therefore, although the dividend may be permitted, we do not currently have enough information to confirm that it is permitted, and additional support should be requested from Stonebridge.",
+  "revision": "We cannot yet confirm that Stonebridge may pay its proposed $12 million dividend. Before responding by Friday, we should request support for the $3.2 million in projected cost savings included in its leverage calculation.\n\nSection 6.04 permits a restricted payment if no default exists and the pro forma total net leverage ratio does not exceed 4.75x. No separate default has been identified. Stonebridge reports a ratio of 4.68x with the projected savings, but the ratio would be 4.93x without them.\n\nThe agreement allows projected savings that are reasonably identifiable, factually supportable, and expected to be realized within 18 months. Because Stonebridge has not supplied supporting materials, we cannot yet determine whether the savings satisfy those conditions.",
+  "checks": [
+    "The conclusion remains “cannot yet confirm,” not “prohibited.”",
+    "The $12 million request and Friday response date survive.",
+    "The 4.75x ceiling, 4.68x with savings, and 4.93x without savings remain distinct.",
+    "All three conditions for projected savings survive, including 18 months.",
+    "“No separate default has been identified” does not become a guarantee that no default exists."
+  ],
+  "source": "Skills & AI-isms, slide 56. The comparison revision and review questions were written for this guide; they are not an answer supplied in the original slides."
+};
+
+const FALCON = {
+  "original": "The issue is whether Falcon Medical’s monthly reporting package can be sent today to Redwood, which is a prospective assignee and has signed our standard NDA. As an initial matter, disclosure of confidential information to a prospective assignee is permitted under Section 9.12 if confidentiality obligations at least as protective as those in Section 9.12 are agreed to by the recipient. Although an NDA has been signed by Redwood, the NDA contains a residuals clause, meaning that information retained in unaided memory may be used. A comparable provision is not included in Section 9.12, under which use is limited to evaluating or acquiring the loan. This difference could mean that the NDA is not as protective. It should also be noted that customer-level revenue, pricing information, and annual forecasts are included in the package, even though Redwood currently needs only summary financial information. In light of the fact that the NDA may not satisfy Section 9.12, consideration should be given either to revising the NDA or removing certain information before the package is sent.",
