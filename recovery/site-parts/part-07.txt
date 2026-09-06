@@ -1,0 +1,184 @@
+        "html": "<p>The twelve-field work order in the Fall guide is a way to make those decisions explicit. It includes the desired result, permitted materials and tools, evidence requirements, stopping conditions, human approvals, and tests.</p><p>Use the form below to prepare instructions for a fictional or non-sensitive assignment. The supplied vendor example shows the intended level of detail. Completing this form does not launch an agent or change permissions in another application; it produces a work order you can review and implement there.</p><div data-widget=\"workorder\"></div>"
+      },
+      {
+        "h": "Look for failures that polished prose can hide",
+        "html": "<div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Possible failure</th><th scope=\"col\">What the reviewer should examine</th></tr></thead><tbody><tr><th scope=\"row\">Wrong objective</th><td>Did the system pursue the client’s actual need, or a convenient substitute such as producing a document quickly?</td></tr><tr><th scope=\"row\">An early error carries forward</th><td>Did later tasks rely on a factual assumption or requirement that was never established?</td></tr><tr><th scope=\"row\">A source or issue is missing</th><td>Does the final response look complete despite omitting required material or a relevant question?</td></tr><tr><th scope=\"row\">Unnecessary authority</th><td>Did the agent receive more access or permission to act than the assignment needed?</td></tr><tr><th scope=\"row\">A response verifies itself</th><td>Is another generated assertion being treated as independent support?</td></tr><tr><th scope=\"row\">Uncertainty disappears</th><td>Did the system guess instead of reporting that information was missing or conflicting?</td></tr></tbody></table></div><p>These are reasons to inspect the process, not merely add another instruction to the final drafting request. Choose the review point that would expose the particular failure.</p>"
+      },
+      {
+        "h": "Check that the software enforces the important limits",
+        "html": "<p>Written instructions describe what you want. Where a consequential action must not occur without approval, the actual system should enforce that requirement. Find out how permissions work and test what happens when the necessary approval is absent.</p><p>An instruction embedded in a source document should not gain authority over the assignment. Consider what the system would do if a document told it to ignore its instructions or share information elsewhere. The task’s data and permissions should remain limited even when the material contains an unexpected request.</p><p>Keep a clear route back to a person. The work order should specify when the system stops, who reviews the question, and what approval is needed to continue. “Proceed if confident” is not an adequate replacement for identifying unresolved information that requires judgment.</p>"
+      },
+      {
+        "h": "Test ordinary cases and cases that should stop",
+        "html": "<p>A useful test states the behavior you expect to observe. For a missing amendment, you might expect the system to report the gap and avoid a complete-contract conclusion. For a request to send an unapproved draft, the expected behavior is to stop before sending.</p><p>Include examples that are typical of the proposed work as well as known failure cases. After changing a prompt, model, or source collection, rerun important tests to see whether the change introduced a problem.</p><p>Record the result, not just the fact that a test was attempted. A named reviewer needs to assess failures and decide whether the system can be used for the intended purpose. The testing worksheet in the later chapters helps you prepare that review.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "An agent asks to email the client while preparing an internal comparison. What should you consider first?",
+      "a": [
+        "Whether the agent can draft the email in the firm’s usual style.",
+        "Whether sending an email is necessary and authorized for the assignment.",
+        "Whether email access would let it finish the internal comparison sooner."
+      ],
+      "correct": 1,
+      "why": "Permission should follow the defined task. Preparing an internal comparison does not by itself justify access to external communication, even when that access would be convenient."
+    }
+  },
+  {
+    "id": "writing",
+    "part": 1,
+    "title": "Improve the writing without losing the analysis",
+    "nav": "Writing and revision",
+    "desc": "An effective revision helps the reader understand the point while preserving the facts and qualifications on which it depends. Use AI to explore choices you can explain, not just to produce smoother wording.",
+    "sources": [
+      [
+        "slides",
+        "pp. 20–24, 40–57, 78–86"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Diagnose the problem before asking for a rewrite",
+        "html": "<p>Begin by deciding what the paragraph should help its reader understand or do. Then look at what is preventing that result. The conclusion may be buried, a sentence may hide who acted, or a necessary connection between the rule and the facts may be missing.</p><p>Your diagnosis determines the useful request. “Make this concise” will not tell the tool that the reader first needs to know whether the dividend can be approved. Nor will it explain which condition must survive a shorter version.</p><p>When comparing revisions, read for substance as well as style. A clearer-looking sentence may narrow a rule, strengthen a conclusion, or remove uncertainty. Those changes require your judgment.</p>"
+      },
+      {
+        "h": "Compare the effect of a stronger verb",
+        "html": "<p>The fee-table example begins with an indirect description of what a table is intended to do. The source slides compare several requests for a revision, including a general clarity request and a more focused instruction to use a stronger verb.</p><p>Write your own revision before examining the alternatives. As you compare them, ask both whether the sentence is easier to read and whether investors still receive the same information about direct and indirect costs.</p><div data-widget=\"fee\"></div>"
+      },
+      {
+        "h": "Use examples to teach a particular writing move",
+        "html": "<p>The slides’ dog-toy example contrasts an abstract introduction about the “design, marketing, and sale” of a product with prose that explains what the seller made and how the toy resembles the whiskey bottle. The concrete description lets the reader picture the dispute before confronting its legal implications.</p><p>That is a useful feature to name when giving AI an example: introduce the people or objects involved, explain what happened, and choose details that help the reader understand the dispute. Do not ask the tool to import memorable phrases or facts from a different case.</p><p>The same principle applies to a routine client email. Rather than beginning with “With respect to your request,” you may be able to start with the decision the reader needs and then explain its basis. Whether that approach works depends on the purpose and audience.</p>"
+      },
+      {
+        "h": "Put the unresolved condition where the reader will see it",
+        "html": "<p>In the Stonebridge exercise, the question is whether a proposed dividend can be confirmed as permitted. The reported ratio falls below the contractual limit only when projected savings are included, and supporting materials for those savings have not been provided.</p><p>Your revision should help the reader understand that obstacle and the next step. Be careful not to turn insufficient information into a conclusion that the dividend is prohibited. Work from the supplied passage; no additional financial analysis is required for this editing exercise.</p><div data-widget=\"stonebridge\"></div>"
+      },
+      {
+        "h": "Keep separate problems separate in the recommendation",
+        "html": "<p>The Falcon exercise presents a proposed disclosure to a prospective assignee. A signed NDA is relevant, but the passage raises a question about whether its protections meet the agreement’s standard. It also identifies information the recipient does not currently need.</p><p>Explain both points without suggesting that removing unnecessary detail automatically resolves the NDA issue. Read the supplied passage carefully before deciding how to organize the recommendation.</p><div data-widget=\"falcon\"></div>"
+      },
+      {
+        "h": "Ask for explanations you can compare with the draft",
+        "html": "<p>When AI proposes a revision, ask it to identify changes that could affect meaning. Then compare that explanation with the actual source and draft. The explanation is another aid to review, not proof that every important change was identified.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>A revision request to adapt</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Diagnose the paragraph before rewriting it. Explain what the reader needs to understand and what currently makes that difficult. Preserve the supplied facts, numbers, conditions, and uncertainty. Offer two versions with meaningfully different organization and explain the tradeoffs. Flag any proposed change that might affect the analysis for my decision. Do not add facts or legal conclusions.\n\nAudience and purpose: [describe them].\nParagraph: [paste it].</pre></div><p>After choosing a version, read it again as the intended reader. You should be able to explain the recommendation and its limits without returning to the prompt that produced it.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "Stonebridge’s ratio is 4.68x with projected savings and 4.93x without them, against a 4.75x limit. No supporting material for the savings has been supplied. What should the revised advice preserve?",
+      "a": [
+        "The dividend is permitted because the borrower reported a ratio below the limit.",
+        "The dividend is prohibited because the ratio exceeds the limit without the savings.",
+        "The current record does not establish whether the savings qualify, so permission cannot yet be confirmed."
+      ],
+      "correct": 2,
+      "why": "The exercise leaves a material question open. A revision can make that question easier to understand, but it cannot resolve it by making the prose more decisive."
+    }
+  },
+  {
+    "id": "aiisms",
+    "part": 1,
+    "title": "Edit writing that sounds generic or mechanical",
+    "nav": "Editing AI-isms",
+    "desc": "The source slides use “AI-isms” to describe recurring writing habits that can distract readers or conceal thin analysis. Look at what the language does, rather than trying to determine who wrote it.",
+    "sources": [
+      [
+        "slides",
+        "pp. 58–77"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Look beyond individual words",
+        "html": "<p>A familiar word such as “moreover” may be perfectly useful in context. The problem arises when a draft repeatedly uses generic transitions, inflated emphasis, or the same sentence pattern instead of showing how its ideas relate.</p><p>The slides organize the review into four areas: words, sentences, formatting, and substance. That last area deserves particular attention. A passage can sound natural while offering no useful analysis of the client’s problem.</p><p>Use these categories to explain an editing decision. “This phrase repeats the point without adding a reason” gives you a basis for cutting it. “This sounds like AI” does not explain what the reader needs instead.</p>"
+      },
+      {
+        "h": "Check how the habits affect the reader",
+        "html": "<div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Area</th><th scope=\"col\">What to look for</th></tr></thead><tbody><tr><th scope=\"row\">Words</th><td>Generic emphasis or abstract business language that makes an ordinary point harder to understand. Replace it with the specific actor, action, or relationship when the source supports that detail.</td></tr><tr><th scope=\"row\">Sentences</th><td>Repeated contrasts, lists, hedges, or isolated short statements that give the paragraph a mechanical rhythm. Vary the construction according to the ideas rather than a fixed pattern.</td></tr><tr><th scope=\"row\">Formatting</th><td>Headings that interrupt a short explanation, equal space for issues of unequal importance, or lists where connected prose would better show the relationship.</td></tr><tr><th scope=\"row\">Substance</th><td>Rules without application, unranked risks, missing client context, or a recommendation that leaves the reader unsure what to do next.</td></tr></tbody></table></div><p>None of these is an authorship test. A human can write a weak paragraph with every habit listed, and AI-assisted prose can avoid them. The editing question is whether the passage does its job.</p>"
+      },
+      {
+        "h": "Practice on a deliberately weak passage",
+        "html": "<p>The passage below comes from the source slides and deliberately contains problems for discussion. Select a category to see prepared annotations, then record what you would address first. The page does not analyze your writing or infer whether a passage was written by AI.</p><div data-widget=\"aiisms\"></div>"
+      },
+      {
+        "h": "Do not invent detail to make a revision feel concrete",
+        "html": "<p>A vague recommendation often needs more information, not more confident prose. When the source does not identify the controlling authority or establish a material fact, name the gap. Do not supply a plausible citation, deadline, or number because it would improve the sentence.</p><p>This distinction matters in the source deck’s before-and-after examples. The platform does not adopt the unsupported data-retention rule and enforcement example on slide 66 as legal guidance. For substantive revision practice, use the supplied Stonebridge and Falcon passages, where the relevant conditions are provided.</p><p>An honest revision may explain what cannot yet be confirmed and what information is needed. That can be more useful to the reader than a polished recommendation that conceals the uncertainty.</p>"
+      },
+      {
+        "h": "Describe your own style in terms you can apply",
+        "html": "<p>The later slides ask you to examine writing you like and describe its observable habits. Consider what your opening sentences do, how your headings help a reader, and where you use more explanation. A useful description should make room for differences among documents and audiences.</p><p>Ask AI to help identify those habits, then challenge vague praise or rigid formulas. You do not need every paragraph to have the same length or every passage to follow a short–short–long rhythm. The aim is a description of your choices that you can use and revise.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Instructions for learning from your writing</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>Read these approved samples of my writing and describe specific choices that help the reader. Use short examples to explain your observations. Pay attention to openings, headings, actors and verbs, sentence rhythm, paragraph development, and level of detail. Identify exceptions rather than imposing a uniform pattern. Avoid general praise. Do not rewrite the samples yet; I will review your description first.</pre></div><p>Save the description once it is accurate enough to guide another assignment. Pair it with examples and continue editing the resulting prose yourself.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "A draft uses ordinary words but describes several risks without explaining their importance to this client. What needs attention?",
+      "a": [
+        "Replace the remaining formal words with shorter ones.",
+        "Explain how the relevant facts and rules bear on the client’s decision.",
+        "Vary the paragraph lengths so the discussion feels less repetitive."
+      ],
+      "correct": 1,
+      "why": "Changes in wording or paragraph length will not supply the missing analysis. The reader needs to understand what the risks mean in this matter and why a proposed response makes sense."
+    }
+  },
+  {
+    "id": "process",
+    "part": 2,
+    "title": "Improve the way a legal service works",
+    "nav": "Improving a process",
+    "desc": "Before choosing technology, understand how the service works for the person using it. The most useful change may be a clearer question or a removed step rather than another AI feature.",
+    "sources": [
+      [
+        "fall",
+        "pp. 12–13"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Describe the result from the client’s perspective",
+        "html": "<p>A process can produce the expected document while leaving the client with unnecessary effort or uncertainty. An intake form, for example, may collect information the team does not use while failing to explain what happens after submission.</p><p>The Fall guide begins process improvement with the client’s desired outcome. Describe what should be different when the work is complete. Then examine the current process closely enough to see where it helps or obstructs that outcome.</p><p>Include the people who handle the work between formal legal tasks. A delay may arise because responsibility for a follow-up is unclear, not because drafting takes too long.</p>"
+      },
+      {
+        "h": "Work through the source guide’s nine stages",
+        "html": "<div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Stage</th><th scope=\"col\">Question to answer</th></tr></thead><tbody><tr><th scope=\"row\">Define the outcome</th><td>What practical result should the service help the client achieve?</td></tr><tr><th scope=\"row\">Map the current work</th><td>What happens now, who performs each step, and what passes to the next person?</td></tr><tr><th scope=\"row\">Find friction and failure</th><td>Where do people wait, repeat work, lack information, or make avoidable mistakes?</td></tr><tr><th scope=\"row\">Remove before adding</th><td>Which steps can be removed or clarified without losing an important protection?</td></tr><tr><th scope=\"row\">Assign the best actor</th><td>Which work needs a lawyer, and which could be handled better by someone or something else?</td></tr><tr><th scope=\"row\">Build controls</th><td>What review or restriction would prevent a material error at a risky step?</td></tr><tr><th scope=\"row\">Pilot narrowly</th><td>What limited, low-risk part could you test with representative users?</td></tr><tr><th scope=\"row\">Measure the whole result</th><td>Did quality and the user’s experience improve, taking review and rework into account?</td></tr><tr><th scope=\"row\">Revise and version</th><td>What should change, who is responsible, and what needs retesting?</td></tr></tbody></table></div><p>These stages provide a way to investigate the service. You may need to return to an earlier stage when a test reveals that you misunderstood the problem.</p>"
+      },
+      {
+        "h": "Describe a process you know well enough to examine",
+        "html": "<p>Choose a fictional or non-sensitive service and use the worksheet below. Start with the current process, even if you can already imagine a better version. Write one step per line and identify who performs it.</p><p>The page displays those lines as a sequence to help you inspect them. It does not infer dependencies, run a workflow, or determine whether your proposed changes are safe. The finished worksheet is a planning document for discussion and testing.</p><div data-widget=\"process\"></div>"
+      },
+      {
+        "h": "Measure what happens after the first draft",
+        "html": "<p>Time saved in one stage can create work elsewhere. A faster summary is not an improvement if a reviewer spends longer repairing it or the client needs repeated explanations. Record enough of the overall experience to see those effects.</p><p>The Fall guide calls for considering quality, time and cost alongside rework, client effort, accessibility, equity, and learning. Choose measures suited to your proposed change. For an intake process, incomplete answers and confused follow-ups may be more useful than document length.</p><p>The guide also refers to NIST’s 2023 AI Risk Management Framework and 2024 Generative AI Profile as organizational resources. Its teaching point is to assign responsibility, understand the context, assess performance and risk, and respond to what you learn. These are references in the source material, not a statement that this worksheet establishes compliance.</p>"
+      },
+      {
+        "h": "Try a change that students can actually evaluate",
+        "html": "<p>As a classroom exercise, consider a fictional intake process for a legal clinic. Map what a potential client is told, what information they provide, who reviews it, and how they learn what happens next. Do not enter actual client information.</p><p>Choose one source of confusion and propose a small change. You might rewrite an instruction, remove a repeated question, or clarify who handles an incomplete form. Explain the protection the change must preserve.</p><p>Then ask another student to use the proposed version without your help. Observe where they hesitate and compare that experience with your original assumptions. This is a starting point for a supervised test, not authorization to change a live client service.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "A team wants to automate a recurring legal service. Where should its review begin?",
+      "a": [
+        "With the client’s need and how the current service tries to meet it.",
+        "With a comparison of the available automation products.",
+        "With a plan to reproduce the current steps more quickly."
+      ],
+      "correct": 0,
+      "why": "Understanding the service may reveal that some steps should change or disappear. Choosing a tool before examining the work can preserve problems that technology was supposed to solve."
+    }
+  },
+  {
+    "id": "building",
+    "part": 2,
+    "title": "Build a small tool, then find out where it fails",
+    "nav": "Building and testing tools",
+    "desc": "AI-assisted coding lets you explore an idea by describing what a tool should do. Your legal contribution begins with selecting the right problem and continues through testing and deciding whether anyone should rely on it.",
+    "sources": [
+      [
+        "fall",
+        "p. 15"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Treat the first version as something to investigate",
+        "html": "<p>The Fall guide uses “vibe coding” for building and revising a prototype through natural-language instructions and AI-assisted coding. A prototype lets you examine an idea with users. Its existence does not establish that the tool is accurate, secure, or ready for public use.</p><p>Begin with a narrow problem you understand. A tool that helps organize questions for a supervised intake conversation has a different purpose from one that provides individualized legal advice. Describe the intended use and the limits before asking for features.</p><p>You do not need to become the software engineer to contribute. You can identify the relevant legal distinctions, explain the user’s needs, and develop examples that show what the tool should do.</p>"
+      },
+      {
+        "h": "Translate the idea into observable behavior",
