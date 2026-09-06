@@ -2,7 +2,10 @@ name: Publish and verify revised AI guide
 on:
   push:
     branches: [ai-guide-deployment-recovery-20260906]
-    paths: [recovery/verified-release.json]
+    paths:
+      - recovery/verified-release.json
+      - recovery/publish_verified.py
+      - .github/workflows/publish-verified-ai-guide.yml
 permissions:
   contents: read
 concurrency:
