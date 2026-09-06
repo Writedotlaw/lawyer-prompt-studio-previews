@@ -1,0 +1,52 @@
+name: Verify published revised student guide
+on:
+  push:
+    branches: [ai-guide-hosting-check-be11c3]
+    paths: [.github/workflows/verify-published-guide.yml, recovery/verify_hosted.py]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Confirm the public site serves the exact revised HTML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, time, requests
+          base='https://writedotlaw.github.io/lawyer-prompt-studio-previews/ai-guide-revised/'
+          expected='be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96'
+          out=Path('recovery/verified-results');out.mkdir(exist_ok=True)
+          record={'previewUrl':base,'indexSha256':expected,'indexBytes':376003,'host':'GitHub Pages','release':'revised-2026-09-06','signedOutHttpVerified':False}
+          for attempt in range(60):
+              r=requests.get(base,timeout=30)
+              digest=hashlib.sha256(r.content).hexdigest()
+              print('PUBLIC_CHECK',attempt+1,r.status_code,len(r.content),digest,flush=True)
+              if r.status_code==200 and len(r.content)==376003 and digest==expected:
+                  record.update(signedOutHttpVerified=True,actualSha256=digest,finalUrl=r.url,contentType=r.headers.get('content-type'))
+                  break
+              time.sleep(5)
+          (out/'deployment.json').write_text(json.dumps(record,indent=2))
+          assert record['signedOutHttpVerified'],'Exact public revision did not become available'
+          release=requests.get(base+'release.json',timeout=30)
+          assert release.status_code==200 and release.json()['indexSha256']==expected
+          print('PUBLIC_GUIDE_VERIFIED',base,flush=True)
+          PY
+      - name: Install real-browser test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright
+          python -m playwright install --with-deps chromium
+      - name: Exercise the actual hosted site
+        run: python recovery/verify_hosted.py
+      - name: Save public-site verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-guide-verification
+          path: recovery/verified-results/
+          if-no-files-found: warn
+          retention-days: 30
