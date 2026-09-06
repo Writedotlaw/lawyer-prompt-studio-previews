@@ -1,0 +1,124 @@
+ else if(action==='prompt-preset'){if(PROMPT_KEYS.some(k=>String(value(`prompt-${k}`)).trim())&&!confirm('Load this example in place of the current prompt fields? Download the current prompt first to keep it. Other saved work will not change.'))return true;Object.entries(PROMPT_PRESETS[el.dataset.preset]).forEach(([k,v])=>state.fields[`prompt-${k}`]=v);saveState();refreshWidget('promptbuilder');toast('Example loaded. Adapt it before use.');}
+ else if(action==='save-built-prompt'){if(!String(value('prompt-task')).trim()){toast('Define the task before saving a prompt.');return true;}if(value('prompt-saved-assignment')&&!confirm('Replace the separately saved prompt version? Download it first to keep more than one version.'))return true;setField('prompt-saved-assignment',builtPrompt());toast('This prompt version is saved in My saved work.');}
+ else if(action==='download-built-prompt')downloadFile('my-ai-assignment.txt',builtPrompt());
+ else if(action==='order-preset'){if(ORDER_FIELDS.some(([k])=>String(value(`order-${k}`)).trim())&&!confirm('Replace the current work-order fields with the fictional vendor example?'))return true;Object.entries(ORDER_PRESET).forEach(([k,v])=>state.fields[`order-${k}`]=v);saveState();refreshWidget('workorder');toast('Vendor example loaded. Check every field for your own use.');}
+ else if(action==='copy-order')copyText(orderText());
+ else if(action==='download-order')downloadFile('agent-work-order.txt',orderText());
+ else if(action==='fee-open'){if(!String(value('fee-draft')).trim()&&!String(value('fee-choice')).trim()){toast('Write a revision or describe your proposed changes before opening the alternatives.');document.querySelector('[data-save=fee-draft]')?.focus();return true;}setField('fee-open',true);refreshWidget('fee','fee-open');}
+ else if(action==='fee-option'){setField('fee-choice',el.dataset.step);refreshWidget('fee');document.querySelector(`[data-action=fee-option][data-step="${el.dataset.step}"]`)?.focus({preventScroll:true});}
+ else if(action==='reveal-case'){const id=el.dataset.case;if(!String(value(`${id}-draft`)).trim()){toast('Write your first revision or a note about the changes you would make.');document.querySelector(`[data-save="${id}-draft"]`)?.focus();return true;}setField(`${id}-revealed`,true);refreshWidget(id,'reveal-case');}
+ else if(action==='aiism-lens'){aiismIndex=Number(el.dataset.step);refreshWidget('aiisms');document.querySelector(`[data-action=aiism-lens][data-step="${aiismIndex}"]`)?.focus({preventScroll:true});}
+ else if(action==='graph-mode'){graphState={step:-1,selected:0,mode:el.dataset.mode,resolution:'',evidence:el.dataset.mode==='complete',updated:false};refreshWidget('graph');}
+ else if(action==='graph-node'){graphState.selected=Number(el.dataset.step);refreshWidget('graph');if(window.innerWidth<=1150){const panel=document.querySelector('.graph-detail');panel?.focus({preventScroll:true});panel?.scrollIntoView({block:'start',behavior:'instant'});}else document.querySelector(`[data-action=graph-node][data-step="${graphState.selected}"]`)?.focus({preventScroll:true});}
+ else if(action==='graph-back'){const task=document.querySelector(`[data-action=graph-node][data-step="${graphState.selected}"]`);task?.focus({preventScroll:true});task?.scrollIntoView({block:'center',behavior:'instant'});}
+ else if(action==='graph-reset'){graphState={step:-1,selected:0,mode:graphState.mode,resolution:'',evidence:graphState.mode==='complete',updated:false};refreshWidget('graph','graph-next');}
+ else if(action==='graph-next'){const g=graphState;if(g.step===3&&g.mode==='missing'&&!g.evidence&&!g.resolution)return true;g.step=g.step<0?0:g.step===0?2:Math.min(g.step+1,7);g.selected=g.step;refreshWidget('graph',g.step===3&&g.mode==='missing'&&!g.evidence&&!g.resolution?'graph-evidence':'graph-next');}
+ else if(action==='graph-evidence'){graphState.evidence=true;graphState.resolution='evidence';graphState.updated=true;graphState.step=2;graphState.selected=2;refreshWidget('graph','graph-next');}
+ else if(action==='graph-qualify'){graphState.resolution='qualified';graphState.selected=4;refreshWidget('graph','graph-next');}
+ else if(action==='copy-process')copyText(processText());
+ else if(action==='download-process')downloadFile('process-improvement-brief.txt',processText());
+ else if(action==='export-playbook'){const text='MY AI LAWYERING PLAYBOOK\n\n'+PLAYBOOK_FIELDS.map(([k,t,h])=>`${t}\n${String(value(`playbook-${k}`)).trim()||'[No entry yet.]'}`).join('\n\n');downloadFile('my-ai-lawyering-playbook.txt',text,'text/plain');}
+ else return false;
+ return true;
+}
+const previousWidgetHandler=handleWidgetAction;
+handleWidgetAction=function(action,el){if(action==='priorities-reveal'){if(!String(value('priorities-reason')).trim()){toast('Write why you chose those priorities before opening the discussion.');document.querySelector('[data-save=priorities-reason]')?.focus();return true;}setField('priorities-reveal',true);refreshWidget('priorities','priorities-reveal');return true;}return previousWidgetHandler(action,el);};
+
+</script>
+<script>
+/* The AI-Enabled Lawyer: static client-side reader. No external requests, AI calls, or telemetry. */
+const APP_KEY='regalia-field-guide.v1';
+const DEFAULT_STATE={version:1,done:[],bookmarks:[],favorites:[],fields:{},quiz:{},theme:'light',font:17,focus:false,motion:false,last:''};
+let storageOK=true;
+function safeState(raw){
+ const s={...DEFAULT_STATE,fields:{},quiz:{},done:[],bookmarks:[],favorites:[]};
+ if(!raw||typeof raw!=='object')return s;
+ ['done','bookmarks'].forEach(k=>{if(Array.isArray(raw[k]))s[k]=[...new Set(raw[k].filter(id=>CHAPTERS.some(c=>c.id===id)))];});
+ if(Array.isArray(raw.favorites))s.favorites=[...new Set(raw.favorites.filter(id=>PROMPTS.some(p=>p.id===id)))];
+ if(raw.fields&&typeof raw.fields==='object'&&!Array.isArray(raw.fields))Object.entries(raw.fields).forEach(([k,v])=>{if(/^[a-z][a-z0-9:_-]{0,130}$/i.test(k)&&!['__proto__','constructor','prototype'].includes(k)&&(typeof v==='string'||typeof v==='boolean'))s.fields[k]=typeof v==='string'?v.slice(0,100000):v;});
+ if(raw.quiz&&typeof raw.quiz==='object')Object.entries(raw.quiz).forEach(([k,v])=>{if(CHAPTERS.some(c=>c.id===k)&&Number.isInteger(v)&&v>=0&&v<3)s.quiz[k]=v;});
+ s.theme=raw.theme==='dark'?'dark':'light';s.font=[16,17,19].includes(raw.font)?raw.font:17;s.focus=raw.focus===true;s.motion=raw.motion===true;s.last=CHAPTERS.some(c=>c.id===raw.last)?raw.last:'';
+ return s;
+}
+let state;
+try{state=safeState(JSON.parse(localStorage.getItem(APP_KEY)||'null'));localStorage.setItem(APP_KEY,JSON.stringify(state));}catch(e){state=safeState(null);storageOK=false;}
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const strip=x=>{const d=document.createElement('div');d.innerHTML=x;return d.textContent.replace(/\s+/g,' ').trim();};
+const slug=x=>x.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const num=n=>String(n).padStart(2,'0');
+const roman=['I','II','III','IV'];
+let currentRoute={type:'home'},currentChapter=null,searchSelection=0,searchMatches=[],tocObserver=null,toastTimeout;
+let promptCategory='All',promptQuery='',glossaryQuery='';
+const FIELD_LABELS={};
+const SELECT_CHOICES={};
+const ICONS={
+ book:'<path d="M3 4h7a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3z"/><path d="M13 7a3 3 0 0 1 3-3h5v15h-4a4 4 0 0 0-4 2"/>',
+ home:'<path d="m3 10 9-7 9 7v10H3z"/><path d="M9 20v-7h6v7"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',
+ arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>',
+ up:'<path d="M6 18 18 6M6 6h12v12"/>',
+ chevron:'<path d="m9 5 7 7-7 7"/>',
+ check:'<path d="m5 12 4 4L19 6"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ x:'<path d="m6 6 12 12M6 18 18 6"/>',
+ menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+ moon:'<path d="M20 15a8.5 8.5 0 0 1-11-11A8.5 8.5 0 1 0 20 15Z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2m-3-9-1 1M7 17l-1 1M6 6 5 5m13 13 1 1"/>',
+ share:'<path d="M12 15V3m-4 4 4-4 4 4M6 11H4v10h16V11h-2"/>',
+ bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>',
+ flow:'<rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-5h14v5"/>',
+ spark:'<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/>',
+ shield:'<path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6z"/><path d="m8 12 3 3 5-6"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
+ pen:'<path d="m4 17 12-12 4 4L8 21H4zM14 7l4 4M4 21h16"/>',
+ list:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+ scan:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M7 8h10M7 12h10M7 16h6"/>',
+ lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/>',
+ download:'<path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"/>',
+ upload:'<path d="M12 16V4m-4 4 4-4 4 4M4 17v4h16v-4"/>',
+ copy:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M15 8V3H3v12h5"/>',
+ focus:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><circle cx="12" cy="12" r="3"/>',
+ eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+ person:'<circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',
+ reset:'<path d="M3 10a9 9 0 1 1 1 8M3 4v6h6"/>',
+ play:'<path d="m8 4 12 8-12 8z"/>',
+ pause:'<path d="M8 4v16M16 4v16"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>',
+ note:'<path d="M4 3h16v14l-4 4H4zM16 21v-4h4M8 8h8M8 12h6"/>',
+ layers:'<path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/>'
+};
+function icon(name){return `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]||ICONS.book}</svg>`;}
+function saveState(){try{localStorage.setItem(APP_KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}updateStorageWarning();updateProgress();}
+function setField(key,value){state.fields[key]=value;saveState();}
+function value(key){return state.fields[key]??'';}
+function field(key,title,placeholder='',options={}){FIELD_LABELS[key]=title;const id=`field-${key}`,hint=options.hint||placeholder;const help=FIELD_EXAMPLES[key]?`<button type="button" class="help-dot" data-help="field:${esc(key)}" data-tip="${esc(FIELD_EXAMPLES[key])}" aria-label="Example for ${esc(title)}" aria-haspopup="dialog">?</button>`:'';return `<div class="field ${options.full?'full':''}"><div class="field-label-row"><label for="${id}">${esc(title)}</label>${help}</div>${hint?`<small id="hint-${key}">${esc(hint)}</small>`:''}${options.input?`<input id="${id}" type="text" data-save="${esc(key)}" ${hint?`aria-describedby="hint-${key}"`:''} placeholder="Write here…" maxlength="12000" value="${esc(value(key))}">`:`<textarea id="${id}" data-save="${esc(key)}" ${hint?`aria-describedby="hint-${key}"`:''} class="${options.large?'large':''}" placeholder="Write here…" maxlength="40000">${esc(value(key))}</textarea>`}</div>`;}
+function selectField(key,title,choices){FIELD_LABELS[key]=title;SELECT_CHOICES[key]=Object.fromEntries(choices);return `<label class="field" for="field-${key}"><span>${esc(title)}</span><select id="field-${key}" data-save="${key}">${choices.map(([v,t])=>`<option value="${esc(v)}" ${String(value(key))===String(v)?'selected':''}>${esc(t)}</option>`).join('')}</select></label>`;}
+function checkField(key,title,hint=''){FIELD_LABELS[key]=title;return `<label class="check-row"><input type="checkbox" data-check="${esc(key)}" ${value(key)===true?'checked':''}><span>${esc(title)}${hint?`<small>${esc(hint)}</small>`:''}</span></label>`;}
+function sourceLine(id){const s=SOURCES.find(s=>s.id===id);return s?s.short:'Teaching adaptation';}
+function sourceChips(c){return `<div class="source-chips" aria-label="Chapter sources">${c.sources.map(([id,pages])=>`<a href="#/sources?source=${id}" title="View source notes">${esc(sourceLine(id))} · ${esc(pages)}</a>`).join('')}</div>`;}
+function footer(){return `<footer class="footer"><span>The AI-Enabled Lawyer · Professor Joe Regalia</span><span>Student edition · September 2026 · Revised reading edition &nbsp; <a href="#/sources">Sources & editorial notes</a></span></footer>`;}
+function applyPreferences(){document.documentElement.dataset.theme=state.theme;document.documentElement.style.setProperty('--reading',`${state.font}px`);document.body.classList.toggle('reader-focus',state.focus&&currentRoute.type==='read');document.body.classList.toggle('reduce-motion',state.motion);const theme=document.querySelector('[data-action=theme]');if(theme){theme.innerHTML=icon(state.theme==='dark'?'sun':'moon');theme.setAttribute('aria-label',state.theme==='dark'?'Use light theme':'Use dark theme');}const focus=document.querySelector('[data-action=focus]');if(focus){focus.setAttribute('aria-pressed',String(state.focus));focus.setAttribute('aria-label',state.focus?'Exit focused reading':'Use focused reading');}const font=document.querySelector('[data-action=font]');if(font)font.setAttribute('aria-label',`Change reading text size. Current size ${state.font} pixels.`);}
+function renderSidebar(){
+ const active = currentRoute.type==='read'?'chapters':currentRoute.type==='lab'?(resourceIsExercise({id:currentRoute.id})?'labs':'templates'):currentRoute.type==='prompts'?'templates':currentRoute.type;
+ const item=(href,label,ico,key,detail)=>`<a class="nav-item primary-nav" href="${href}" ${active===key?'aria-current="page"':''}>${icon(ico)}<span>${label}${detail?`<small>${detail}</small>`:''}</span></a>`;
+ document.getElementById('sidebar').innerHTML=`<a href="#/" class="brand" aria-label="The AI-Enabled Lawyer home"><span class="brand-mark">${icon('book')}</span><span><span class="brand-title">The AI-Enabled<br>Lawyer</span><span class="brand-sub">Professor Joe Regalia</span></span></a><button class="side-search" data-action="search">${icon('search')}<span>Search the guide</span><kbd>⌘ K</kbd></button><nav class="side-scroll" aria-label="Guide navigation">${item('#/','Start here','home','home')}${item('#/chapters','Chapters','book','chapters','Read the explanations')}${item('#/labs','Exercises','pen','labs','Practice on supplied examples')}${item('#/templates','Templates & worksheets','list','templates','Prepare your own work')}${item('#/glossary','Glossary','search','glossary')}${item('#/notebook','My saved work','note','notebook')}${currentChapter?`<div class="chapter-side-label">Chapter contents</div>${PARTS.map((p,i)=>`<details class="chapter-nav-part" ${CHAPTERS.find(c=>c.id===currentChapter)?.part===i?'open':''}><summary>${p.name}</summary>${CHAPTERS.map((c,n)=>c.part===i?`<a class="nav-item chapter-nav-link" href="#/read/${c.id}" ${currentChapter===c.id?'aria-current="page"':''}><span class="num">${num(n+1)}</span><span>${c.nav}</span>${state.done.includes(c.id)?`<span class="done-dot">${icon('check')}</span>`:''}</a>`:'').join('')}</details>`).join('')}`:''}<div class="nav-divider"></div>${item('#/help','How to use this guide','info','help')}${item('#/sources','Sources & editorial notes','layers','sources')}</nav><div class="side-bottom"><div class="progress-label"><span>Chapters marked as read</span><span id="progress-text">${state.done.length} / ${CHAPTERS.length}</span></div><div class="progress-track" role="progressbar" aria-label="Chapters marked as read" aria-valuemin="0" aria-valuemax="${CHAPTERS.length}" aria-valuenow="${state.done.length}"><div class="progress-fill" style="width:${state.done.length/CHAPTERS.length*100}%"></div></div><a class="small side-save-note" href="#/help?topic=saving">Saved in this browser · About saving</a></div>`;
+}
+
+function updateProgress(){const text=document.getElementById('progress-text');if(text)text.textContent=`${state.done.length} / ${CHAPTERS.length}`;const fill=document.querySelector('.progress-fill');if(fill)fill.style.width=`${state.done.length/CHAPTERS.length*100}%`;document.querySelector('.progress-track')?.setAttribute('aria-valuenow',state.done.length);}
+function updateStorageWarning(){const w=document.getElementById('storage-warning');if(w){w.hidden=storageOK;w.textContent='Browser storage is unavailable. Your work is kept only for this session. Export your notebook before leaving.';}}
+function renderTopbar(){
+ const c=CHAPTERS.find(c=>c.id===currentChapter),l=LABS.find(l=>l.id===currentRoute.id);
+ const title=c?c.nav:({home:'Start here',chapters:'Chapters',labs:'Exercises',lab:l?.title||'Activity',templates:'Templates & worksheets',prompts:'Prompt templates',glossary:'Glossary',notebook:'My saved work',sources:'Sources',help:'How to use this guide'})[currentRoute.type]||'Guide';
+ const parent=c?['#/chapters','Chapters']:currentRoute.type==='lab'?(resourceIsExercise(l||{id:''})?['#/labs','Exercises']:['#/templates','Templates & worksheets']):['#/','Guide'];
+ document.getElementById('topbar').innerHTML=`<div class="between" style="min-width:0;gap:10px"><button class="icon-btn menu-btn" data-action="menu" aria-label="Open guide navigation" aria-controls="sidebar" aria-expanded="false">${icon('menu')}</button><div class="breadcrumbs"><a class="crumb-first" href="${parent[0]}">${parent[1]}</a>${icon('chevron')}<span>${esc(title)}</span></div></div><div class="tools">${helpButton(pageHelpKey(),'Help')}<button class="icon-btn" data-action="search" aria-label="Search guide" data-tip="Search the readings and resources. You can also press Control or Command K.">${icon('search')}</button><button class="icon-btn type-btn" data-action="font" aria-label="Change reading text size" data-tip="Cycle through three reading sizes. Your preference saves in this browser."><span style="font-family:Georgia;font-size:17px">Aa</span></button>${c?`<button class="icon-btn focus-btn" data-action="focus" aria-label="Toggle focused reading" aria-pressed="${state.focus}" data-tip="Hide the side navigation while reading. Select this button again to bring it back.">${icon('focus')}</button>`:''}<button class="icon-btn" data-action="theme" aria-label="Change theme" data-tip="Switch between a light and dark background.">${icon('moon')}</button><button class="icon-btn share-btn" data-action="share" aria-label="Copy a link to this page" data-tip="Copy a link to this page. A local HTML file must be shared as a file, not as a web address.">${icon('share')}</button></div><div class="reading-progress" id="reading-progress"></div>`;
+}
+
+function renderHome(){
+ const next=CHAPTERS.find(c=>c.id===state.last&&!state.done.includes(c.id))||CHAPTERS.find(c=>!state.done.includes(c.id))||CHAPTERS[0];
+ return `<div class="page home-page"><div class="home-top"><span class="eyebrow">An interactive guide for law students</span><span class="small muted">Student edition · Revised September 2026</span></div><section class="hero revised-hero"><div><span class="eyebrow">Professor Joe Regalia</span><h1>The AI-Enabled<br><em>Lawyer</em></h1><p>Learn how to use AI as part of legal work you understand and can stand behind. The chapters explain the ideas; the exercises give you a chance to make the decisions yourself.</p><div class="actions"><a href="#/read/${next.id}" class="button primary">${state.last?'Continue reading':'Begin with the first chapter'} ${icon('arrow')}</a><a href="#/help" class="text-btn">How to use this guide ${icon('info')}</a></div>${state.last?`<p class="continue-note">Next in your reading: ${esc(next.nav)}</p>`:''}</div><aside class="start-card"><span class="eyebrow">New to the guide?</span><h2>Begin with one chapter and its exercise.</h2><p>You do not need to complete every resource at once. Read the explanation, try a linked activity, and keep a note about what you learned.</p><div class="start-sequence"><span>${icon('book')} Read a chapter</span><span aria-hidden="true">↓</span><span>${icon('pen')} Try the connected activity</span><span aria-hidden="true">↓</span><span>${icon('note')} Review your saved response</span></div><p class="small">The exercises use supplied examples. They do not require an AI account or send your answers to a model.</p></aside></section><section class="resource-orientation"><div class="section-heading"><div><h2>Choose the area that fits what you need.</h2><p>The chapter subjects and the resource types serve different purposes. You can move between them without starting over.</p></div>${helpButton('home','Explain the different areas',true)}</div><div class="area-grid">${[
+ ['#/chapters','Chapters','Read an explanation','Work through the ideas in order, or find a chapter about the task you are doing. The reading links to relevant activities.','book','chapters'],
+ ['#/labs','Exercises','Practice with supplied material','Make your own attempt on a fictional scenario or writing passage, then compare it with prepared discussion.','pen','exercises'],
+ ['#/templates','Templates & worksheets','Prepare something for your own work','Adapt a prompt, write an agent assignment, or use a worksheet to plan and review a non-sensitive example.','list','templates'],
+ ['#/notebook','My saved work','Return to what you have written','Find chapter notes, activity responses, and bookmarked prompts. Download a backup to keep them or move to another browser.','note','notebook']
+ ].map(([u,t,st,d,i,h])=>`<article class="area-card"><div class="between"><span class="feature-icon">${icon(i)}</span>${helpButton(h,'About '+t,true)}</div><a href="${u}"><h3>${t}</h3><span class="area-purpose">${st}</span><p>${d}</p><span class="text-btn">Open ${t.toLowerCase()} ${icon('arrow')}</span></a></article>`).join('')}</div></section><section><div class="section-heading"><div><h2>Try an exercise</h2><p>These examples are a useful place to practice reading closely before accepting a proposed answer.</p></div><a class="text-btn" href="#/labs">See all exercises ${icon('arrow')}</a></div><div class="feature-grid">${['fee','priorities','graph'].map(id=>labCard(LABS.find(l=>l.id===id))).join('')}</div></section><section class="home-reading"><div class="section-heading"><div><h2>How the reading fits together</h2><p>The four parts follow the organization of the Fall guide. They are subjects within the reading, not separate courses to complete.</p></div><a class="text-btn" href="#/chapters">See all chapters ${icon('arrow')}</a></div><div class="part-overview">${PARTS.map((p,i)=>`<article><div class="between"><span class="eyebrow">Part ${roman[i]} · ${p.name}</span><button class="help-dot" data-help="part:${i}" data-tip="${esc(p.desc)}" aria-label="About ${p.name}" aria-haspopup="dialog">?</button></div><h3>${p.tag}</h3><p>${p.desc}</p><a class="text-btn" href="#/read/${CHAPTERS.find(c=>c.part===i).id}">Read this part ${icon('arrow')}</a></article>`).join('')}</div></section><aside class="saving-note">${icon('note')}<p><strong>Your work saves in this browser.</strong> There is no instructor submission or cross-device sync. Use non-sensitive examples and <a class="inline-link" href="#/notebook">download a backup</a> of anything you need to keep.</p></aside>${footer()}</div>`;
+}
