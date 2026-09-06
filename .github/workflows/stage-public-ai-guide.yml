@@ -1,0 +1,39 @@
+name: Stage verified AI guide for Vercel import
+on:
+  push:
+    branches: [ai-guide-deployment-recovery-20260906]
+    paths: [.github/workflows/stage-public-ai-guide.yml]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconstruct and verify the approved HTML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, bz2, hashlib, json
+          m=json.loads(Path('recovery/verified-release.json').read_text())
+          chunks=[]
+          for p in m['parts']:
+              s=Path(p['path']).read_text().strip()
+              if p['path'].endswith('guide-11.b64'):
+                  s=s.replace('VDJzdeZpI32vid','VDJzdeZp32vid',1)
+              assert len(s)==p['characters'] and hashlib.sha256(s.encode()).hexdigest()==p['sha256']
+              chunks.append(s)
+          html=bz2.decompress(base64.b64decode(''.join(chunks),validate=True))
+          assert len(html)==m['indexBytes'] and hashlib.sha256(html).hexdigest()==m['indexSha256']
+          Path('recovery/public-guide.html').write_bytes(html)
+          print('Exact revised HTML validated:',m['indexSha256'])
+          PY
+      - name: Commit only the verified guide in this isolated branch
+        run: |
+          git config user.name 'Write.law guide publishing'
+          git config user.email '156871333+Writedotlaw@users.noreply.github.com'
+          git add recovery/public-guide.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Stage exact revised AI guide for Vercel import'
+          git push origin HEAD:ai-guide-deployment-recovery-20260906
