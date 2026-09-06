@@ -29,11 +29,12 @@ jobs:
           Path('recovery/public-guide.html').write_bytes(html)
           print('Exact revised HTML validated:',m['indexSha256'])
           PY
-      - name: Commit only the verified guide in this isolated branch
+      - name: Publish the import file on a separate guide-only branch
         run: |
           git config user.name 'Write.law guide publishing'
           git config user.email '156871333+Writedotlaw@users.noreply.github.com'
           git add recovery/public-guide.html
           git diff --cached --quiet && exit 0
           git commit -m 'Stage exact revised AI guide for Vercel import'
-          git push origin HEAD:ai-guide-deployment-recovery-20260906
+          git push origin HEAD:ai-guide-html-be11c3d012
+          echo 'PUBLIC_IMPORT_URL=https://raw.githubusercontent.com/Writedotlaw/lawyer-prompt-studio-previews/ai-guide-html-be11c3d012/recovery/public-guide.html'
