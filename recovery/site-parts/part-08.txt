@@ -1,0 +1,310 @@
+        "html": "<p>“Make it reliable” does not tell a developer how the system should respond. Explain what a user does, what should happen, and what must not happen. The following examples illustrate that level of specificity; they do not supply rules for an actual service.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Requirement to clarify</th><th scope=\"col\">An observable example</th></tr></thead><tbody><tr><th scope=\"row\">Missing information</th><td>When a required date is absent, the tool identifies the missing date and does not calculate a deadline.</td></tr><tr><th scope=\"row\">Unresolved legal question</th><td>When the supplied rules do not cover a situation, the tool identifies the limit and directs the question to a reviewer.</td></tr><tr><th scope=\"row\">Review before an action</th><td>A prepared message remains a draft unless the designated person approves sending it.</td></tr><tr><th scope=\"row\">Understandable instructions</th><td>A student can identify what to enter and what the result means without an instructor explaining the screen.</td></tr></tbody></table></div><p>Requirements of this kind can become tests. They also reveal questions the team needs to resolve before implementation.</p>"
+      },
+      {
+        "h": "Prepare for a review before other people rely on the tool",
+        "html": "<p>The Fall guide identifies six areas to examine before moving from a prototype to a pilot. They cover users, legal logic, failure behavior, information security, access to a person, and ownership of ongoing maintenance.</p><p>Use the worksheet to record evidence or outstanding work in each area. Checking a box means you have recorded your own assessment; it does not certify the tool or authorize deployment. The responsible team still needs to review the evidence and decide what use, if any, is appropriate.</p><div data-widget=\"shipping\"></div>"
+      },
+      {
+        "h": "Write tests with an expected result",
+        "html": "<p>A demonstration shows what happens in one example. A test compares observed behavior with a result you specified in advance. Include ordinary cases, boundary cases, missing information, and requests the tool should decline or refer for human review.</p><p>For each test, record the input, expected behavior, actual behavior, and any discrepancy. Do not count a confident explanation as success if the required action was to stop. Where the tool interprets legal material, check its reasoning and source support as well as the final label.</p><p>Keep important tests so they can be repeated after a change. That makes it possible to discover when an improvement in one part causes a regression in another. <a class=\"inline-link\" href=\"#/read/agents\">The agent chapter</a> discusses examples involving permissions and source material.</p>"
+      },
+      {
+        "h": "Decide who maintains the tool",
+        "html": "<p>A useful prototype still needs an owner before people depend on it. Identify who watches for problems, updates sources and law, approves changes, and decides when to withdraw or replace a version.</p><p>Consider what the user sees when the tool reaches its limits. There should be an understandable route to a person where the task requires one. An explanation that arrives after an irreversible action is too late to function as an approval step.</p><p>The source guide’s standard is deliberately broader than a polished demonstration. The team should be able to explain the intended user, the evidence for performance, the response to failure, and the plan for maintaining the service.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "A prototype works well in a demonstration. What can the team reasonably conclude?",
+      "a": [
+        "The demonstration establishes that users can rely on its legal answers.",
+        "The idea is ready to examine further, but its accuracy, failure behavior, and suitability still need review.",
+        "The rules will stay accurate as long as the interface is unchanged."
+      ],
+      "correct": 1,
+      "why": "A demonstration shows a particular result under particular conditions. Before other people depend on the tool, the team needs to test a broader range of cases and decide who will maintain it."
+    }
+  },
+  {
+    "id": "playbook",
+    "part": 3,
+    "title": "Keep what you learn so you can use it again",
+    "nav": "Your personal playbook",
+    "desc": "Your playbook is a record of how you work with AI and what experience has taught you. It should help you make a better decision on the next assignment, rather than become a collection of prompts without context.",
+    "sources": [
+      [
+        "fall",
+        "p. 16"
+      ],
+      [
+        "slides",
+        "pp. 35, 74–77"
+      ],
+      [
+        "short",
+        "pp. 1–2"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Record the reason a method worked",
+        "html": "<p>A saved prompt is more useful when you also know what it was for, what material it needed, and how you checked the result. Without that context, a request that worked in one assignment may be reused where its assumptions no longer fit.</p><p>Begin with one useful example. Describe the assignment and the difference your instructions made. Keep enough of the result to show what you mean, while respecting the rules for retaining and sharing the material.</p><p>The platform’s My saved work page collects your entries from the chapters and activities. The playbook worksheet below is a separate place to draw broader lessons from those entries. It does not generate a summary of them for you.</p>"
+      },
+      {
+        "h": "Build the six parts of your playbook over time",
+        "html": "<p>The Fall guide suggests recording professional principles, situations in which you will not use AI, reusable instructions, your workflow, failures, and a personal development plan. You do not need to complete every area today.</p><p>Choose the area for which you already have a concrete example. Later, return when an assignment changes your view. The value comes from an accurate record of what you learned, including where a technique did not work.</p><div data-widget=\"playbook\"></div>"
+      },
+      {
+        "h": "Keep useful failures and rejected suggestions",
+        "html": "<p>Suppose a revision makes the recommendation easier to find but removes a condition that matters. Record both observations. The lesson might be to ask for a clearer opening while expressly preserving that condition, followed by a source comparison.</p><p>Explain why you rejected or changed a suggestion. “Bad answer” will be difficult to use later. “The summary treated an allegation as an established fact and gave no source location” identifies a failure you can test for.</p><p>You can also record decisions to do work without AI. When review would take longer than performing a small task yourself, that is information about the process worth retaining.</p>"
+      },
+      {
+        "h": "Understand where this platform saves your work",
+        "html": "<p>The guide stores entries in the browser profile you are using. There is no student account, instructor submission system, or cross-device synchronization. Use the My saved work page to review your entries and download them.</p><p>A readable download contains your notes and responses. A backup file preserves the app’s saved state so you can restore it in another browser or after a change. Importing a backup replaces the work stored in that browser, so download the existing work first when you need to keep both.</p><p>Use only non-sensitive material. Browser storage is not an approved client workspace, and other people using the same profile may be able to see it. Clearing browser data or using a different site address can make earlier entries unavailable from the current page.</p>"
+      },
+      {
+        "h": "Plan practice that develops your own skills",
+        "html": "<p>Use the personal-development part of the playbook to choose work you need to practice independently. You might focus on reading an opinion closely enough to synthesize its rule, or on making a recommendation that explains uncertainty without becoming vague.</p><p>You can then choose appropriate AI-assisted work that extends the practice, such as questioning your analysis after your own attempt. Record what you could do independently and what the assistance helped you notice.</p><p>Revisit the plan as your skills change. The point is to become better at the legal work and at supervising assistance with it, not merely faster at requesting an answer.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You want another lawyer to reuse a successful prompt. What should accompany it?",
+      "a": [
+        "A description of how polished the first answer looked.",
+        "An explanation of the task and sources, what you checked, and the limits you found when using it.",
+        "The product name and a recommendation to use the same settings."
+      ],
+      "correct": 1,
+      "why": "The prompt alone does not show why it worked or when it would be unsuitable. Preserve enough of the experience for someone else to judge whether it fits a different assignment."
+    }
+  },
+  {
+    "id": "leadership",
+    "part": 3,
+    "title": "Decide how AI should change legal practice",
+    "nav": "Leading through change",
+    "desc": "The guide ends with questions about the profession because better tools do not decide what good legal service should look like. Lawyers need to make those choices with clients, colleagues, and the public in view.",
+    "sources": [
+      [
+        "fall",
+        "pp. 17–18"
+      ],
+      [
+        "student",
+        "pp. 13–19"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Examine the reason behind an existing practice",
+        "html": "<p>The Fall guide invites you to question traditional ways of working. Some practices protect accuracy or trust. Others may persist because a team has become accustomed to them. Before changing a process, understand what value it serves and whether that value could be protected in a better way.</p><p>For example, a junior lawyer’s initial research may produce information the team needs, but it may also develop the lawyer’s ability to evaluate authority. A change that accelerates the first purpose needs to account for the second.</p><p>Likewise, a quicker document may not give a client a better experience if it leaves less opportunity to ask questions or discuss a difficult decision. Measure the change against the service you intend to provide.</p>"
+      },
+      {
+        "h": "Return to questions as your experience develops",
+        "html": "<p>The source guides raise questions about professional roles, clients, institutions, and society. They are intended for discussion rather than as a set of settled answers.</p><p>Choose a question below and record your present view. Return later in the semester and explain what experience or evidence affected it. You do not have to change your mind to make progress; you should be able to give a better account of why you hold the view.</p><div data-widget=\"reflection\"></div>"
+      },
+      {
+        "h": "Make it possible for people to question the work",
+        "html": "<p>The Fall guide asks leaders to protect candor, challenge, and independent judgment. In practice, that means making it possible for someone to identify a problem even when the output looks impressive or a deadline is close.</p><p>When a colleague reports that a source is missing or an instruction was unclear, use the report to improve the process. Ask where the problem could have been noticed sooner and what the next reviewer would need to see. A culture that rewards only speed gives people less reason to surface that information.</p><p>Also consider how responsibility is distributed. Someone needs authority to pause the work, someone needs to resolve the question, and the people affected need to understand what has been decided.</p>"
+      },
+      {
+        "h": "Use the semester’s goals to assess your progress",
+        "html": "<p>The Fall guide describes eight capabilities to develop. Read them as questions about work you can demonstrate, rather than labels earned by finishing a chapter.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Capability</th><th scope=\"col\">Evidence you could discuss</th></tr></thead><tbody><tr><th scope=\"row\">Frame before prompting</th><td>An initial understanding of the problem that you compared with AI’s suggestions.</td></tr><tr><th scope=\"row\">Classify risk</th><td>An explanation of the risks to the work and to your learning, with controls suited to each.</td></tr><tr><th scope=\"row\">Verify</th><td>A record showing how you checked important claims against appropriate sources.</td></tr><tr><th scope=\"row\">Manage agents</th><td>Instructions that define the assignment and limits, supported by tests of the intended behavior.</td></tr><tr><th scope=\"row\">Improve a process</th><td>A proposed change based on examining how the work affects the user.</td></tr><tr><th scope=\"row\">Build and test</th><td>A small prototype with requirements and tests that identify its limits.</td></tr><tr><th scope=\"row\">Lead</th><td>A decision that protects accountability and the interests of people affected by the work.</td></tr><tr><th scope=\"row\">Own the result</th><td>An explanation of what AI contributed, what you changed or rejected, and why the final choice is yours.</td></tr></tbody></table></div>"
+      },
+      {
+        "h": "Choose something to carry into your next assignment",
+        "html": "<p>Look back at one exercise or entry that changed how you approached the work. Explain the change in a way a classmate could use. Include the circumstance in which it would be useful and any limitation that matters.</p><p>Then choose one question to keep investigating. You may need more independent practice, a better way to check a recurring task, or a conversation with someone whose experience differs from yours.</p><p>Your saved work is a starting record of those choices. Return to it as the technology and your responsibilities change, and keep the parts that help you serve people more effectively.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "How should a team judge whether a new AI-assisted process is worth keeping?",
+      "a": [
+        "Compare how many pages it produces each week.",
+        "Examine whether it improves the client’s result and whether the team can review the work responsibly while developing its lawyers.",
+        "Measure the proportion of assignments in which AI was used."
+      ],
+      "correct": 1,
+      "why": "Output volume and adoption rates may describe activity without showing improvement. The guide asks teams to consider the quality of the service and the people responsible for delivering it."
+    }
+  }
+];
+
+</script>
+<script>
+/* Teaching resources. Original exercise passages are intentionally left in their source wording. */
+const METHOD = [
+  [
+    "Do some work first",
+    "Begin with your own understanding of the task.",
+    "For a rule synthesis, read the sources and attempt a rule before requesting a critique. For a style edit, try to explain what is difficult to read. Your first attempt gives you a basis for deciding whether the response improves the work.",
+    "I have read the supplied sources and written the analysis below. Ask me about weaknesses in my reasoning before suggesting revisions. Do not replace my answer yet."
+  ],
+  [
+    "Give guidance and examples",
+    "Explain what you want an example to demonstrate.",
+    "An example is most useful when you identify the choice that makes it work. You might point out that a heading states the proposition as a full sentence and names the relevant actor. Make clear that facts from the example should not be imported into the new matter.",
+    "Suggest full-sentence headings for the proposition below. The supplied example works because it names who acted and explains why that action matters. Apply that approach without copying its facts or wording."
+  ],
+  [
+    "Compare options and follow up",
+    "Ask for differences that help you make a decision.",
+    "Alternatives should offer more than synonyms. Compare versions that emphasize different reasons or explain the issue in a different order. Once you choose an approach, describe what the next revision should preserve and what it should change.",
+    "Offer four ways to express this heading and explain what each emphasizes. Do not change the approved substance. Wait for me to select an approach before revising the paragraph beneath it."
+  ],
+  [
+    "Expand and challenge your thinking",
+    "Use AI to investigate the limits of your initial view.",
+    "You can ask for possibilities you have not considered, an objection to your position, or a passage that deserves closer attention. Review the source support for those suggestions and decide which questions need further work.",
+    "Using the approved materials, develop the strongest objection to my proposed analysis. Identify the source language supporting it and any missing information that could affect the objection. Do not assume facts that the packet does not establish."
+  ],
+  [
+    "Choose a manageable amount of work",
+    "Keep the request small enough to review meaningfully.",
+    "A ten-page rewrite can change the organization, reasoning, and wording at once. Working on a defined issue or paragraph may make those changes easier to examine. Keep related questions together when separating them would obscure their relationship.",
+    "Work only on this opening paragraph. Preserve its material qualifications. Explain any proposed change that could affect the analysis before making it."
+  ],
+  [
+    "Build those choices into the prompt",
+    "Use the practices that this assignment needs.",
+    "Your request can supply your first attempt and ask for a critique before a revision. Another task may need a source table first. Choose the steps that help the actual work rather than requiring the same sequence in every exchange.",
+    "Review my initial analysis using the supplied sources. First identify a weakness that could change the recommendation. Wait for my response before proposing a revised structure, and do not draft the complete document yet."
+  ]
+];
+
+const GLOSSARY = [
+  [
+    "AI",
+    "The broad field of making machines perform tasks that seem to require intelligence.",
+    "basics"
+  ],
+  [
+    "Agent",
+    "An AI system that can pursue an assignment through several actions. For example, it might read approved documents and prepare a comparison before returning to you. Its access and approval requirements need to be defined.",
+    "agents"
+  ],
+  [
+    "API",
+    "A way for one piece of software to connect to another. A legal product may use an API to access a model.",
+    "basics"
+  ],
+  [
+    "Benchmark",
+    "A defined test used to compare performance. A general benchmark does not establish that a tool works on your particular assignment.",
+    "building"
+  ],
+  [
+    "Context window",
+    "The amount of information a model can consider at once, measured in tokens. Keep important instructions and findings in a separate reference record rather than assuming a long conversation will preserve them.",
+    "harness"
+  ],
+  [
+    "Divergence rule",
+    "A practice from the Fall guide: make your own initial list, consider AI’s additions and objections, and then write another list that includes at least one approach the model did not suggest.",
+    "think"
+  ],
+  [
+    "Embedding",
+    "A numerical representation used to compare the meaning of passages and retrieve related information.",
+    "basics"
+  ],
+  [
+    "Escalation",
+    "Pausing the work and asking a designated person to resolve a question. An assignment should specify which problems require this response, such as a missing material source.",
+    "agents"
+  ],
+  [
+    "Evaluation set",
+    "A collection of examples used to test a tool or workflow. It should represent the intended work and include situations where the expected response is to stop or ask for help.",
+    "building"
+  ],
+  [
+    "Few-shot prompting",
+    "Providing a few examples of the kind of work you want. Explain which features matter so the system does not have to guess. A request without examples is sometimes called zero-shot prompting.",
+    "prompting"
+  ],
+  [
+    "Fine-tuning",
+    "Additional training of an existing model on specialized data. Different from supplying reference material during a task.",
+    "basics"
+  ],
+  [
+    "Foundation model",
+    "A broadly trained model that can support many different applications.",
+    "basics"
+  ],
+  [
+    "Frontier model",
+    "One of the most capable general-purpose models at a given time. The label changes as capabilities change.",
+    "basics"
+  ],
+  [
+    "Generative AI",
+    "AI that creates content, including language, code, images, or audio. Compare predictive AI, which classifies or scores information.",
+    "basics"
+  ],
+  [
+    "Graph / workflow map",
+    "A diagram showing tasks and how their results pass to later tasks. It can also show where missing information or required review changes what happens next.",
+    "graphing"
+  ],
+  [
+    "Guardrails",
+    "A general term for restrictions intended to limit a system’s behavior. Written instructions and software-enforced permissions are different kinds of restrictions; check which one the application actually provides.",
+    "agents"
+  ],
+  [
+    "Hallucination",
+    "Generated content that is false or unsupported, including invented authorities, altered quotations, or subtle shifts in a factual assertion.",
+    "basics"
+  ],
+  [
+    "Handoff",
+    "Passing a task’s result to the next person or step. Include the source support and unresolved questions the next reviewer needs, not just the conclusion.",
+    "graphing"
+  ],
+  [
+    "Harness",
+    "The system surrounding a model, including its software, available tools, and controls. The Fall guide also uses the term for the organized sources and review process around an AI assignment.",
+    "harness"
+  ],
+  [
+    "Human approval point",
+    "A stage where a designated person must review the work and decide whether it may proceed. A prompt asking for approval does not itself implement that restriction in software.",
+    "agents"
+  ],
+  [
+    "Inference",
+    "In model operation, running a trained model to produce output. In legal analysis, an inference is a conclusion drawn from evidence. Do not confuse the two uses.",
+    "basics"
+  ],
+  [
+    "Internal risk",
+    "The risk that an early AI answer narrows your own thinking or changes which questions you notice before you have examined the problem yourself.",
+    "permission"
+  ],
+  [
+    "External risk",
+    "The risk that the work harms someone or compromises a professional responsibility. Examples include advice based on a false fact or disclosure of protected information.",
+    "permission"
+  ],
+  [
+    "Knowledge graph",
+    "A map of relationships among information, such as the connection between an event and the people involved. It differs from a workflow map, which shows how work should proceed.",
+    "graphing"
+  ],
+  [
+    "Knowledge cutoff",
+    "The endpoint of a model’s built-in training information. Newer information must be supplied through sources or tools.",
+    "basics"
+  ],
+  [
+    "Large language model / LLM",
+    "A model trained to work with patterns in language and generate text. An application may connect it to source retrieval and other tools so it can perform a broader assignment.",
+    "basics"
+  ],
+  [
+    "Machine learning",
+    "An approach in which a system learns patterns from data rather than relying only on hand-written rules.",
+    "basics"
+  ],
+  [
+    "Model",
