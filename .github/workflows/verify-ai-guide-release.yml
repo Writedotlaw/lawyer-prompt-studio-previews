@@ -1,0 +1,113 @@
+name: Verify published AI guide
+on:
+  push:
+    branches: [main]
+    paths:
+      - ai-guide-revised/**
+      - .github/ai-guide-tests/**
+      - .github/workflows/verify-ai-guide-release.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ai-guide-production-verification
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Read the committed production source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify the public release without authentication
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import datetime, hashlib, json, os, time, urllib.request, urllib.error
+          url = 'https://writedotlaw.github.io/lawyer-prompt-studio-previews/ai-guide-revised/'
+          root = 'https://writedotlaw.github.io/lawyer-prompt-studio-previews/'
+          source = Path('ai-guide-revised/index.html').read_bytes()
+          expected = hashlib.sha256(source).hexdigest()
+          out = Path('.github/ai-guide-tests/results')
+          out.mkdir(parents=True, exist_ok=True)
+          deadline = time.monotonic() + 300
+          last_error = 'No response'
+          while time.monotonic() < deadline:
+              try:
+                  request = urllib.request.Request(url, headers={'Cache-Control': 'no-cache'})
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      served = response.read(2000000)
+                      digest = hashlib.sha256(served).hexdigest()
+                      valid = response.status == 200 and response.url == url and 'text/html' in response.headers.get('Content-Type', '') and digest == expected
+                  with urllib.request.urlopen(url + 'README.md', timeout=20) as response:
+                      release_note = response.read(100000)
+                      note_valid = response.status == 200 and release_note == Path('ai-guide-revised/README.md').read_bytes()
+                  if valid and note_valid:
+                      break
+                  last_error = 'Waiting for the committed HTML and release note to be published'
+              except (OSError, urllib.error.URLError) as exc:
+                  last_error = str(exc)
+              print(last_error, flush=True)
+              time.sleep(5)
+          else:
+              raise RuntimeError('Public release verification failed: ' + last_error)
+          with urllib.request.urlopen(root, timeout=20) as response:
+              gallery = response.read(2000000)
+              assert response.status == 200
+              assert gallery == Path('index.html').read_bytes(), 'The original gallery differs from its committed source'
+          result = {
+              'checkedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'commit': os.environ['GITHUB_SHA'],
+              'previewUrl': url, 'publicUrl': url, 'host': 'GitHub Pages',
+              'httpStatus': 200, 'servedBytes': len(served), 'servedSha256': digest,
+              'verifiedWithoutLogin': True, 'releaseNotePublished': True,
+              'galleryMatchesSource': True, 'status': 'public-release-verified'
+          }
+          (out / 'deployment-result.json').write_text(json.dumps(result, indent=2))
+          print('PUBLIC_RELEASE_VERIFIED=' + json.dumps(result), flush=True)
+          PY
+      - name: Install the browser test runner
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Test the public site in fresh desktop and mobile browsers
+        run: python .github/ai-guide-tests/check_public_site.py
+      - name: Record the release result
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          folder = Path('.github/ai-guide-tests/results')
+          http_file = folder / 'deployment-result.json'
+          browser_file = folder / 'public-browser-report.json'
+          lines = ['# AI guide publication verification', '']
+          if http_file.exists():
+              result = json.loads(http_file.read_text())
+              lines += [f"Student URL: {result['publicUrl']}", '', f"HTTP: {result['httpStatus']}; no login required.", f"Published HTML: {result['servedBytes']:,} bytes, exact source match.", f"Verified: {result['checkedAt']}", f"Commit: {result['commit']}", '']
+          else:
+              lines += ['Public HTTP verification did not complete. Do not claim publication is verified.', '']
+          if browser_file.exists():
+              report = json.loads(browser_file.read_text())
+              lines += [f"Browser checks: {report['passed']} passed; {report['failed']} failed.", f"Routes checked: {len(report['routes'])}, desktop and mobile.", f"JavaScript page errors: {len(report['pageErrors'])}.", '']
+              if report['failed']:
+                  lines += [f"- FAILED: {check['check']} — {check['detail']}" for check in report['checks'] if not check['passed']]
+          else:
+              lines += ['Browser verification did not complete.', '']
+          folder.mkdir(parents=True, exist_ok=True)
+          text = '\n'.join(lines)
+          (folder / 'VERIFICATION.md').write_text(text)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write(text)
+          print(text, flush=True)
+          PY
+      - name: Preserve verification results and screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-guide-production-verification-${{ github.run_id }}
+          path: .github/ai-guide-tests/results/
+          retention-days: 30
+          if-no-files-found: error
