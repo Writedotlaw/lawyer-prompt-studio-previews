@@ -1,0 +1,212 @@
+        "html": "<p>The worksheet below helps you apply those questions to one assignment. Describe the task without entering private or client information, then answer the questions using what you know about the actual rules and system. When something is unresolved, use the final space to record how you will resolve it.</p><p>The response beneath the form follows your selections; it is not an AI assessment or permission from your instructor. Completing the worksheet does not authorize a use that the relevant rules prohibit.</p><div data-widget=\"preflight\"></div>"
+      },
+      {
+        "h": "Consider the risk to your thinking as well as the work",
+        "html": "<p>The Fall guide distinguishes external risk from internal risk. External risk concerns harm that follows from the work, such as advice based on a false fact or disclosure of protected information. Internal risk concerns the way an early AI answer may shape your own attention and judgment.</p><p>An exercise can have little immediate effect on anyone else and still be important for your learning. Asking AI to choose the issues before you read the facts may make it harder to notice a different way of understanding the problem. That is why “low stakes” does not automatically mean “let AI go first.”</p><p>Match your response to the risk. Work that could affect a client needs a review process appropriate to that consequence. Work intended to develop your skills also needs time for your own attempt. The same assignment may require both protections.</p>"
+      },
+      {
+        "h": "Pause when you cannot resolve a material concern",
+        "html": "<p>The semester checklist identifies reasons to stop and ask before continuing. These include unclear permission, sensitive information, a material source you cannot validate, and a request for broader access than the task requires. It also asks you to pause when you cannot explain an important conclusion or when the output sounds certain despite unresolved facts or law.</p><p>When that happens, describe the problem specifically. “I cannot find the source supporting this statement” gives an instructor or supervisor something to address. “I will be careful” does not resolve the missing source.</p><p>A useful record states what remains open and who needs to decide it. Return to the assignment only when you have a basis for proceeding, or change the task so it stays within the approved limits.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You cannot identify how to verify an answer that may affect a client. What should you do?",
+      "a": [
+        "Proceed after asking the AI to describe its confidence.",
+        "Pause and establish an appropriate source or review process before relying on the result.",
+        "Use a second model and proceed if the two answers agree."
+      ],
+      "correct": 1,
+      "why": "A confidence statement or another generated answer does not resolve the missing check. Identify how a responsible reviewer could establish whether the result is reliable."
+    }
+  },
+  {
+    "id": "think",
+    "part": 0,
+    "title": "Do enough of the thinking to direct the work",
+    "nav": "Think before you prompt",
+    "desc": "Your first attempt gives you something to compare with AI’s response. It need not be polished, but it should reflect your own understanding of the problem.",
+    "sources": [
+      [
+        "short",
+        "p. 2"
+      ],
+      [
+        "fall",
+        "pp. 7, 9"
+      ],
+      [
+        "student",
+        "pp. 11–12"
+      ],
+      [
+        "slides",
+        "pp. 9–13"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Choose a first pass that fits the assignment",
+        "html": "<p>Before asking for feedback on an argument, write down what you think the argument is and why it should succeed. Before asking for help organizing a document, identify its main points and the reader’s likely questions. Before requesting a sentence revision, try to explain what is getting in the reader’s way.</p><p>The amount of preliminary work depends on the task. You do not need to finish an entire brief before using AI to improve a heading. You do need enough understanding to recognize when a proposed heading changes the claim or puts emphasis in the wrong place.</p><p>The Student guide connects this habit to learning. Reading an opinion and struggling to synthesize its rule help develop the ability to do that work. When the purpose of an assignment is to build that ability, a finished answer from another source cannot stand in for your attempt.</p>"
+      },
+      {
+        "h": "Assess your work before requesting feedback",
+        "html": "<p>The two-page semester guide proposes a four-minute pause. State your current answer, identify the strongest and weakest parts of your reasoning, note what still needs checking, and decide what feedback would help.</p><p>Use the worksheet to record that assessment. After receiving permitted feedback elsewhere, return to compare an important suggestion with your original view. Explain why you would accept it, change it, or reject it. The timer is optional, and this page does not generate feedback on what you write.</p><div data-widget=\"pause\"></div>"
+      },
+      {
+        "h": "Notice what changes when someone else chooses the priorities",
+        "html": "<p>The employee-departure exercise asks you to choose which questions deserve attention first. Read the facts and make your own selections before opening the discussion. The point is to examine how a proposed set of priorities directs the rest of the work.</p><p>You are not being asked to decide the legal outcome. The packet does not provide controlling law. It gives you enough to identify factual questions and explain why they may matter.</p><div data-widget=\"priorities\"></div>"
+      },
+      {
+        "h": "Return to the problem after considering AI’s suggestions",
+        "html": "<p>The Fall guide calls this a divergence rule: begin with your own list, ask AI to expand or challenge it, and then create another list that includes at least one approach the model did not supply.</p><p>That final step matters because comparing alternatives is different from accepting the first useful-looking menu. Ask whether the client’s objective is still driving the analysis and whether a fact you initially considered important has disappeared.</p><p>You do not have to preserve your first view. Good feedback may change it substantially. What you should preserve is your ability to explain why it changed, using the source material and your own reasoning.</p>"
+      },
+      {
+        "h": "Ask for help that makes you work through the question",
+        "html": "<p>An AI tutor can ask a question, point you back to a passage, or identify a weakness for you to address. Those requests leave more of the analytical work with you than a request for a replacement answer.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>A tutoring request to adapt</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>I have read the supplied materials and written the answer below. Ask me questions before suggesting revisions. Begin with a question about the weakest part of my reasoning and wait for my response. Point me to relevant source passages rather than supplying a replacement answer. Distinguish what a source says from an inference you draw.\n\nPermitted materials: [identify them].\nMy answer: [paste your attempt].</pre></div><p>The semester checklist also calls for regular practice without AI. Use that practice to see what you can recall, explain, and write independently. A strong assisted draft is useful, but it does not answer those separate questions about your development.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You have made an initial issue list and asked AI to challenge it. What would complete the exercise in independent thinking?",
+      "a": [
+        "Choose the AI’s most persuasive alternative and explain why you prefer it.",
+        "Reconsider both lists and add at least one approach that the AI did not suggest.",
+        "Ask the AI to combine the two lists into a final set of priorities."
+      ],
+      "correct": 1,
+      "why": "Comparing alternatives is useful, but the exercise also asks you to create something beyond the options already supplied. The final pass should make room for your own judgment."
+    }
+  },
+  {
+    "id": "ethics",
+    "part": 0,
+    "title": "Take responsibility for the work you use",
+    "nav": "Professional responsibility",
+    "desc": "The source guides apply familiar professional duties to AI-assisted work. Your task is to turn those duties into decisions about the assignment, the information involved, and the review it needs.",
+    "sources": [
+      [
+        "fall",
+        "p. 8"
+      ],
+      [
+        "student",
+        "pp. 10–11"
+      ],
+      [
+        "short",
+        "pp. 1–2"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Apply the duties to the particular assignment",
+        "html": "<p>The Fall guide treats AI as assistance with professional work, not as a substitute for the person responsible for it. The following overview explains its teaching framework. It does not replace the rules that apply in a particular jurisdiction, court, workplace, or course.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Duty addressed in the guide</th><th scope=\"col\">What to consider before relying on AI-assisted work</th></tr></thead><tbody><tr><th scope=\"row\">Competence</th><td>Understand the tool well enough to recognize the relevant benefits and limits of the proposed use.</td></tr><tr><th scope=\"row\">Confidentiality</th><td>Establish that the system and use are approved for the information involved. Understand access and retention rather than assuming a paid account resolves them.</td></tr><tr><th scope=\"row\">Communication</th><td>Determine what the client needs to know and what disclosure the applicable rules, agreement, or circumstances require.</td></tr><tr><th scope=\"row\">Candor and accuracy</th><td>Do not present invented authority, distorted source language, or unsupported factual claims as established material.</td></tr><tr><th scope=\"row\">Supervision</th><td>Decide who reviews the work and prevent consequential actions from proceeding without the required approval.</td></tr><tr><th scope=\"row\">Reasonable fees</th><td>Follow the governing rules and agreement. AI use does not justify billing for time that was not worked.</td></tr><tr><th scope=\"row\">Independent judgment</th><td>Make the recommendation after considering the client’s circumstances and the relevant legal and practical factors.</td></tr></tbody></table></div>"
+      },
+      {
+        "h": "Check what a source supports, not just whether it exists",
+        "html": "<p>A case may exist and still fail to support the proposition attached to it. A quotation may be accurate while omitting language that changes its meaning. Verification therefore requires comparing the proposed claim with the relevant source in context.</p><p>For a factual statement, locate the record material and identify what it actually establishes. For a calculation, check both the arithmetic and the assumptions. For authority, consider its meaning and the checks needed to establish that it is appropriate to rely on.</p><p>An AI-assisted review can help identify possible problems, but its findings remain work for you to evaluate. The Fall guide expressly cautions that a second model is not an independent authority simply because it agrees or disagrees.</p>"
+      },
+      {
+        "h": "Make approval an actual step in the process",
+        "html": "<p>Instructions such as “ask me before sending” state what you expect. They are not, by themselves, a technical restriction on the system. When an application can take action, find out how the application prevents that action from happening without approval.</p><p>For a manually run workflow, you may control the handoff yourself by reviewing the result before starting the next task. An automated workflow needs an appropriate approval mechanism in the software. Test what happens when approval is absent.</p><p>The approval should also be specific. A reviewer needs to know which version they are approving and what will happen next. Adding a missing document, for example, is not the same as approving the conclusion drawn from it.</p>"
+      },
+      {
+        "h": "Record the use accurately when a record is needed",
+        "html": "<p>The semester checklist asks you to retain important instructions, materials, results, and checks when the assignment or risk calls for a record. It also provides a use-note template for situations in which disclosure is required. Adapt it to what you actually did.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>Use note from the semester checklist</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>I used [tool and version, if known] to [specific purpose]. I supplied [general description of permitted materials]. I independently checked [facts, authorities, quotations, calculations, or other items], accepted or revised [describe material contributions], and take responsibility for the final work.</pre></div><p>A statement that you checked something is meaningful only if you performed that check. The note records your responsibility; it does not excuse an unchecked result.</p>"
+      },
+      {
+        "h": "Practice identifying the decision that cannot be delegated",
+        "html": "<p>Consider this classroom variation: a supervising lawyer asks you to send an AI-generated case summary to a client before you have opened the cited opinion. The summary looks plausible, but the client may act on it that afternoon.</p><p>Identify what you need to verify and how you would explain the concern to the supervisor. Think about a useful response that addresses the deadline without representing unchecked work as ready for reliance.</p><p>The Fall guide discusses the subordinate lawyer’s continuing responsibility even when acting at another person’s direction. Use this example to consider how you would carry that responsibility into a difficult conversation. This is a discussion exercise, not a jurisdiction-specific answer to an actual matter.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "You need to disclose your use of AI. What should the disclosure say?",
+      "a": [
+        "That AI was involved, so readers should independently check the work.",
+        "That the tool generated the draft and is responsible for any errors.",
+        "What you actually used the tool for and what you checked, without suggesting that disclosure replaces those checks."
+      ],
+      "correct": 2,
+      "why": "The use note should describe what happened. It cannot establish that a source was verified when you did not read it, and it does not shift responsibility for the final work."
+    }
+  },
+  {
+    "id": "method",
+    "part": 1,
+    "title": "Work with AI through a series of decisions",
+    "nav": "Working with AI",
+    "desc": "A useful exchange often involves an initial attempt, feedback, and a more focused request. The six practices in the source slides explain how to make those exchanges serve the work.",
+    "sources": [
+      [
+        "slides",
+        "pp. 8–35"
+      ],
+      [
+        "fall",
+        "p. 4"
+      ],
+      [
+        "short",
+        "p. 1"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Understand what the six practices are for",
+        "html": "<p>The Skills & AI-isms slides begin with your own work and then explain how to give direction, compare alternatives, and improve the next request. They also ask you to limit the size of the task to what both you and the tool can handle.</p><p>These are practices to draw on throughout an assignment. They do not require you to send six prompts every time. For a sentence revision, you might provide your draft and a style example, compare a few alternatives, and then ask for one further change. A more complicated analysis may need several rounds.</p><p>Select a practice below to read an explanation and a sample instruction. The examples are starting points to adapt, not buttons that send a request to an AI system.</p><div data-widget=\"method\"></div>"
+      },
+      {
+        "h": "Request alternatives that differ in a useful way",
+        "html": "<p>When you ask for multiple versions, explain what you want to compare. Five headings that say the same thing with different synonyms may give you little help. Headings that emphasize different reasons, or begin from different propositions, let you assess a writing decision.</p><p>You might ask for one version that leads with the governing rule and another that leads with the strongest fact. Compare the effect on the reader, then check whether either version overstates the approved substance.</p><p>An explanation of the difference is often more useful than another option. Ask the tool what each choice foregrounds and what a reader might misunderstand. You remain responsible for deciding whether that explanation is sound.</p>"
+      },
+      {
+        "h": "Give feedback about the change you need",
+        "html": "<p>A response such as “make it better” leaves the standard unclear. Point to the useful part and identify the problem that remains. You could explain that a proposed opening reaches the conclusion quickly but leaves out the condition on which it depends.</p><div class=\"prompt-box\"><div class=\"prompt-top\"><span>An example of a focused follow-up</span><button class=\"text-btn\" data-copy-parent=\".prompt-box\">Copy these instructions</button></div><pre>The opening now makes the recommendation clear, but it loses the uncertainty about when notice was received. Preserve that uncertainty and explain why it matters to the next step. Keep the conclusion at the beginning. Do not add a receipt date or assume the other termination requirements are satisfied.</pre></div><p>Feedback of this kind uses your understanding of the task. It gives the next revision a defined problem to solve, and it makes that revision easier for you to assess.</p>"
+      },
+      {
+        "h": "Keep the amount of work manageable",
+        "html": "<p>The slides ask a practical question about a ten-page rewrite: how will you meaningfully review everything the tool changed? A large response may leave you comparing altered wording, organization, and substance at once.</p><p>Choose a smaller unit when that would make the work easier to direct. Review the proposed organization before asking for prose, or work through the headings before revising the paragraphs beneath them. For analysis, establish the relevant requirements before comparing them with the facts.</p><p>Smaller is not always better. Keep questions together when their relationship matters. The aim is an assignment you can supervise and evaluate, not the largest possible number of steps.</p>"
+      },
+      {
+        "h": "Keep the frameworks separate",
+        "html": "<p>The guide contains several frameworks because they answer different questions. The <strong>five-stage responsible-use framework</strong> addresses the overall process: your initial thinking, AI assistance, substantive review, your decision, and a record of what you learned. The <strong>six collaboration practices</strong> in this chapter help you conduct the exchanges within that process.</p><p>The <strong>semester checklist</strong> is a reminder to use before, during, and after an assignment. It does not replace the reasoning behind those steps. The twelve-field agent work order, introduced later, helps specify a multi-step assignment with permission to use tools.</p><p>You do not need every framework open at once. Begin with the one that answers your current question. The navigation’s Exercises and Templates & worksheets sections distinguish activities that teach a skill from resources you can reuse on your own assignments.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "An AI revision improves the opening but treats a disputed fact as settled. Which response gives it the most useful direction?",
+      "a": [
+        "Ask for a more careful revision of the entire passage.",
+        "Keep the opening, identify the disputed fact, and explain how the next revision should qualify it.",
+        "Request several alternatives and choose the one that sounds least certain."
+      ],
+      "correct": 1,
+      "why": "Specific feedback identifies both the useful change and the problem to correct. You still need to check the next version against the record; a general reduction in certainty may not fix the particular overstatement."
+    }
+  },
+  {
+    "id": "prompting",
+    "part": 1,
+    "title": "Give the AI a clear assignment",
+    "nav": "Writing useful prompts",
+    "desc": "A good prompt explains the work the way a good assignment would: enough context for the assistant to begin, enough direction to avoid predictable mistakes, and a clear description of what you need back.",
+    "sources": [
+      [
+        "slides",
+        "pp. 14–15, 32–39"
+      ],
+      [
+        "student",
+        "p. 5"
+      ],
+      [
+        "short",
+        "p. 1"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Describe the purpose before choosing the wording",
+        "html": "<p>Start by deciding what would help you make progress. “Summarize this contract” could mean several things. A summary for a client deciding whether to sign should be organized differently from a list of provisions relevant to a disputed termination.</p><p>Explain the purpose and identify the materials the tool may use. Include what you already think, particularly when you want a critique rather than an independent draft. Then state what form of response you can meaningfully review.</p><p>The source slides treat prompting as part of a continuing process. A first request may lead to a question, a comparison, or a revised plan rather than immediately to finished prose.</p>"
+      },
+      {
+        "h": "Use the source principles as choices, not a mandatory form",
