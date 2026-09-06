@@ -13,38 +13,58 @@ concurrency:
 jobs:
   verify-public-guide:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - name: Check out isolated verification tools
         uses: actions/checkout@v4
-      - name: Verify the actual public guide and preserve the existing gallery
+      - name: Verify the exact public revision and unchanged gallery
         run: |
           python - <<'PY'
           from pathlib import Path
-          import json,hashlib,time,urllib.request,urllib.error
+          import json,hashlib,urllib.request
           expected='be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96'
           url='https://writedotlaw.github.io/lawyer-prompt-studio-previews/ai-guide-revised/'
           out=Path('recovery/results');out.mkdir(exist_ok=True)
-          for attempt in range(90):
-            try:
-              with urllib.request.urlopen(urllib.request.Request(url,headers={'Cache-Control':'no-cache'}),timeout=20) as r:
-                content=r.read(2000000)
-                digest=hashlib.sha256(content).hexdigest()
-                if r.status==200 and digest==expected and r.url==url and 'text/html' in r.headers.get('Content-Type',''):
-                  report={'previewUrl':url,'publicUrl':url,'host':'GitHub Pages','httpStatus':200,'servedBytes':len(content),'servedSha256':digest,'verifiedWithoutLogin':True,'status':'public-http-200-verified'}
-                  print('PUBLIC_REVISED_GUIDE_VERIFIED='+json.dumps(report),flush=True)
-                  (out/'deployment-result.json').write_text(json.dumps(report,indent=2))
-                  break
-                print(f'Waiting for approved revision, attempt {attempt+1}',flush=True)
-            except (urllib.error.URLError,TimeoutError):
-              print(f'Waiting for public build, attempt {attempt+1}',flush=True)
-            time.sleep(5)
-          else:
-            raise RuntimeError('The public URL did not serve the exact revised guide within the verification window.')
+          with urllib.request.urlopen(urllib.request.Request(url,headers={'Cache-Control':'no-cache'}),timeout=30) as r:
+            content=r.read(2000000)
+            assert r.status==200 and r.url==url and 'text/html' in r.headers.get('Content-Type','')
+            assert hashlib.sha256(content).hexdigest()==expected
+            report={'previewUrl':url,'publicUrl':url,'host':'GitHub Pages','httpStatus':200,'servedBytes':len(content),'servedSha256':expected,'verifiedWithoutLogin':True,'status':'public-http-200-verified'}
+            (out/'deployment-result.json').write_text(json.dumps(report,indent=2))
+            print('PUBLIC_REVISED_GUIDE_VERIFIED='+json.dumps(report),flush=True)
           with urllib.request.urlopen('https://writedotlaw.github.io/lawyer-prompt-studio-previews/',timeout=20) as r:
-            gallery=r.read()
-            assert hashlib.sha256(gallery).hexdigest()=='de6303c5db736835e7be963f3334aa238e5f16512679ce86ade027187c07075d', 'Existing gallery changed; inspect before claiming completion.'
+            assert hashlib.sha256(r.read()).hexdigest()=='de6303c5db736835e7be963f3334aa238e5f16512679ce86ade027187c07075d'
             print('EXISTING_GALLERY_UNCHANGED=true',flush=True)
+          test=Path('recovery/check_public_site.py')
+          s=test.read_text()
+          old="        check('Saved work contains the exercise response',note in p.locator('#main').inner_text())"
+          new="""        entry=p.locator('#saved-graph-lesson')
+                  group=p.locator('.saved-group').filter(has=entry)
+                  group.locator(':scope > summary').click()
+                  entry.locator('xpath=ancestor::details[1]/summary').click()
+                  check('Saved work opens the exact exercise response',entry.is_visible() and entry.input_value()==note)"""
+          new='\n'.join([new.splitlines()[0]]+['        '+line.strip() for line in new.splitlines()[1:]])
+          assert s.count(old)==1, 'The test source changed; inspect before altering the assertion.'
+          s=s.replace(old,new)
+          needle="        check('Restorable backup downloads from the public origin',Path(OUT/'test-browser-backup.json').stat().st_size>50)"
+          extra="""
+                  restored=browser.new_context(viewport={'width':1280,'height':900},reduced_motion='reduce')
+                  q=restored.new_page()
+                  q.on('dialog',lambda d:d.accept())
+                  q.on('pageerror',lambda e:errors.append(str(e)))
+                  go(q,'#/notebook')
+                  q.locator('#import-file').set_input_files(str(OUT/'test-browser-backup.json'))
+                  q.wait_for_timeout(300)
+                  go(q,'#/lab/graph')
+                  check('Backup restores the saved response in a fresh browser',q.locator('[data-save="graph-lesson"]').input_value()==note)
+                  q.reload(wait_until='domcontentloaded')
+                  q.wait_for_selector('[data-save="graph-lesson"]')
+                  check('Restored response persists after reload',q.locator('[data-save="graph-lesson"]').input_value()==note)
+                  restored.close()"""
+          extra='\n'+'\n'.join('        '+line.strip() for line in extra.strip().splitlines())
+          assert s.count(needle)==1
+          test.write_text(s.replace(needle,needle+extra))
+          (out/'browser-test-source.py').write_text(test.read_text())
           PY
       - name: Install browser test runner
         run: |
