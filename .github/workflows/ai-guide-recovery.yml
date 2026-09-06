@@ -6,54 +6,33 @@ on:
       - .github/workflows/ai-guide-recovery.yml
       - recovery/publish-ready.json
 permissions:
-  contents: write
-concurrency:
-  group: ai-guide-publication
-  cancel-in-progress: false
+  contents: read
+  pages: read
 jobs:
-  prepare-import:
+  inspect-hosting:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 4
     steps:
-      - name: Check out the isolated recovery branch
-        uses: actions/checkout@v4
-      - name: Reconstruct and verify the approved guide
-        run: python recovery/publish.py --verify-only
-      - name: Publish only guide build files to the isolated branch
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add recovery/site/index.html recovery/site/vercel.json recovery/site/release.json
-          git diff --cached --quiet || git commit -m 'Publish verified revised guide build for hosting'
-          git push origin HEAD:ai-guide-deployment-recovery-20260906
-          COMMIT=$(git rev-parse HEAD)
-          echo "VERIFIED_BUILD_COMMIT=$COMMIT"
-          echo "VERIFIED_HTML_URL=https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$COMMIT/recovery/site/index.html"
-          python - <<'PY'
-          from pathlib import Path
-          import json,os,subprocess
-          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
-          Path('recovery/results/source.json').write_text(json.dumps({
-              'commit':sha,'htmlUrl':f'https://raw.githubusercontent.com/{os.environ["GITHUB_REPOSITORY"]}/{sha}/recovery/site/index.html',
-              'indexSha256':'be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96'
-          },indent=2))
-          PY
-      - name: Check whether this repository already has a deployment credential
+      - name: Inspect existing Pages source and public hosts
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -n "$VERCEL_TOKEN" ]; then
-            echo 'VERCEL_DEPLOYMENT_CREDENTIAL_AVAILABLE=true'
-          else
-            echo 'VERCEL_DEPLOYMENT_CREDENTIAL_AVAILABLE=false'
-          fi
-      - name: Preserve verified source information
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: revised-guide-source-${{ github.run_id }}
-          path: recovery/results/
-          retention-days: 7
-          if-no-files-found: warn
+          python - <<'PY'
+          import os,json,urllib.request,urllib.error,hashlib
+          repo=os.environ['GITHUB_REPOSITORY']
+          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/pages',headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+          try:
+            with urllib.request.urlopen(req,timeout=25) as r:
+              data=json.load(r)
+              print('EXISTING_PAGES='+json.dumps({k:data.get(k) for k in ['status','html_url','cname','source','build_type','public','https_enforced']}))
+          except urllib.error.HTTPError as e:
+            print('PAGES_METADATA_HTTP='+str(e.code))
+            print(e.read().decode()[:500])
+          for url in ['https://writedotlaw.github.io/lawyer-prompt-studio-previews/','https://regalia-ai-field-guide-joe-regalias-projects.vercel.app']:
+            try:
+              with urllib.request.urlopen(url,timeout=25) as r:
+                b=r.read(2000000)
+                print('PUBLIC_CHECK='+json.dumps({'url':url,'finalUrl':r.url,'status':r.status,'contentType':r.headers.get('Content-Type'),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'snippet':b[:250].decode('utf8',errors='replace')}))
+            except urllib.error.HTTPError as e:
+              print('PUBLIC_CHECK='+json.dumps({'url':url,'status':e.code,'finalUrl':e.url}))
+          PY
