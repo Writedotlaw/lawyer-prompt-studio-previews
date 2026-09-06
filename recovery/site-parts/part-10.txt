@@ -1,0 +1,427 @@
+  "revision": "Before sending Falcon Medical’s monthly reporting package to Redwood today, we should resolve whether Redwood’s NDA meets Section 9.12 and review how much information Redwood needs.\n\nSection 9.12 permits disclosure to a prospective assignee that agrees to confidentiality obligations at least as protective as its own. Although Redwood has signed our standard NDA, the NDA allows use of information retained in unaided memory. Section 9.12 has no comparable provision and limits use to evaluating or acquiring the loan, so the NDA may be less protective.\n\nThe package also contains customer-level revenue, pricing information, and annual forecasts, even though Redwood currently needs only summary financial information. Consider revising the NDA or narrowing the package before sending it. Removing unnecessary detail should not be treated as resolving the separate question of whether the proposed disclosure complies with Section 9.12.",
+  "checks": [
+    "A signed NDA is not automatically a qualifying NDA.",
+    "The residuals clause and use limitation remain the central comparison.",
+    "The concern remains conditional: the NDA may be less protective.",
+    "The package contains more than Redwood currently needs.",
+    "Narrowing the package is not declared a complete legal cure without further review."
+  ],
+  "source": "Skills & AI-isms, slide 57. The comparison revision and review questions were written for this guide; they are not an answer supplied in the original slides."
+};
+
+const AIISM_TEXT = "In today’s rapidly evolving employment landscape, it is crucial to underscore that Ms. Chen’s pre-termination download presents a multifaceted challenge. Her conduct is not merely suspicious—it may potentially support a trade-secret claim. Moreover, the downloaded materials included customer lists, pricing models, and strategic forecasts, all of which could be considered highly sensitive. Furthermore, courts have reached varying conclusions regarding when downloading information becomes threatened misappropriation. Importantly, the company also faces meaningful business, reputational, and litigation risks if it moves too aggressively. Ultimately, we recommend a holistic and measured approach that leverages the existing record while proactively addressing these pivotal concerns. The company should carefully consider its options before deciding whether to seek immediate relief.";
+
+const AIISM_LENSES = [
+  {
+    "name": "Words",
+    "phrases": [
+      "In today’s rapidly evolving employment landscape",
+      "crucial to underscore",
+      "multifaceted challenge",
+      "Moreover",
+      "Furthermore",
+      "Importantly",
+      "Ultimately",
+      "holistic and measured approach",
+      "leverages",
+      "proactively",
+      "pivotal"
+    ],
+    "explain": "The highlighted phrases add emphasis or abstraction without explaining the client’s situation. For example, “multifaceted challenge” does not tell the reader which question matters. Replace such language with a supported point, or identify the information needed to make one."
+  },
+  {
+    "name": "Sentences",
+    "phrases": [
+      "not merely suspicious—it may potentially support",
+      "could be considered highly sensitive",
+      "should carefully consider its options"
+    ],
+    "explain": "This passage repeatedly uses introductory transitions and an inflated contrast. It also piles uncertainty into “may potentially support.” Consider how each sentence should advance the explanation and express the actual degree of uncertainty without a fixed verbal pattern."
+  },
+  {
+    "name": "Formatting",
+    "phrases": [],
+    "explain": "The single paragraph gives similar space to several asserted concerns without showing their relative importance. Decide which point the reader needs first and where a paragraph break would help. A new heading is useful only if it makes the explanation easier to navigate."
+  },
+  {
+    "name": "Substance",
+    "phrases": [
+      "courts have reached varying conclusions",
+      "meaningful business, reputational, and litigation risks",
+      "should carefully consider its options before deciding whether to seek immediate relief"
+    ],
+    "explain": "The passage mentions varying court decisions without identifying them, does little to apply a rule to the supplied facts, and ends without a useful next step. Those are gaps in the analysis. Do not invent authority to fill them; identify what needs investigation."
+  }
+];
+
+const CHECKLIST = [
+  [
+    "Before you open a tool",
+    [
+      "Check permission for this particular use.",
+      "Protect information and use an authorized system.",
+      "Do the first thinking.",
+      "Judge the stakes and how you will verify."
+    ]
+  ],
+  [
+    "While you use it",
+    [
+      "Give the tool a defined job.",
+      "Ground it in trusted sources and open them yourself.",
+      "Use it as a critic and tutor.",
+      "Limit agent permissions and require human approval."
+    ]
+  ],
+  [
+    "Before relying on or sharing the work",
+    [
+      "Verify the substance against primary material.",
+      "Decide what to accept, modify, or reject.",
+      "Document and disclose when required.",
+      "Practice the underlying skills without AI."
+    ]
+  ]
+];
+
+const PLAYBOOK_FIELDS = [
+  [
+    "principles",
+    "What principles will guide your use of AI?",
+    "Explain what assistance should help you achieve and which decisions you intend to make yourself. Begin with a principle you could apply to a specific assignment."
+  ],
+  [
+    "limits",
+    "When will you decide not to use AI?",
+    "Record a situation in which permission, sensitive information, learning, or the cost of review makes another approach more appropriate."
+  ],
+  [
+    "library",
+    "Which instructions are worth reusing?",
+    "Describe an instruction that helped, the approved material it needed, and how you checked the result. Include enough context to recognize when it would not fit."
+  ],
+  [
+    "workflow",
+    "How will you organize a recurring assignment?",
+    "Explain where AI could contribute and where you need to review or decide before the next task begins."
+  ],
+  [
+    "failures",
+    "What have you learned from a failure?",
+    "Describe what went wrong and where it entered the work. Explain the change you would test next rather than recording only that the answer was poor."
+  ],
+  [
+    "development",
+    "What will you practice next?",
+    "Choose a legal skill to develop independently and explain how permitted AI assistance might extend that practice after your own attempt."
+  ]
+];
+
+const SHIPPING = [
+  [
+    "People can understand and use the tool",
+    "Ask representative users to try it without coaching. Record where they are confused and whether they understand the result and its limits."
+  ],
+  [
+    "The legal logic and sources have been reviewed",
+    "Identify the relevant jurisdiction and sources. Record who checked the rules, exceptions, and distinction between authority and inference."
+  ],
+  [
+    "The tool responds appropriately when it cannot proceed",
+    "Test missing facts, conflicting material, requests outside scope, and instructions in source material that try to redirect the system."
+  ],
+  [
+    "The information and permissions are appropriately protected",
+    "Review the environment and the access it provides. Establish how the system handles retention and logging for the intended data."
+  ],
+  [
+    "A person handles decisions that require human review",
+    "Identify who receives exceptions and approves consequential actions. Check that users can reach that person when needed."
+  ],
+  [
+    "Someone is responsible for maintaining the tool",
+    "Name who updates sources, reviews changes, reruns tests, and withdraws a version that should no longer be used."
+  ]
+];
+
+const REFLECTIONS = [
+  {
+    "group": "The profession",
+    "source": "Fall guide, p. 17",
+    "questions": [
+      "What work deserves a law license?",
+      "Which legal tasks exist because information used to be scarce?",
+      "What should remain human?",
+      "What should become a product or process?",
+      "How does advocacy change when AI reads first?",
+      "What should clients pay for?",
+      "How will novices become experts?",
+      "Who bears the error?",
+      "Who receives the gain?",
+      "Can technology close the justice gap without scaling bad advice?",
+      "How should lawyers lead mixed teams?",
+      "What previously uneconomic solution can now exist?"
+    ]
+  },
+  {
+    "group": "Legal work",
+    "source": "Student guide, pp. 13–14; adapted selections",
+    "questions": [
+      "Which parts of legal work are valuable because they produce an answer—and which are valuable because they force the lawyer to think?",
+      "What does meaningful supervision look like when an agent performs hundreds of actions in minutes?",
+      "How should firms preserve institutional knowledge when much of the work occurs inside private AI conversations?",
+      "How do we preserve dissent when AI presents one polished recommendation as the natural answer?",
+      "Will lawyers investigate less because AI can construct a plausible story from incomplete facts?"
+    ]
+  },
+  {
+    "group": "Clients",
+    "source": "Student guide, pp. 14–15; adapted selections",
+    "questions": [
+      "Should clients decide whether AI is used in their matters?",
+      "Can clients understand enough about AI to consent meaningfully?",
+      "Can a lawyer delegate emotionally or morally significant conversations to AI?",
+      "Whose interests does the system serve when the client, lawyer, firm, insurer, and vendor want different things?",
+      "Should clients be able to inspect how AI influenced important advice or decisions?"
+    ]
+  },
+  {
+    "group": "The public’s experience of law",
+    "source": "Student guide, pp. 15–16; adapted selections",
+    "questions": [
+      "How can someone challenge a decision when no person can explain how it was reached?",
+      "Can access to a chatbot substitute for access to representation?",
+      "Will courts become less accessible if they assume everyone has AI assistance?",
+      "Could AI make rights practically usable rather than merely available on paper?",
+      "How do we prevent institutions from using AI to scale pressure faster than individuals can scale resistance?"
+    ]
+  },
+  {
+    "group": "Legal institutions",
+    "source": "Student guide, pp. 16–17; adapted selections",
+    "questions": [
+      "Which exercises of state or government power may never be automated?",
+      "May judges use AI trained on material the parties never had an opportunity to address?",
+      "Can AI-generated judicial reasoning create legitimate precedent?",
+      "Should litigants have access to the tools used to investigate, score, prosecute, sentence, or supervise them?",
+      "Who is accountable when lawmakers adopt machine-generated language they do not fully understand?"
+    ]
+  },
+  {
+    "group": "Law’s role in an AI society",
+    "source": "Student guide, pp. 17–19; adapted selections",
+    "questions": [
+      "Should people be able to refuse consequential AI decisions?",
+      "When must a person be judged as an individual rather than as a member of a predicted group?",
+      "What duties should developers owe people who never agreed to use their systems?",
+      "What human capacities should society deliberately preserve even if machines can outperform us?",
+      "Are we using AI to improve the legal and social order we want, or allowing available technology to choose that order for us?"
+    ]
+  }
+];
+
+const LABS = [
+  {
+    "id": "preflight",
+    "title": "Before using AI",
+    "desc": "Apply the five questions to one assignment and record anything you need to resolve before using a tool.",
+    "chapter": "permission",
+    "time": "3 min",
+    "icon": "shield",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "pause",
+    "title": "Assess your work before feedback",
+    "desc": "Record your own assessment, then return to compare feedback you received elsewhere. The four-minute timer is optional.",
+    "chapter": "think",
+    "time": "4 min",
+    "icon": "clock",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "graph",
+    "title": "Follow a vendor-review workflow",
+    "desc": "Move through a fictional assignment and decide what should happen when evidence of notice receipt is missing.",
+    "chapter": "graphing",
+    "time": "8 min",
+    "icon": "flow",
+    "kind": "Exercise"
+  },
+  {
+    "id": "promptbuilder",
+    "title": "Write instructions for an AI task",
+    "desc": "Describe your assignment in the form and copy the resulting prompt into a tool you are permitted to use.",
+    "chapter": "prompting",
+    "time": "5 min",
+    "icon": "spark",
+    "kind": "Prompt builder"
+  },
+  {
+    "id": "workorder",
+    "title": "Prepare an agent work order",
+    "desc": "Specify a multi-step assignment, including what the agent may do and when it must stop for your review.",
+    "chapter": "agents",
+    "time": "8 min",
+    "icon": "list",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "fee",
+    "title": "Revise the fee-table sentence",
+    "desc": "Try a revision, then compare alternatives to see which wording changes preserve the substantive distinction.",
+    "chapter": "writing",
+    "time": "3 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "stonebridge",
+    "title": "Explain the Stonebridge dividend question",
+    "desc": "Revise a supplied paragraph so the reader can see why the dividend cannot yet be confirmed as permitted.",
+    "chapter": "writing",
+    "time": "8 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "falcon",
+    "title": "Explain the Falcon disclosure question",
+    "desc": "Revise a supplied paragraph while keeping the NDA concern separate from the amount of information being shared.",
+    "chapter": "writing",
+    "time": "8 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "aiisms",
+    "title": "Examine a draft for AI-isms",
+    "desc": "Read a deliberately weak passage and use the annotations to explain which writing or analysis problems need attention.",
+    "chapter": "aiisms",
+    "time": "5 min",
+    "icon": "scan",
+    "kind": "Exercise"
+  },
+  {
+    "id": "process",
+    "title": "Plan an improvement to a process",
+    "desc": "Describe how a service currently works, then prepare a proposal for a limited change you could test.",
+    "chapter": "process",
+    "time": "10 min",
+    "icon": "flow",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "shipping",
+    "title": "Review a prototype before a pilot",
+    "desc": "Record the evidence and unresolved work a responsible reviewer would need before people rely on a new tool.",
+    "chapter": "building",
+    "time": "6 min",
+    "icon": "shield",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "reflection",
+    "title": "Revisit a question during the semester",
+    "desc": "Choose a discussion question and keep separate answers from the beginning, middle, and end of the semester.",
+    "chapter": "leadership",
+    "time": "5 min",
+    "icon": "book",
+    "kind": "Reflection"
+  },
+  {
+    "id": "priorities",
+    "title": "Choose priorities from a factual record",
+    "desc": "Read the employee-departure facts and explain your priorities before comparing other possible approaches.",
+    "chapter": "think",
+    "time": "7 min",
+    "icon": "person",
+    "kind": "Exercise"
+  },
+  {
+    "id": "playbook",
+    "title": "Develop your personal playbook",
+    "desc": "Use the six areas from the Fall guide to bring together what you have learned from your assignments and saved notes.",
+    "kind": "Worksheet",
+    "chapter": "playbook",
+    "time": "10 min",
+    "icon": "note"
+  }
+];
+
+const PRIORITY_FACTS = "A former sales director signed a confidentiality agreement and a 12-month nonsolicitation clause. The clause allows her to accept business if the customer initiates contact. At 11:52 p.m., three days before resigning, someone using her credentials exported a spreadsheet listing 214 customers, renewal dates, discounts, margins, and pipeline notes. Minutes later, she texted a coworker: “I grabbed the whole playbook before they shut me out.” The company let every sales director export that data, did not use two-factor authentication, and another director sometimes logged in under her credentials.\n\nWithin two weeks at a competitor, she spoke with four former accounts. Two customers say they contacted her first after seeing her LinkedIn update. None of the four renews in the next 90 days. One competitor proposal used the same odd pricing label and typo found in one of the company’s internal templates. The company learned of her action on March 1, sent a demand letter on March 3, and waited until April 14 to file. It has declarations from IT and a vice president, but none from any customer. The company asks the court to bar her from working on any healthcare account, turn over every device used since resignation, and stop all contact with company customers. The competitor already imaged her laptop and says no company files were found.";
+
+const PRIORITY_OPTIONS = [
+  [
+    "Who used the credentials?",
+    "What links the export to this individual, given the shared credentials?"
+  ],
+  [
+    "How was the information protected?",
+    "What did the company do to protect information that directors could export?"
+  ],
+  [
+    "Who initiated customer contact?",
+    "How does the exception for customer-initiated contact affect the alleged solicitation?"
+  ],
+  [
+    "What does the matching proposal show?",
+    "What does the matching label and typo establish, and what might explain it?"
+  ],
+  [
+    "What explains the timing?",
+    "How do the delay and renewal dates affect the request for immediate relief?"
+  ],
+  [
+    "Which assertions need better evidence?",
+    "Which material proposition lacks a witness with firsthand knowledge?"
+  ],
+  [
+    "How broad is the requested relief?",
+    "How does the requested restraint relate to the alleged harm?"
+  ],
+  [
+    "What does the client need to protect?",
+    "What practical protection does the client need, and what less intrusive option might serve it?"
+  ]
+];
+
+</script>
+<script>
+/* Navigation and help copy. These resource types describe how to use a page;
+   Foundations, Systems, Building, and Leadership remain the chapter subjects. */
+const RESOURCE_GUIDANCE = {
+  preflight: {
+    kind:'Worksheet', need:'Bring a fictional or non-sensitive assignment you are considering using AI for.',
+    first:'Answer the five questions about that particular use. When you are unsure, record what you need to find out rather than treating the form as permission.',
+    result:'You will have a note identifying the next action needed before you use a tool. The response under the form is based only on your selections.',
+    after:'Resolve the permission, information, or review question you identified before proceeding with the actual assignment.',
+    steps:['Describe the proposed use without entering private or client information.','Answer every question using what you know about the governing requirements.','Read the explanation that appears and write the action you need to take next.'],
+    save:'Your selections and note save automatically in this browser. The worksheet cannot approve AI use or verify a policy.'
+  },
+  pause:{kind:'Worksheet',need:'Bring your own draft or initial analysis. Do not enter confidential material.',
+    first:'Answer the five self-assessment questions before seeking feedback. You may use the four-minute timer, but it is not required.',
+    result:'You will have a saved record of your own view to compare with feedback from a permitted tool, a classmate, or a later review.',
+    after:'Once you receive feedback elsewhere, return and explain why you would accept, modify, or reject an important suggestion.',
+    steps:['Write your assessment in all five fields. The timer does not lock the form.','Select “Save assessment for comparison” to keep a separate copy and open the comparison questions.','After receiving feedback elsewhere, record a suggestion and explain your decision about it.'],
+    save:'The fields save as you type. The comparison button also keeps a separate copy of your original assessment. This page does not generate AI feedback.'},
+  graph:{kind:'Exercise',need:'The fictional scenario is supplied. You do not need documents or an AI account.',
+    first:'Read the scenario below, then select “Begin the example.” You can also select any task in the diagram to read what it involves.',
+    result:'You will see why missing evidence changes the next step and why supplying a document does not itself approve a recommendation.',
+    after:'Write one change you would make to the organization or review of a similar assignment. To plan your own process, use the process worksheet.',
+    steps:['Start with the version in which receipt evidence is missing. Task cards can be inspected in any order; clicking one does not advance the walkthrough.','Use the main button beneath the status explanation to proceed. At the missing-evidence step, choose how the lawyer should handle the gap.','Continue through the review and approval. You can then introduce a new piece of evidence to see which work needs reconsideration.'],
+    save:'Your reflection saves in My saved work. The walkthrough’s current step is temporary and resets when the page is reloaded. All responses and checks in the example are prewritten; no AI or document review runs.'},
+  promptbuilder:{kind:'Prompt builder',need:'Bring a task you understand, or begin with one of the supplied examples.',
+    first:'Describe the assignment in the form. The instructions below the form update as you type; they are not an AI answer.',
+    result:'You will have a prompt you can copy into an approved AI tool after reviewing it and replacing any remaining placeholders.',
+    after:'Supply the permitted source material in the AI tool itself. Review its response separately; this guide does not receive or evaluate that response.',
+    steps:['Begin with an empty form or load an example. Loading an example asks before replacing your current entries.','Adapt the fields to your intended task, including the limits and review needed.','Read the assembled prompt. Copy it to your approved tool, or save a separate version in My saved work.'],
+    save:'Your current fields save automatically. “Save this version” keeps one separate copy; saving again replaces that copy after confirmation. Copying or downloading the prompt does not run AI.'},
+  workorder:{kind:'Worksheet',need:'Bring a proposed multi-step task, or use the fictional vendor example.',
+    first:'Work through the questions about the assignment and the authority the agent needs. The twelve fields correspond to the work order in the Fall guide.',
+    result:'You will have written instructions for the proposed work, including what the system must stop to ask and who approves the next step.',
+    after:'Review the work order with the responsible person and implement the needed restrictions in the actual application before any agent runs.',
+    steps:['Use the example to see the intended level of detail, or start with your own non-sensitive task.','Specify the work and the limits on sources, tools, and actions. Record the tests and approvals needed.','Open the preview and review the complete assignment. Copy or download it when it accurately describes your plan.'],
+    save:'All fields save automatically. This form does not launch an agent, change software permissions, or establish that a workflow is safe.'},
+  fee:{kind:'Exercise',need:'The source sentence and comparison versions are supplied.',
+    first:'Write a revision of the sentence, or describe the changes you would make. Then open the alternatives and compare them with your attempt.',
