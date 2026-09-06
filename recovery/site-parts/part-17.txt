@@ -1,0 +1,70 @@
+ else if(action==='close-menu'){document.body.classList.remove('sidebar-open');document.querySelector('[data-action=menu]')?.setAttribute('aria-expanded','false');document.querySelector('[data-action=menu]')?.focus();}
+ else if(action==='share'||action==='section-share'){if(location.protocol==='file:'){toast('A local file cannot create a public page link. Share the HTML file itself or use the hosted website.');return;}let url=location.href;if(action==='section-share')url=location.origin+location.pathname+`#/read/${currentChapter}?section=${target.dataset.section}`;copyText(url);}
+ else if(action==='complete'){const id=target.dataset.id;toggleList('done',id);target.innerHTML=icon(state.done.includes(id)?'check':'book')+' '+(state.done.includes(id)?'Marked as read':'Mark chapter as read');renderSidebar();toast(state.done.includes(id)?'Chapter marked as read. Your notes are saved separately.':'Reading mark removed.');}
+ else if(action==='bookmark'){toggleList('bookmarks',target.dataset.id);const on=state.bookmarks.includes(target.dataset.id);target.innerHTML=icon('bookmark')+' '+(on?'Remove bookmark':'Bookmark chapter');target.setAttribute('aria-pressed',String(on));toast(on?'Chapter bookmarked.':'Bookmark removed.');}
+ else if(action==='quiz'){const c=CHAPTERS.find(c=>c.id===target.dataset.id);state.quiz[c.id]=Number(target.dataset.choice);saveState();const old=document.getElementById(`quiz-${c.id}`);old.outerHTML=renderQuiz(c);document.querySelector(`[data-action=quiz][data-id="${c.id}"][data-choice="${target.dataset.choice}"]`)?.focus({preventScroll:true});}
+ else if(action==='favorite'){toggleList('favorites',target.dataset.id);document.getElementById('prompt-list').innerHTML=renderPromptList();toast(state.favorites.includes(target.dataset.id)?'Template saved as a reference.':'Saved template removed.');}
+ else if(action==='copy-prompt'){copyText(PROMPTS.find(p=>p.id===target.dataset.id)?.text||'');}
+ else if(action==='prompt-filter'){promptCategory=target.dataset.category;document.querySelectorAll('[data-action=prompt-filter]').forEach(b=>{b.classList.toggle('active',b.dataset.category===promptCategory);b.setAttribute('aria-pressed',String(b.dataset.category===promptCategory));});document.getElementById('prompt-list').innerHTML=renderPromptList();}
+ else if(action==='export-notebook')downloadFile('my-ai-lawyering-notes.txt',notebookText(),'text/plain');
+ else if(action==='export-json')downloadFile('my-ai-lawyering-backup.json',JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json');
+ else if(action==='import-json')document.getElementById('import-file').click();
+ else if(action==='reset-progress'){if(confirm('Remove reading marks? Your notes, responses, and bookmarks will remain.')){state.done=[];saveState();route();toast('Reading marks reset. Notes kept.');}}
+ else if(action==='clear-data'){if(confirm('Delete every note, response, bookmark, and reading preference saved in this browser? Export a backup first if you need it.')){state=safeState(null);saveState();route();toast('Saved data cleared from this browser.');}}
+ else handleWidgetAction(action,target);
+ });
+ document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();return;}const d=document.getElementById('search-dialog');if(d.open){if(['ArrowDown','ArrowUp'].includes(e.key)){e.preventDefault();searchSelection=Math.max(0,Math.min(searchMatches.length-1,searchSelection+(e.key==='ArrowDown'?1:-1)));document.querySelectorAll('.search-result').forEach((r,i)=>r.classList.toggle('selected',i===searchSelection));document.querySelector('.search-result.selected')?.scrollIntoView({block:'nearest'});}if(e.key==='Enter'&&document.activeElement.id==='global-search'&&searchMatches[searchSelection]){e.preventDefault();location.hash=searchMatches[searchSelection].url;d.close();}}if(e.key==='Escape'&&document.body.classList.contains('sidebar-open')){document.body.classList.remove('sidebar-open');document.querySelector('[data-action=menu]')?.setAttribute('aria-expanded','false');document.querySelector('[data-action=menu]')?.focus();}if(e.key==='Tab'&&document.body.classList.contains('sidebar-open')){const focusables=[...document.querySelectorAll('.sidebar a,.sidebar button')].filter(x=>x.getClientRects().length);const first=focusables[0],last=focusables[focusables.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}});
+ document.getElementById('search-dialog').addEventListener('click',e=>{const d=e.currentTarget;if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
+ window.addEventListener('hashchange',route);window.addEventListener('scroll',updateReadingProgress,{passive:true});window.addEventListener('pagehide',()=>saveState());window.addEventListener('resize',()=>{if(window.innerWidth>780)document.body.classList.remove('sidebar-open');});
+}
+// Register labels without mutating or sending student information.
+function registerFieldLabels(){const manual={'exercise-role':'Where human judgment matters','fee-draft':'My fee-table revision','fee-reflection':'Why I chose my fee-table revision','stonebridge-draft':'My Stonebridge revision','stonebridge-lesson':'What I would keep or change in Stonebridge','falcon-draft':'My Falcon revision','falcon-lesson':'What I would keep or change in Falcon','aiisms-note':'My AI-isms review','graph-lesson':'My workflow lesson'};Object.assign(FIELD_LABELS,manual);Object.keys(WIDGETS).forEach(k=>{try{WIDGETS[k]();}catch(e){/* Optional derived text is refreshed after rendering. */}});SELECT_CHOICES['reflection-select']=Object.fromEntries(REFLECTIONS.flatMap((g,gi)=>g.questions.map((q,qi)=>[`${gi}-${qi}`,q])));}
+registerFieldLabels();buildSearchIndex();initEvents();initHelp();route();
+
+/* Preserve the source labels in the plain checklist; directions explain their role. */
+CHECKLIST[0][1][0]='Check that this particular use is permitted.';
+CHECKLIST[0][1][1]='Use a system authorized for the information involved.';
+CHECKLIST[0][1][2]='Make the initial attempt the task and your learning require.';
+CHECKLIST[0][1][3]='Identify the consequences of an error and how you will check the result.';
+CHECKLIST[1][1][0]='Give the tool a defined task you can review.';
+CHECKLIST[1][1][1]='Provide approved sources and inspect the relevant material yourself.';
+CHECKLIST[1][1][2]='Use questions and critique to examine your own reasoning.';
+CHECKLIST[1][1][3]='Limit permissions and require the relevant human approvals.';
+CHECKLIST[2][1][0]='Check important claims against the underlying sources.';
+CHECKLIST[2][1][1]='Explain what you accept, change, or reject.';
+CHECKLIST[2][1][2]='Keep a record and disclose the use when required.';
+CHECKLIST[2][1][3]='Continue practicing the underlying skills without AI.';
+
+/* Form labels remain understandable when collected in My saved work or exported. */
+Object.assign(FIELD_LABELS,{
+ 'pause-baseline':'Assessment saved before feedback',
+ 'prompt-saved':'Your saved prompt version',
+ 'prompt-saved-assignment':'Your saved prompt version',
+ 'fee-choice':'Comparison version selected',
+ 'fee-open':'Fee-table comparison opened',
+ 'priorities-open':'Fact-priority discussion opened',
+ 'priorities-reveal':'Fact-priority discussion opened',
+ 'stonebridge-open':'Stonebridge comparison opened',
+ 'stonebridge-revealed':'Stonebridge comparison opened',
+ 'falcon-open':'Falcon comparison opened',
+ 'falcon-revealed':'Falcon comparison opened',
+ 'priorities-reason':'Why I chose those factual priorities',
+ 'priorities-second':'My reconsidered priorities and new question',
+ 'reflection-select':'Discussion question selected'
+});
+
+// Register select labels so exports also explain choices from an earlier visit.
+const PREFLIGHT_CHOICES={
+ 'preflight-permission':{'yes':'Yes, I checked the relevant requirements','no':'No','unknown':'Permission is not established'},
+ 'preflight-data':{'yes':'The data and use are approved','no':'The material or use is not approved','unknown':'Access, retention, or approval is unclear'},
+ 'preflight-stakes':{'low':'Minor and readily reversible consequences','high':'The result could affect a client, right, deadline, or formal work','unknown':'Consequences are not yet understood'},
+ 'preflight-verify':{'yes':'A suitable source, test, or reviewer is identified','no':'A reliable check is not yet identified'},
+ 'preflight-first':{'yes':'An initial attempt or view is ready to compare','no':'The initial thinking is not done','na':'This is a mechanical task I can already assess'},
+ 'pause-decision':{'Accept':'Accept the suggestion','Modify':'Modify the suggestion','Reject':'Reject the suggestion'}
+};Object.assign(SELECT_CHOICES,PREFLIGHT_CHOICES);
+// The initial route is rerendered only for the saved-work view so exported labels are current.
+if(currentRoute.type==='notebook'){const y=window.scrollY;document.getElementById('main').innerHTML=renderNotebook();restoreFields();window.scrollTo(0,y);}
+
+</script>
+</body>
+</html>
