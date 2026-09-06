@@ -1,0 +1,19 @@
+{
+  "release": "revised-2026-09-06",
+  "indexBytes": 376003,
+  "indexSha256": "be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96",
+  "encoding": "base64+bzip2",
+  "parts": [
+    {"path":"recovery/guide-01.b64","characters":10000,"sha256":"b036be59d2e17a083299492dc035ed129c3f50869d17c5ff0439ed52dd74fb32"},
+    {"path":"recovery/guide-02.b64","characters":10000,"sha256":"d3319536e81ec2ce7e6c66b1a23eae3eeb3ba1b0057e4749b170c7a48959f0c2"},
+    {"path":"recovery/guide-03.b64","characters":10000,"sha256":"56935ef44622f0508396d3a429239f11e07d087a8e0b8109df1cdff0fa6e75d7"},
+    {"path":"recovery/guide-04.b64","characters":10000,"sha256":"74dc407c3c7083aa2e277c9682098e93ebb42d145a55a3b193639b0b3d13c0c6"},
+    {"path":"recovery/guide-05.b64","characters":10000,"sha256":"02e764cf42a8e193b77e10fa4368816d64d95bf5250decc96b7748ba4bf9994c"},
+    {"path":"recovery/guide-06.b64","characters":10000,"sha256":"6c448cfce33386c22b4375ffc55551bd74dc5758471e8b04cced1ffd939b35a4"},
+    {"path":"recovery/guide-07.b64","characters":10000,"sha256":"2d715dce4e80c448f4511dda40b7d6d24ac56c6fd1bc13fc5efb99a7bd882ff8"},
+    {"path":"recovery/guide-08.b64","characters":10000,"sha256":"1739f3ee3f3fb0dfa89b947458478932e25276ad79c015df44a06b346c4df845"},
+    {"path":"recovery/guide-09.b64","characters":10000,"sha256":"0c6e62b864c83760dcf2264c5fd37c56b04264bd71425db8e9951fd9aca8f65e"},
+    {"path":"recovery/guide-10.b64","characters":10000,"sha256":"fd74a8e54366f175c455f2266a84e996fe042c7c1021de3e4e76b827332ec42f"},
+    {"path":"recovery/guide-11.b64","characters":9112,"sha256":"bceba4ce8b22762af10158becf872d7bf264e290b95479b916881f59849db2ad"}
+  ]
+}
