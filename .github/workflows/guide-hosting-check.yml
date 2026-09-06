@@ -1,0 +1,45 @@
+name: Check existing guide publishing access
+on:
+  push:
+    branches: [ai-guide-hosting-check-be11c3]
+    paths: [.github/workflows/guide-hosting-check.yml]
+permissions:
+  contents: read
+  pages: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check existing publishing access without printing credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json, os, requests
+          root='https://api.github.com/repos/Writedotlaw/lawyer-prompt-studio-previews'
+          session=requests.Session()
+          session.headers.update({'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+          r=session.get(root+'/pages',timeout=30)
+          d=r.json()
+          print('PAGES_STATUS',r.status_code)
+          if r.status_code==200:
+              print('EXISTING_PAGES',json.dumps({k:d.get(k) for k in ['html_url','status','build_type','source','cname','public']}))
+          else:
+              print('PAGES_MESSAGE',d.get('message',''))
+          r=session.get(root+'/deployments?per_page=5',timeout=30)
+          print('DEPLOYMENTS_STATUS',r.status_code)
+          if r.status_code==200:
+              for item in r.json():
+                  print('EXISTING_DEPLOYMENT',json.dumps({k:item.get(k) for k in ['id','environment','ref','creator']}))
+          token=os.environ.get('VERCEL_TOKEN','')
+          print('CONFIGURED_VERCEL_DEPLOY_TOKEN',bool(token))
+          if token:
+              r=requests.get('https://api.vercel.com/v9/projects/regalia-ai-field-guide',params={'teamId':'team_FXURc9T9dJtajS46bqouoGxa'},headers={'Authorization':'Bearer '+token},timeout=30)
+              print('AUTHORIZED_GUIDE_PROJECT_STATUS',r.status_code)
+              if r.status_code==200:
+                  d=r.json()
+                  print('GUIDE_PROJECT',json.dumps({k:d.get(k) for k in ['id','name','accountId','framework']}))
+          print('CHECK_COMPLETE: no publishing or account settings changed')
+          PY
