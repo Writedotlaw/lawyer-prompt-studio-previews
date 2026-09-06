@@ -2,47 +2,34 @@ name: AI guide deployment recovery
 on:
   push:
     branches: [ai-guide-deployment-recovery-20260906]
-    paths: [.github/workflows/ai-guide-recovery.yml, recovery/publish-ready.json]
+    paths:
+      - .github/workflows/ai-guide-recovery.yml
+      - recovery/publish-ready.json
 permissions:
   contents: read
+concurrency:
+  group: ai-guide-publication
+  cancel-in-progress: false
 jobs:
-  prepare:
+  publish-and-verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 18
     steps:
-      - uses: actions/checkout@v4
-      - name: Prepare lossless source transfer
+      - name: Check out the isolated recovery branch
+        uses: actions/checkout@v4
+      - name: Verify and publish only the approved guide
+        run: python recovery/publish.py
+      - name: Install the browser test runner
         run: |
-          python -m pip install --disable-pip-version-check tiktoken==0.12.0
-          mkdir -p recovery-artifacts
-          python - <<'PY'
-          import tiktoken,re,json,pathlib,hashlib,urllib.request
-          root=pathlib.Path('recovery-artifacts')
-          enc=tiktoken.get_encoding('o200k_base')
-          words=[(rank, token.decode()[1:]) for token,rank in enc._mergeable_ranks.items() if re.fullmatch(rb' [A-Za-z]+',token)]
-          words=[w for rank,w in sorted(words)]
-          bits=min(15,len(words).bit_length()-1)
-          words=words[:2**bits]
-          data=('\n'.join(words)+'\n').encode()
-          (root/'dictionary.txt').write_bytes(data)
-          (root/'transfer-format.json').write_text(json.dumps({'bits':bits,'words':len(words),'dictionarySha256':hashlib.sha256(data).hexdigest()},indent=2))
-          results=[]
-          for i,url in enumerate(['https://regalia-ai-field-guide-joe-regalias-projects.vercel.app','https://regalia-ai-field-guide-7vt5rq6hv-joe-regalias-projects.vercel.app']):
-            try:
-              with urllib.request.urlopen(url,timeout=30) as r:
-                b=r.read()
-                item={'url':url,'status':r.status,'finalUrl':r.url,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'beginning':b[:600].decode('utf-8','replace')}
-                if len(b)>100000 and b'The AI-Enabled Lawyer' in b:
-                  (root/('existing-live-'+str(i)+'.html')).write_bytes(b)
-            except Exception as e:
-              item={'url':url,'error':str(e)}
-            results.append(item)
-          (root/'live-probe.json').write_text(json.dumps(results,indent=2))
-          print('Source-transfer format:',bits,'bits per word; existing public site inspected.')
-          PY
-      - uses: actions/upload-artifact@v4
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Test the actual public HTTPS site on desktop and mobile
+        run: python recovery/check_public_site.py
+      - name: Preserve deployment evidence and encrypted management metadata
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: recovery-transfer-support
-          path: recovery-artifacts/
+          name: revised-guide-publication-${{ github.run_id }}
+          path: recovery/results/
           retention-days: 7
-          if-no-files-found: error
+          if-no-files-found: warn
