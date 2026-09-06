@@ -1,0 +1,220 @@
+@media(max-width:550px){.home-top{flex-direction:column;align-items:flex-start;gap:9px}.revised-hero h1{font-size:50px}.revised-hero>div>p{font-size:16px;line-height:1.8}.start-card{display:block;padding:26px}.start-card h2{font-size:27px}.start-card .start-sequence{margin:20px 0}.start-card>p.small{margin-top:18px}.area-grid,.feature-grid,.part-overview,.template-options{grid-template-columns:1fr}.section-heading{align-items:flex-start;gap:14px;flex-wrap:wrap}.section-heading h2{font-size:29px;line-height:1.25}.section-heading p{font-size:13px}.activity-start{padding:20px}.activity-start .help-button{font-size:11px;max-width:100%}.activity-start p{font-size:13px}.activity-page .page-heading h1{font-size:33px}.page-heading h1{font-size:35px}.widget{padding:21px 17px}.form-grid{grid-template-columns:1fr}.review-area>.field{padding-left:0}.walkthrough-panel{padding:19px 16px}.walkthrough-panel .status-box strong{font-size:23px}.walkthrough-panel .status-box p{font-size:13px}.graph-workspace .graph-pair{grid-template-columns:1fr}.graph-workspace .graph-node{min-height:63px}.graph-workspace .graph-canvas{padding:17px 12px}.graph-workspace .graph-detail{padding:20px}.graph-workspace .graph-detail h4{font-size:25px}.missing-decision .button{width:100%;text-align:left}.graph-controls .button{width:100%}.field-label-row label{font-size:13px}.field>small{font-size:12px}.field textarea,.field input,.field select{font-size:16px}.tab-row{gap:8px}.tab-row .tab{font-size:11px;padding:9px 11px}.notebook-toolbar .between{display:block}.notebook-toolbar .save-status{display:block;margin:0 0 15px}.notebook-toolbar .data-actions{gap:9px}.notebook-toolbar .button{width:100%}.saved-group>summary{padding:16px;font-size:14px;gap:12px}.saved-group-body{padding:0 14px 15px}.help-page .reference-prose h2{font-size:26px}.help-page .reference-prose p{font-size:14px}.breadcrumbs{max-width:82px}.topbar .tools .type-btn{display:none}.topbar .tools .share-btn{display:none}.template-options{gap:18px}.saving-note{padding:22px 18px}.activity-end h2{font-size:26px}.article-header h1{font-size:38px!important}.chapter-meta{gap:12px;align-items:flex-start;flex-wrap:wrap}.inline-resource-bar .help-dot{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.start-sequence *{animation:none!important;transition:none!important}}
+
+/* Saved choices are shown separately from editable writing. */
+.saved-selections{margin:0}.saved-selections>div{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}.saved-selections>div:last-child{border-bottom:0}.saved-selections dt{font-weight:600}.saved-selections dt a{text-decoration:underline;text-underline-offset:3px}.saved-selections dd{margin:0;overflow-wrap:anywhere}.saved-quiz{padding:12px 0 24px;border-bottom:1px solid var(--line)}.saved-quiz:last-child{border-bottom:0}.saved-quiz h3{font-size:22px}.saved-quiz h3 a{text-decoration:underline;text-underline-offset:4px}.reading-settings{margin:20px 0}.reference-prose .actions .button{line-height:1.4}@media(max-width:550px){.saved-selections>div{grid-template-columns:1fr;gap:8px}.reading-settings .button{width:100%}}
+
+/* The root scroll padding already clears the fixed header. */
+.prose section,.quiz,.source-card,.help-page .reference-prose section,.prompt-card{scroll-margin-top:12px}.hero .muted{color:#bccfbd}.hero .small.muted{color:#bccfbd}
+
+.graph-back{display:none}.graph-detail{scroll-margin-top:12px}@media(max-width:1150px){.graph-back{display:inline-flex;margin-bottom:16px}}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<aside class="sidebar" id="sidebar"></aside>
+<button class="drawer-shade" data-action="close-menu" aria-label="Close navigation"></button>
+<header class="topbar" id="topbar"></header>
+<main id="main" tabindex="-1"><div class="skeleton">Opening the field guide…</div></main>
+<dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title">
+<h2 id="search-title" class="sr-only">Search the field guide</h2>
+<div class="search-input-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5"></path></svg><label class="sr-only" for="global-search">Search chapters, ideas, and exercises</label><input id="global-search" type="search" placeholder="Search a topic, question, or phrase…" autocomplete="off"><button class="icon-btn" data-action="close-search" aria-label="Close search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"></path></svg></button></div>
+<div class="search-results" id="search-results"></div>
+<div class="search-hint"><span><kbd>↑</kbd><kbd>↓</kbd> browse &nbsp; <kbd>↵</kbd> open &nbsp; <kbd>Esc</kbd> close</span><span id="search-status" aria-live="polite"></span></div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="storage-warning" id="storage-warning" role="status" hidden></div>
+<noscript><div style="margin:100px auto;padding:30px;max-width:650px;font-family:Georgia;line-height:1.8"><h1>The AI-Enabled Lawyer</h1><p>This interactive field guide needs JavaScript for its chapters, search, and exercises. Enable JavaScript to read it. The guide runs in your browser; it does not require an account or an AI subscription.</p></div></noscript>
+<script>
+/* Revised student reading edition. Chapter and section IDs are retained for existing links and saved work. */
+const SOURCES = [
+  {
+    "id": "fall",
+    "short": "Fall guide",
+    "title": "The AI-Enabled Lawyer",
+    "file": "Regalia AI Guide 2026 Fall.pdf",
+    "pages": 18,
+    "description": "The Fall guide provides the four-part organization and explains the lawyer’s responsibilities throughout AI-assisted work. It also introduces the frameworks for responsible use, agent assignments, process improvement, testing, and the personal playbook."
+  },
+  {
+    "id": "student",
+    "short": "Student guide",
+    "title": "AI for Law Students",
+    "file": "AI For Law Students Regalia1 (1).pdf",
+    "pages": 22,
+    "description": "The Student guide introduces the technology and explains why independent judgment matters for learning. Its glossary and discussion questions inform the reference sections here."
+  },
+  {
+    "id": "short",
+    "short": "Semester checklist",
+    "title": "Using AI This Semester: A Short Guide",
+    "file": "AI Two pager.pdf",
+    "pages": 2,
+    "description": "This two-page resource provides the before, during, and after checklist. It also introduces the four-minute self-assessment and a statement students can adapt when disclosure is required."
+  },
+  {
+    "id": "slides",
+    "short": "Skills & AI-isms",
+    "title": "Leveling Up Your AI Prompting",
+    "file": "Beautiful.ai - AI Skills and AIisms(2).pdf",
+    "pages": 87,
+    "description": "The slides teach how to direct and revise AI-assisted work. They supply the six collaboration practices, ten prompting principles, writing examples, and the exercises involving the former sales director, fee table, Stonebridge, and Falcon Medical."
+  },
+  {
+    "id": "graph",
+    "short": "Graphing guide",
+    "title": "Graphing your AI work: a practical guide for lawyers",
+    "file": "The preceding guide in this conversation",
+    "pages": null,
+    "description": "The companion guide explains how to map tasks and review points using a fictional software-vendor assignment. It was developed in the preceding conversation; it does not reproduce the linked X article, which was not fully accessible."
+  }
+];
+const PARTS = [
+  {
+    "name": "Foundations",
+    "tag": "Deciding when and how to use AI",
+    "desc": "Begin with the technology and your responsibilities. These chapters explain permission, independent thinking, and the checks needed before you rely on an answer."
+  },
+  {
+    "name": "Systems",
+    "tag": "Organizing and improving the work",
+    "desc": "Develop useful prompts, organize sources, and map tasks that need more than one exchange. The writing chapters show how to assess and revise the result."
+  },
+  {
+    "name": "Building",
+    "tag": "Designing better services and tools",
+    "desc": "Examine how a service works for its users before choosing technology. Learn how to specify a small tool and test whether it does what those users need."
+  },
+  {
+    "name": "Leadership",
+    "tag": "Learning from experience and leading others",
+    "desc": "Bring your lessons together in a personal playbook and consider how AI should affect professional development, clients, and legal institutions."
+  }
+];
+const CHAPTERS=[
+  {
+    "id": "lawyer",
+    "part": 0,
+    "title": "What will clients need from you?",
+    "nav": "The lawyer’s role",
+    "desc": "AI can help produce the work, but you still have to decide what the client needs and whether the result deserves their trust. That responsibility is the starting point for this guide.",
+    "sources": [
+      [
+        "fall",
+        "pp. 1–3, 18"
+      ],
+      [
+        "student",
+        "pp. 1–2"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Start with the client’s problem",
+        "html": "<p>A client asks whether they can end a contract with a software vendor. An AI tool may be able to draft a convincing answer, but you need to know why the client is asking. Perhaps repeated outages have made the service unusable. Perhaps the client mainly wants leverage to negotiate a better price. A recommendation that overlooks those differences could be legally careful and still miss the problem.</p><p>Before asking for a document, describe the decision it should help someone make. That gives you a reason to investigate particular facts and a standard for judging the work. It also helps you decide which parts of the assignment AI might help with.</p><p>The Fall guide asks whether you can defend the result, including its sources and reasoning, its consequences, and its fit for the client. We return to that question throughout the chapters. You should be able to explain why the recommendation makes sense, rather than pointing to the confidence with which a tool produced it.</p>"
+      },
+      {
+        "h": "The work surrounding an AI answer",
+        "html": "<p>The Fall guide uses six verbs to describe the lawyer’s work. They name responsibilities you may move among throughout an assignment; they are not a sequence of prompts to memorize.</p><div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Responsibility</th><th scope=\"col\">What you would do</th></tr></thead><tbody><tr><th scope=\"row\">Frame</th><td>Find out what problem the client needs to solve, then identify the legal questions that bear on it.</td></tr><tr><th scope=\"row\">Judge</th><td>Choose among imperfect options after considering the relevant law and facts alongside practical consequences.</td></tr><tr><th scope=\"row\">Design</th><td>Plan how the work will get done and where a person needs to review it.</td></tr><tr><th scope=\"row\">Counsel</th><td>Help the client understand uncertainty and make a choice that fits their circumstances.</td></tr><tr><th scope=\"row\">Challenge</th><td>Examine the assumptions behind a proposed answer and give serious attention to the strongest reasons to disagree.</td></tr><tr><th scope=\"row\">Own</th><td>Accept responsibility for what you advise or allow others to rely on, including work prepared with AI.</td></tr></tbody></table></div><p>In the vendor example, you might begin by clarifying the client’s business objective, review the contract, and then return to the objective when choosing among remedies. Good work often requires that return trip.</p>"
+      },
+      {
+        "h": "Why planning and supervision belong in legal training",
+        "html": "<p>The source guide describes an expanded set of roles for lawyers, including project manager, systems architect, and AI-agent manager. Those labels can sound more technical than the underlying work. A project manager decides what happens first and who is responsible. A systems architect makes a recurring process easier to follow and check. An agent manager gives an AI system a defined assignment and limits what it may do without approval.</p><p>These responsibilities sit alongside counseling and professional judgment. They also include building useful tools and leading the people who will use them. You do not need a new job title to practice any of this. Start by being specific about how a familiar assignment should proceed.</p><p>For example, tell an assistant what source material to use, what to do when a document is missing, and what you need to see before approving the next step. Later chapters apply those same decisions to AI-assisted work.</p>"
+      },
+      {
+        "h": "Choose a contribution you can evaluate",
+        "html": "<p>For your first experiment, choose work you understand well enough to assess. Rather than asking AI to handle an entire matter, identify a contribution that would help you make progress. You might ask it to compare two provisions after you have read them, or to identify questions a skeptical reader would ask about an argument you have developed.</p><p>Then decide how you will judge the response. A useful comparison should preserve the provisions’ differences and point you to the relevant language. A useful critique should engage with your actual reasoning. Neither is useful merely because it is polished.</p><p>This is how the exercises in the guide are intended to work. You make an initial attempt, examine a different approach, and decide what deserves to carry forward.</p>"
+      },
+      {
+        "h": "Try applying this to a familiar assignment",
+        "html": "<p>Choose a fictional assignment or one you can describe without sensitive information. In the space below, explain what the client needs to decide and where your judgment would matter even if AI supplied a strong draft. A few sentences are enough.</p><div class=\"exercise\"><label for=\"exercise-role\">Your example</label><textarea id=\"exercise-role\" data-save=\"exercise-role\" placeholder=\"Describe the client’s decision and the part you would need to handle yourself.\"></textarea><p class=\"small muted\">Your answer saves in this browser and appears under My saved work. It is not submitted to your instructor.</p></div><p>The next chapter explains the AI terms you need to understand the choices in these examples. You can also use the glossary whenever an unfamiliar term comes up.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "After receiving a convincing recommendation, what should the lawyer establish before relying on it?",
+      "a": [
+        "Whether a shorter version would be easier for the client to read.",
+        "Whether the recommendation is supported and fits the client’s actual circumstances.",
+        "Whether the tool can produce the same recommendation in another style."
+      ],
+      "correct": 1,
+      "why": "Readability may matter, but it does not establish that the recommendation is sound. The lawyer needs to examine its basis and suitability for the client."
+    }
+  },
+  {
+    "id": "basics",
+    "part": 0,
+    "title": "How AI works, and what that means for your work",
+    "nav": "Understanding AI",
+    "desc": "You do not need to understand every engineering detail to work effectively with AI. You do need to know where an answer comes from, what the system can access, and what remains for you to check.",
+    "sources": [
+      [
+        "student",
+        "pp. 2–9, 19–22"
+      ],
+      [
+        "fall",
+        "p. 14"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Distinguish a generated answer from a checked source",
+        "html": "<p><strong>Artificial intelligence</strong> is a broad category. Predictive AI classifies information or estimates outcomes; generative AI creates content. The language systems used in this guide rely on large language models, often shortened to LLMs.</p><p>A language model learns patterns during training. When you ask it a question, the answer may draw on those learned patterns, material you supplied, or sources retrieved through a connected tool. Those are different ways of producing an answer, and they matter when you assess it.</p><p>A response generated without looking up a source is not a record of what that source says. The Student guide illustrates the problem with fabricated legal citations: a citation can look entirely plausible even though the case does not exist. Smaller errors matter too. A summary might turn an allegation into an established fact, or omit a qualification that changes the rule.</p><p>The term <strong>hallucination</strong> describes inaccurate or invented content of this kind. Do not look only for dramatic fabrications. Check whether the response faithfully represents the material you would rely on.</p>"
+      },
+      {
+        "h": "The model and the application do different jobs",
+        "html": "<p>The Student guide compares the model to an engine and the surrounding software to the rest of a car. That surrounding system is sometimes called a <strong>harness</strong>. It includes the tools and controls that make the model useful in a particular setting.</p><p>For example, an application may let the model search a document collection, use a calculator, or draft a message. The application also determines which of those actions are available and how approval works. Two products using a similar model can therefore support quite different ways of working.</p><p>When evaluating a product, ask to see how it handles your assignment. Can you inspect the sources behind a response? What information does the application retain? Can you prevent it from sending a message until you approve it? Answers to those questions tell you more about the proposed use than the model’s name alone.</p>"
+      },
+      {
+        "h": "Keep important instructions outside a long conversation",
+        "html": "<p>The <strong>context window</strong> is the amount of information a model can consider at once. The Student guide describes it as working memory. In a long project, earlier material may be omitted or compressed, so you should not assume that an important instruction remains available just because you mentioned it before.</p><p>Keep the current assignment and important findings in an organized reference document. When you begin another session, provide the relevant version and ask the system to identify anything it cannot access. This makes it easier to discover a gap before it shapes the work.</p><p>You will also encounter the word <strong>token</strong>, a small unit used to measure model input and output. You rarely need to count tokens yourself for the activities here. Focus instead on whether the tool has the right material and whether you can verify that it used it accurately.</p><p>Memory features, retention settings, and data-use terms depend on the actual product and account. Check them rather than treating the explanation of a context window as an answer to a confidentiality question.</p>"
+      },
+      {
+        "h": "A few other terms you will encounter",
+        "html": "<div class=\"table-scroll\"><table><thead><tr><th scope=\"col\">Term</th><th scope=\"col\">What it means here</th></tr></thead><tbody><tr><th scope=\"row\">Retrieval, often called RAG</th><td>The system finds material in a source collection and uses it when composing an answer. You still need to check whether the right material was found and interpreted correctly.</td></tr><tr><th scope=\"row\">Reasoning model</th><td>A model designed to spend additional effort working through a problem. Its conclusions still require appropriate review.</td></tr><tr><th scope=\"row\">Agent</th><td>A system that can pursue an assignment across several actions, such as reading documents and preparing a comparison. You need to know what it may do and when it must ask for approval.</td></tr><tr><th scope=\"row\">Prompt injection</th><td>Instructions placed inside material the system reads that try to redirect its behavior. A document’s contents should not override the instructions governing the assignment.</td></tr></tbody></table></div><p>The glossary explains these terms in more detail and links to their chapters. You do not need to learn all the vocabulary before beginning the exercises.</p>"
+      },
+      {
+        "h": "Test the assignment you actually plan to delegate",
+        "html": "<p>The Student guide describes capability as uneven: a system may handle one difficult-looking task well and stumble on another that seems easier. The practical response is to test the kind of work you intend to assign, using material whose important features you understand.</p><p>For a document comparison, begin with a small example in which you already know the material differences. Check whether the response finds them without inventing additional ones. Then try an example with a missing page or conflicting language and observe whether the system notices.</p><p>Keep the result of the test, including what failed. Later chapters show how to build those observations into a repeatable review process. For now, the important habit is to judge performance on your work rather than assuming that a persuasive demonstration answers the question.</p>"
+      }
+    ],
+    "quiz": {
+      "q": "An AI application cites an uploaded document. What does that tell you?",
+      "a": [
+        "The source check is complete because the answer includes a citation.",
+        "Uploading the document means that every relevant passage was considered.",
+        "The citation identifies material you should inspect; it does not establish that the document was fully or accurately interpreted."
+      ],
+      "correct": 2,
+      "why": "The cited passage may be useful evidence, but you still need to compare the claim with the source and consider whether important material is missing."
+    }
+  },
+  {
+    "id": "permission",
+    "part": 0,
+    "title": "Decide whether AI belongs in the assignment",
+    "nav": "Before using AI",
+    "desc": "Before opening a tool, work out whether this particular use is permitted and how you would check the result. A tool’s ability to produce an answer does not settle whether you should ask for one.",
+    "sources": [
+      [
+        "fall",
+        "pp. 5–7"
+      ],
+      [
+        "short",
+        "pp. 1–2"
+      ],
+      [
+        "slides",
+        "pp. 4–6"
+      ]
+    ],
+    "sections": [
+      {
+        "h": "Ask about the proposed use, not AI in the abstract",
+        "html": "<p>Permission can differ within the same course or matter. An instructor may allow feedback on a draft but require you to write the draft yourself. A workplace may approve one system for a class of documents while prohibiting those documents in another system. Start with the rules that govern the task in front of you.</p><p>The Fall guide asks five questions: Is the use allowed? Is the input safe? What happens if the output is wrong? Can you verify it? Should you do the first pass yourself? Work through them before you decide what to delegate.</p><p>Being able to verify a result means more than intending to read it carefully. Name the material or person that would let you check it. For example, a contract summary can be compared with the signed agreement and its amendments. A legal proposition needs an appropriate authority check.</p>"
+      },
+      {
+        "h": "Use the questions to make a practical plan",
