@@ -1,0 +1,51 @@
+name: Update original AI guide URL through direct Vercel approval
+on:
+  push:
+    branches: [ai-guide-vercel-direct-20260907]
+    paths: [.github/workflows/ai-guide-vercel-direct.yml]
+permissions:
+  contents: write
+concurrency:
+  group: ai-guide-original-vercel-publication
+  cancel-in-progress: false
+jobs:
+  authorize-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Read approved guide and guarded publication script
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install official Vercel CLI and public-browser test runner
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/vercel-cli" --no-audit --no-fund vercel@58.4.4
+          echo "VERCEL_CLI=$RUNNER_TEMP/vercel-cli/node_modules/.bin/vercel" >> "$GITHUB_ENV"
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          python -m py_compile .github/ai-guide-vercel/publish.py
+      - name: Obtain direct Vercel approval, update the existing project, and verify its original URL
+        env:
+          GH_STATUS_TOKEN: ${{ github.token }}
+          CI: 'true'
+          VERCEL_TELEMETRY_DISABLED: '1'
+          NO_COLOR: '1'
+        run: python .github/ai-guide-vercel/publish.py
+      - name: Preserve only sanitized deployment status and public-browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ai-guide-original-vercel-result-${{ github.run_id }}
+          path: .github/ai-guide-vercel/results/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Remove any remaining temporary Vercel login files
+        if: always()
+        run: |
+          python - <<'PY'
+          import os, pathlib, shutil
+          for folder in pathlib.Path(os.environ['RUNNER_TEMP']).glob('ai-guide-vercel-auth-*'):
+              if folder.is_dir():
+                  shutil.rmtree(folder)
+          PY
