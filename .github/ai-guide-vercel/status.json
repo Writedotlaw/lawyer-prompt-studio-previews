@@ -6,9 +6,7 @@
   "runUrl": "https://github.com/Writedotlaw/lawyer-prompt-studio-previews/actions/runs/34083305343",
   "sourceSha256": "be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96",
   "originalUrlUpdated": false,
-  "stage": "awaiting_vercel_approval",
-  "updatedAt": "2026-09-07T17:28:11.396012+00:00",
-  "verificationUrl": "https://vercel.com/oauth/device?user_code=GVCH-RTNF",
-  "userCode": "GVCH-RTNF",
+  "stage": "authorized_checking_original_project",
+  "updatedAt": "2026-09-07T17:37:39.969838+00:00",
   "note": "Approve the Vercel CLI sign-in for this one-use GitHub Actions deployment runner. No project has been changed."
 }
