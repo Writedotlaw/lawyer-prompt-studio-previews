@@ -9,9 +9,12 @@ css='''
 .wl-example .wl-flow-review{font-size:12px;line-height:1.65}
 .wl-chapter-sources>.inside{padding:20px 23px}
 .wl-source-links a{overflow-wrap:anywhere}
+#guide-tooltip{background:#080a36;color:#fff;border-color:#34437b}
 '''
 style=root/'editable-site/style.css';text=style.read_text()
 if 'Final review: keep task icons' not in text:style.write_text(text+css)
+guidance=root/'editable-site/guidance.js'
+guidance.write_text(guidance.read_text().replace('<strong>What this produces:</strong> ',''))
 shell=(root/'editable-site/index.html').read_text()
 final=shell.replace('<link rel="stylesheet" href="style.css">','<style>'+style.read_text()+'</style>')
 for name in ['content.js','extras.js','guidance.js','widgets.js','app.js']:
