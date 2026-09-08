@@ -87,6 +87,7 @@ button,input,textarea,select{font-family:var(--sans)}button,.button{font-weight:
 .wl-example .wl-flow-review{font-size:12px;line-height:1.65}
 .wl-chapter-sources>.inside{padding:20px 23px}
 .wl-source-links a{overflow-wrap:anywhere}
+#guide-tooltip{background:#080a36;color:#fff;border-color:#34437b}
 </style>
 </head>
 <body>
@@ -2245,7 +2246,7 @@ function helpButton(key,label='How to use this page',compact=false){const entry=
 function pageHelpKey(){if(currentRoute.type==='lab')return currentRoute.id;if(currentRoute.type==='labs')return 'exercises';if(currentRoute.type==='read')return 'read';return AREA_HELP[currentRoute.type]?currentRoute.type:'home';}
 function resourceType(id){return RESOURCE_GUIDANCE[id]?.kind||'Activity';}
 function resourceIsExercise(l){return resourceType(l.id)==='Exercise';}
-function resourceIntro(id){const g=RESOURCE_GUIDANCE[id];if(!g)return '';return `<section class="resource-intro wl-resource-intro" aria-label="How to begin"><div class="between"><h2>Before you begin</h2>${helpButton(id,'How to use this activity')}</div><p>${esc(g.need)}</p><p>${esc(g.first)}</p><p class="wl-result"><strong>What this produces:</strong> ${esc(g.result)}</p></section>`;}
+function resourceIntro(id){const g=RESOURCE_GUIDANCE[id];if(!g)return '';return `<section class="resource-intro wl-resource-intro" aria-label="How to begin"><div class="between"><h2>Before you begin</h2>${helpButton(id,'How to use this activity')}</div><p>${esc(g.need)}</p><p>${esc(g.first)}</p><p class="wl-result">${esc(g.result)}</p></section>`;}
 const NEXT_RESOURCE={preflight:['pause','Prepare your own assessment'],pause:['promptbuilder','Prepare a prompt'],promptbuilder:['workorder','Plan a multi-step assignment'],workorder:['shipping','Plan how to test the work'],graph:['process','Plan your own process'],fee:['stonebridge','Try a paragraph revision'],stonebridge:['falcon','Try the disclosure exercise'],falcon:['promptbuilder','Prepare instructions for your own revision'],aiisms:['promptbuilder','Prepare your editing instructions'],priorities:['pause','Write your own assessment'],process:['workorder','Define the assignment and permissions'],shipping:['playbook','Record what you learned'],reflection:['playbook','Develop your personal playbook']};
 function resourceEnd(id){const g=RESOURCE_GUIDANCE[id],next=NEXT_RESOURCE[id];return g?`<section class="activity-end"><h2>After this ${g.kind==='Exercise'?'exercise':'activity'}</h2><p>${g.after}</p><p class="small muted">${g.save}</p><div class="actions">${next?`<a class="button compact" href="#/lab/${next[0]}">${next[1]} ${icon('arrow')}</a>`:''}<a class="text-btn" href="#/notebook">Review My saved work ${icon('arrow')}</a></div></section>`:'';}
 let helpReturnFocus=null,tooltipOwner=null,tooltipHideTimer=null,tooltipDismissed=null;
