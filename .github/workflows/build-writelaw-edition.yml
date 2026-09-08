@@ -1,0 +1,65 @@
+name: Build and review Write.law public edition
+on:
+  push:
+    branches: [writelaw-public-edition-20260908]
+    paths:
+      - .github/workflows/build-writelaw-edition.yml
+      - public-edition/rebuild.json
+permissions:
+  contents: read
+concurrency:
+  group: writelaw-public-edition-build
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Read the isolated editorial revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Build the revised guide and verify content compatibility
+        run: |
+          python -m pip install --disable-pip-version-check mistune==3.2.1 playwright==1.55.0
+          python public-edition/build.py
+          python -m playwright install --with-deps chromium
+      - name: Run the existing regression suite against the local revision
+        run: |
+          set -euo pipefail
+          mkdir -p .github/ai-guide-tests/results
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          Path('.github/ai-guide-tests/results/deployment-result.json').write_text(json.dumps({'previewUrl':'http://127.0.0.1:8765','scope':'local editorial build','deployed':False}))
+          PY
+          python -m http.server 8765 --directory public-edition/dist > /tmp/writelaw-test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID || true' EXIT
+          python .github/ai-guide-tests/check_public_site.py
+      - name: Mark the reports as pre-publication tests
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          root=Path('.github/ai-guide-tests/results')
+          file=root/'public-browser-report.json'
+          if file.exists():
+              report=json.loads(file.read_text())
+              report.update(scope='Local pre-publication regression test',deployed=False)
+              file.write_text(json.dumps(report,indent=2))
+              print('LOCAL_TEST_RESULT',report.get('passed'),report.get('failed'))
+          Path('public-edition/BUILD-STATUS.md').write_text('# Write.law public edition\n\nThis package is a review build. This workflow does not authenticate with Vercel or change either live site. The source, editable site, complete HTML build, and test reports are included.\n')
+          PY
+      - name: Preserve the review build, editable chapters, and test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writelaw-public-edition-review-${{ github.run_id }}
+          path: |
+            public-edition/
+            .github/ai-guide-tests/results/
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
