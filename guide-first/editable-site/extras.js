@@ -1,0 +1,909 @@
+const METHOD = [
+  [
+    "Do some work first",
+    "Begin with your own understanding of the task.",
+    "For a rule synthesis, read the sources and attempt a rule before requesting a critique. For a style edit, try to explain what is difficult to read. Your first attempt gives you a basis for deciding whether the response improves the work.",
+    "I have read the supplied sources and written the analysis below. Ask me about weaknesses in my reasoning before suggesting revisions. Do not replace my answer yet."
+  ],
+  [
+    "Give guidance and examples",
+    "Explain what you want an example to demonstrate.",
+    "An example is most useful when you identify the choice that makes it work. You might point out that a heading states the proposition as a full sentence and names the relevant actor. Make clear that facts from the example should not be imported into the new matter.",
+    "Suggest full-sentence headings for the proposition below. The supplied example works because it names who acted and explains why that action matters. Apply that approach without copying its facts or wording."
+  ],
+  [
+    "Compare options and follow up",
+    "Ask for differences that help you make a decision.",
+    "Alternatives should offer more than synonyms. Compare versions that emphasize different reasons or explain the issue in a different order. Once you choose an approach, describe what the next revision should preserve and what it should change.",
+    "Offer four ways to express this heading and explain what each emphasizes. Do not change the approved substance. Wait for me to select an approach before revising the paragraph beneath it."
+  ],
+  [
+    "Expand and challenge your thinking",
+    "Use AI to investigate the limits of your initial view.",
+    "You can ask for possibilities you have not considered, an objection to your position, or a passage that deserves closer attention. Review the source support for those suggestions and decide which questions need further work.",
+    "Using the approved materials, develop the strongest objection to my proposed analysis. Identify the source language supporting it and any missing information that could affect the objection. Do not assume facts that the packet does not establish."
+  ],
+  [
+    "Choose a manageable amount of work",
+    "Keep the request small enough to review meaningfully.",
+    "A ten-page rewrite can change the organization, reasoning, and wording at once. Working on a defined issue or paragraph may make those changes easier to examine. Keep related questions together when separating them would obscure their relationship.",
+    "Work only on this opening paragraph. Preserve its material qualifications. Explain any proposed change that could affect the analysis before making it."
+  ],
+  [
+    "Build those choices into the prompt",
+    "Use the practices that this assignment needs.",
+    "Your request can supply your first attempt and ask for a critique before a revision. Another task may need a source table first. Choose the steps that help the actual work rather than requiring the same sequence in every exchange.",
+    "Review my initial analysis using the supplied sources. First identify a weakness that could change the recommendation. Wait for my response before proposing a revised structure, and do not draft the complete document yet."
+  ]
+];
+const GLOSSARY = [
+  [
+    "Agent",
+    "An agent can pursue an assignment through several actions, such as reading documents and preparing a comparison. Specify what it may access and where it must return for approval.",
+    "agents"
+  ],
+  [
+    "AGI / artificial general intelligence",
+    "The source glossary uses AGI for a hypothetical system matching or exceeding human capability across essentially all cognitive tasks. Definitions and claims about its achievement are contested; this entry is a definition, not a current capability assessment.",
+    "basics"
+  ],
+  [
+    "AI",
+    "Artificial intelligence is the broad field of making machines perform tasks that appear to require intelligence. This guide focuses on systems used to work with language and legal assignments.",
+    "basics"
+  ],
+  [
+    "Alignment",
+    "Alignment concerns whether a system pursues intended goals and behaves in the desired way. For the work discussed here, examine the actual objective, permissions, and behavior rather than assuming the system shares the client’s interests.",
+    "agents"
+  ],
+  [
+    "API",
+    "An application programming interface lets one software system communicate with another. A legal product may use one to send a task to an underlying model.",
+    "basics"
+  ],
+  [
+    "Benchmark",
+    "A benchmark is a defined test used to compare performance. A general score does not establish how a tool will handle your particular assignment.",
+    "building"
+  ],
+  [
+    "Chain of thought",
+    "This term describes intermediate reasoning generated by a model before its answer. A displayed explanation or summary is not independent evidence that a conclusion is correct. Use sources and observable checks to evaluate the work.",
+    "basics"
+  ],
+  [
+    "Chatbot",
+    "A chatbot is a conversational interface. It may be connected to retrieval, documents, or agent functions; the interface alone does not tell you what the surrounding system can do.",
+    "basics"
+  ],
+  [
+    "Context engineering",
+    "Context engineering concerns which instructions, sources, and prior results a model receives for the next task. For a lawyer, a useful starting point is keeping the current assignment and reviewed findings clearly organized.",
+    "harness"
+  ],
+  [
+    "Context window",
+    "The context window is the information a model can consider while generating a response. It has a capacity measured in tokens; important material may need to be supplied again in a continuing project.",
+    "harness"
+  ],
+  [
+    "Deep learning",
+    "Deep learning uses many-layered neural networks to learn patterns from data. The introductory guide includes it as background for understanding how language models are developed.",
+    "basics"
+  ],
+  [
+    "Divergence rule",
+    "This is an exercise in independent thinking: make your own list, consider AI’s additions and objections, then develop another list that includes an approach the model did not offer.",
+    "think"
+  ],
+  [
+    "Embedding",
+    "An embedding represents information numerically so software can compare meaning or similarity. Retrieval systems may use embeddings to find passages related to a question.",
+    "basics"
+  ],
+  [
+    "Escalation",
+    "Escalation means returning a question to a designated person. Specify the circumstance that requires it, such as a missing source that could affect the recommendation.",
+    "agents"
+  ],
+  [
+    "Evaluation set",
+    "An evaluation set contains examples used to test a tool or workflow. Include ordinary assignments and cases in which the correct response is to stop or ask for help.",
+    "building"
+  ],
+  [
+    "External risk",
+    "External risk concerns harm from the work or its use. Examples include advice based on a false fact or disclosure of information that should remain protected.",
+    "permission"
+  ],
+  [
+    "Few-shot prompting",
+    "Few-shot prompting means supplying a small number of examples. Explain what they demonstrate. A request without examples is sometimes called zero-shot prompting.",
+    "prompting"
+  ],
+  [
+    "Fine-tuning",
+    "Fine-tuning adds training to an existing model to adapt its behavior. Supplying a reference document during a task is different; it does not itself retrain the model.",
+    "basics"
+  ],
+  [
+    "Foundation model",
+    "A foundation model is trained on broad material and can support many applications. A particular legal product may combine it with specialized sources and software.",
+    "basics"
+  ],
+  [
+    "Frontier model",
+    "A frontier model is among the most capable general-purpose models at a given time. The label changes as systems develop and does not guarantee performance on a legal task.",
+    "basics"
+  ],
+  [
+    "Generative AI",
+    "Generative AI produces content, which may include text, code, images, or audio. Predictive AI instead classifies, scores, or forecasts information.",
+    "basics"
+  ],
+  [
+    "GPT",
+    "GPT stands for generative pre-trained transformer and also appears in OpenAI model names. It is not a generic name for every AI system.",
+    "basics"
+  ],
+  [
+    "Graph / workflow map",
+    "A workflow map shows tasks and how their results pass to later steps. It can also show where missing information or required review changes what happens next.",
+    "graphing"
+  ],
+  [
+    "Guardrails",
+    "Guardrails are restrictions intended to limit a system’s behavior. Find out whether a claimed restriction is a written instruction, a technical permission, or another control.",
+    "agents"
+  ],
+  [
+    "Hallucination",
+    "A hallucination is false or invented content in a generated response. In legal work, watch for subtle changes to a source’s meaning as well as fabricated cases or quotations.",
+    "basics"
+  ],
+  [
+    "Handoff",
+    "A handoff passes a task’s result to the next person or step. Include the source support and unresolved questions that the next reviewer needs to understand the result.",
+    "graphing"
+  ],
+  [
+    "Harness",
+    "A harness is the supporting system around a model, including its tools, context, and controls. Organizing reference files helps with one part of that system; it does not enforce software permissions.",
+    "harness"
+  ],
+  [
+    "Human approval point",
+    "A human approval point requires a designated person to review work and decide whether it may proceed. A written request for approval does not itself implement a technical restriction.",
+    "agents"
+  ],
+  [
+    "Inference",
+    "In AI engineering, inference means running a model to produce output. In legal analysis, an inference is a conclusion drawn from evidence. The two meanings should not be confused.",
+    "basics"
+  ],
+  [
+    "Internal risk",
+    "Internal risk concerns how AI may narrow your attention or thinking before you have examined the problem yourself. It can matter even before anyone else relies on the output.",
+    "permission"
+  ],
+  [
+    "Jailbreak",
+    "A jailbreak is an attempt to make a model bypass its behavioral restrictions through an input. The source distinguishes this from instructions hidden in retrieved material, commonly called prompt injection.",
+    "agents"
+  ],
+  [
+    "Knowledge cutoff",
+    "A knowledge cutoff describes the limit of a model’s built-in training information. Newer material needs to come from supplied sources or connected tools; older information may still need verification.",
+    "basics"
+  ],
+  [
+    "Knowledge graph",
+    "A knowledge graph maps relationships in information, such as connections among people, events, and documents. A workflow map instead describes how work should proceed.",
+    "graphing"
+  ],
+  [
+    "Large language model / LLM",
+    "A large language model learns patterns in language and generates responses. An application may connect it to source retrieval and other tools to support a broader assignment.",
+    "basics"
+  ],
+  [
+    "Machine learning",
+    "Machine learning develops systems from patterns in data rather than relying only on rules written by a programmer.",
+    "basics"
+  ],
+  [
+    "Model",
+    "The model is the trained system that produces an output. Distinguish it from the application, sources, and permissions surrounding it.",
+    "basics"
+  ],
+  [
+    "Multimodal",
+    "A multimodal system can work with more than one kind of material, such as text and images. Check whether the particular application can read the material your assignment requires.",
+    "basics"
+  ],
+  [
+    "Neural network",
+    "A neural network is a mathematical structure with connected layers whose numerical settings are adjusted during learning. It is background vocabulary, not a description of how a particular legal answer was verified.",
+    "basics"
+  ],
+  [
+    "Open weights",
+    "Open weights are published model parameters that can be run in another environment, subject to applicable terms. Their availability does not establish that a deployment protects client information.",
+    "basics"
+  ],
+  [
+    "Parameters",
+    "Parameters are internal numerical settings adjusted during training. The learned patterns they represent are different from an accessible record of a source.",
+    "basics"
+  ],
+  [
+    "Predictive AI",
+    "Predictive AI classifies, scores, or forecasts information. Ranking documents by likely responsiveness is one example.",
+    "basics"
+  ],
+  [
+    "Prompt",
+    "A prompt is input that directs an AI task. It may include instructions, questions, examples, and material to work on. Explain the assignment clearly enough that you can judge the result.",
+    "prompting"
+  ],
+  [
+    "Prompt injection",
+    "Prompt injection places instructions in material an AI reads in an attempt to redirect it. For example, a document might tell an agent to ignore the assignment or share unrelated information.",
+    "agents"
+  ],
+  [
+    "Purposeful friction",
+    "Purposeful friction means a planned pause or piece of human work intended to protect accuracy or judgment. The self-assessment before feedback is one example used in this guide.",
+    "think"
+  ],
+  [
+    "RAG / retrieval",
+    "Retrieval-augmented generation finds source material and uses it to help compose an answer. Check both the selection of material and the interpretation that follows.",
+    "harness"
+  ],
+  [
+    "Reasoning model",
+    "A reasoning model is designed to spend additional computation working through a problem before answering. Judge the actual result rather than relying on the label.",
+    "basics"
+  ],
+  [
+    "Regression test",
+    "A regression test repeats a known test after a change. It helps reveal whether the revised system has become worse at something it previously handled.",
+    "building"
+  ],
+  [
+    "RLHF",
+    "Reinforcement learning from human feedback uses human judgments as part of shaping a model’s behavior after initial training. It does not establish that every subsequent output is accurate.",
+    "basics"
+  ],
+  [
+    "System prompt",
+    "A system prompt supplies high-level instructions for model behavior. User-saved instructions may add guidance, but they do not necessarily control the application’s rules or permissions.",
+    "harness"
+  ],
+  [
+    "TAR / technology-assisted review",
+    "TAR uses predictive techniques in document review, including learning from reviewers’ decisions to rank likely responsiveness. The source distinguishes it from generating new summaries or prose.",
+    "basics"
+  ],
+  [
+    "Temperature",
+    "Temperature is a generation setting associated with variation in output. Its availability and effect depend on the product. Changing it does not establish the accuracy of a legal response.",
+    "basics"
+  ],
+  [
+    "Token",
+    "A token is a small unit used to represent and measure model input or output. In text, it may correspond to a word, part of a word, or punctuation.",
+    "basics"
+  ],
+  [
+    "Training data",
+    "Training data is the material used to develop a model’s learned patterns. It is different from the source packet supplied for a particular assignment.",
+    "basics"
+  ],
+  [
+    "Transformer",
+    "A transformer is a model architecture associated with modern language systems. The introductory glossary includes it to explain the T in GPT; you do not need to implement one to direct legal work.",
+    "basics"
+  ],
+  [
+    "Turing test",
+    "The source glossary describes Alan Turing’s proposal for considering whether a machine’s conversation can be distinguished from a person’s. Appearing human is different from meeting the standard for a legal assignment.",
+    "basics"
+  ],
+  [
+    "Vibe coding",
+    "Vibe coding commonly refers to building with natural-language instructions and AI-generated code. In this guide, begin with a limited prototype and test it before others rely on it.",
+    "building"
+  ],
+  [
+    "Work order",
+    "A work order specifies an agent’s assignment, sources, permissions, and required results. It also states when the system must stop and which steps need human approval.",
+    "agents"
+  ]
+];
+const PROMPTS = [
+  {
+    "id": "tutor",
+    "title": "Ask for questions about your analysis",
+    "category": "Learn",
+    "source": "AI-enabled lawyering, p. 9; adapted",
+    "use": "Use after reading the assigned sources and writing your own answer. Bring both to an approved AI tool.",
+    "text": "I have read the supplied materials and written the answer below. Help me examine my reasoning by asking one question at a time and waiting for my response. Begin with an omission or weak inference that could affect the analysis. Point me to the relevant source passage so I can work through it. Distinguish what the source says from an inference you draw. Do not write a replacement answer yet.\n\nPermitted sources: [identify them].\nMy answer: [paste your attempt]."
+  },
+  {
+    "id": "diverge",
+    "title": "Expand an initial issue list",
+    "category": "Analyze",
+    "source": "AI-enabled lawyering, p. 7; adapted",
+    "use": "Use when you have identified the issues and want help noticing other possibilities. Return to your own list afterward.",
+    "text": "Here is my initial issue list and the approved material. Identify a plausible issue I have missed and explain why it may matter. Challenge a priority that deserves reconsideration and identify information that could change the analysis. Support your observations with source locations and label hypotheses that the material does not establish. Preserve conflicting evidence rather than resolving it by assumption.\n\nMy initial list: [paste it].\nApproved sources: [identify them].\nAfter reviewing your response, I will revise the list and add a question of my own."
+  },
+  {
+    "id": "heading",
+    "title": "Compare ways to write a heading",
+    "category": "Write",
+    "source": "Writing and prompting workshop, pp. 15, 19, 23, 32; adapted",
+    "use": "Use when you know the proposition and want to compare how a heading could emphasize it.",
+    "text": "Work only on the heading below. Offer four full-sentence versions that take meaningfully different approaches to the approved proposition. Use specific actors and actions where the source supports them. Explain what each version emphasizes and flag any risk that it changes the claim. Do not add facts or make the conclusion more certain than the material permits.\n\nIntended reader: [identify them].\nPoint to convey: [state it].\nApproved facts and law: [supply them].\nA heading I like, with an explanation of why: [supply it].\nExisting heading: [paste it]."
+  },
+  {
+    "id": "facttable",
+    "title": "Create a timeline with source references",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use to organize supplied records before deciding what they establish. Provide the records in the approved tool.",
+    "text": "Using only the supplied records, create a table of relevant events and assertions. For each entry, give the date if established and the document location supporting it. Explain whether the information is established, alleged, or disputed, and retain any important qualification. Identify missing information and documents you could not read. Do not infer receipt from proof that a notice was sent or make a legal recommendation.\n\nQuestion this timeline should help address: [describe it].\nPermitted records: [identify them]."
+  },
+  {
+    "id": "contract",
+    "title": "Identify contractual requirements",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use before comparing contractual conditions with the facts. Supply the agreement and relevant amendments.",
+    "text": "Read the supplied agreement together with every supplied amendment. Identify the provisions relevant to the issue below. For each requirement, provide the language and its location, including exceptions and qualifications. Explain any unresolved relationship between provisions. Identify missing referenced documents rather than assuming what they say. Do not decide whether the client has satisfied the requirements yet.\n\nIssue: [describe it].\nPermitted documents and versions: [identify them]."
+  },
+  {
+    "id": "compare",
+    "title": "Compare requirements with the evidence",
+    "category": "Analyze",
+    "source": "Graphing guide; adapted",
+    "use": "Use after reviewing the requirements and factual record separately. Keep the underlying documents available.",
+    "text": "Compare the approved requirements with the reviewed factual record. For each requirement, identify the supporting evidence and explain what contrary or missing evidence may affect the conclusion. Give precise source locations and preserve unresolved disagreements. Identify the missing fact most likely to change the proposed conclusion. Do not draft a recommendation until I review the comparison.\n\nReviewed requirements and factual record: [supply them].\nUnderlying approved documents: [identify them]."
+  },
+  {
+    "id": "critique",
+    "title": "Examine the strongest response to your position",
+    "category": "Analyze",
+    "source": "Writing and prompting workshop, pp. 16–17, 54; AI-enabled lawyering, p. 7; adapted",
+    "use": "Use before polishing an argument that you have developed. Provide the approved sources as well as your analysis.",
+    "text": "Using the approved material, develop the strongest supported response to my position. Explain where my reasoning is weakest and identify a fact or authority I have not adequately addressed. Give the source support for substantive criticisms and distinguish uncertainty from a demonstrated error. Do not invent an authority or assume missing facts. End with a question a skeptical decision-maker would need answered.\n\nMy position and analysis: [paste them].\nApproved sources: [identify them]."
+  },
+  {
+    "id": "style",
+    "title": "Describe the choices in your writing",
+    "category": "Write",
+    "source": "Writing and prompting workshop, pp. 74–77; adapted",
+    "use": "Use with examples of your own writing that you are permitted to share. Review the description before reusing it.",
+    "text": "Read the approved samples below and describe specific choices that help the reader. Use short examples to show what you mean. Consider how the openings and headings work, how the sentences develop an idea, and how the level of detail changes with the task. Identify exceptions and tensions rather than imposing a fixed rhythm. Avoid general praise such as “clear and compelling.” Do not rewrite the samples yet; I will review your description first.\n\nApproved samples and their intended audiences: [supply them]."
+  },
+  {
+    "id": "edit",
+    "title": "Revise a paragraph while preserving its meaning",
+    "category": "Write",
+    "source": "Writing and prompting workshop, pp. 49, 56–57; adapted",
+    "use": "Use when you have reviewed the substance and can identify what must remain unchanged.",
+    "text": "Before rewriting, explain what the reader needs to understand and what makes the paragraph difficult to follow. Preserve the supplied facts, numbers, conditions, and uncertainty. Offer two versions that differ meaningfully in organization and explain the tradeoffs. Flag any proposed change that might affect the analysis for my decision. Do not add legal conclusions or turn “not established” into “false.”\n\nAudience and purpose: [describe them].\nSubstance that must be preserved: [identify it].\nParagraph: [paste it]."
+  },
+  {
+    "id": "audit",
+    "title": "Compare a draft with its sources",
+    "category": "Verify",
+    "source": "Responsible-use checklist, p. 1; Graphing guide; adapted",
+    "use": "Use after drafting. You will need to review the flagged issues against the underlying material yourself.",
+    "text": "Compare the draft with the underlying sources, reviewed findings, and my instructions. Look for unsupported assertions, changes to quotations, omitted qualifications, and errors in calculations or dates. Pay particular attention to passages that treat unresolved information as settled. For each issue, quote the draft language, identify the relevant source and location, and propose a correction or a question for me. Report anything you could not check. The result should be an issue list for my review, not a certification.\n\nDraft and approved materials: [supply them].\nInstructions and reviewed findings: [identify them]."
+  },
+  {
+    "id": "map",
+    "title": "Plan a multi-step assignment",
+    "category": "Build",
+    "source": "Graphing guide; adapted",
+    "use": "Use before performing a substantial assignment. Review the proposed plan before running it manually or automating it.",
+    "text": "Help me design a manageable workflow for the assignment below. Do not perform the work yet. Explain what each proposed task needs and what it should produce. Identify who should perform or review it, which tasks depend on earlier results, and what should happen when required information is missing. Include the decisions that require human approval. Use plain-language task names and describe the connections between them. Keep the plan as small as the work permits and identify assumptions I need to approve.\n\nAssignment and intended outcome: [describe them].\nAudience, approved materials, and permitted tools: [identify them]."
+  },
+  {
+    "id": "tests",
+    "title": "Prepare tests for a tool or workflow",
+    "category": "Build",
+    "source": "AI-enabled lawyering, pp. 10, 14–15; adapted",
+    "use": "Use when you know the proposed behavior and want examples that could reveal a failure. The tests must still be run.",
+    "text": "Propose tests for the workflow below. Include representative ordinary cases as well as missing information, conflicting sources, difficult boundaries, and requests outside the approved scope. Consider instructions hidden in source material that might try to redirect the system. For each test, state the expected observable behavior and what would count as failure. Include cases where the expected action is to stop and ask a person. Do not assume the system passes.\n\nProposed workflow and intended use: [describe them].\nApproved sources, permissions, and limits: [identify them]."
+  }
+];
+const ORDER_FIELDS = [
+  [
+    "outcome",
+    "What should this work help the client achieve?",
+    "State the practical decision or result the client needs. This is the work order’s client outcome."
+  ],
+  [
+    "scope",
+    "What is the agent being asked to do?",
+    "Define the assignment and what falls outside it. Avoid granting a broad goal without a manageable scope."
+  ],
+  [
+    "inputs",
+    "Which sources may it use?",
+    "Name the approved documents or collections and their relevant versions. Identify material it must not rely on."
+  ],
+  [
+    "tools",
+    "Which tools and actions are permitted?",
+    "Distinguish reading a document or preparing a draft from contacting someone or sending it. Grant only the access this assignment needs."
+  ],
+  [
+    "deliverable",
+    "What should the agent return to you?",
+    "Describe the intended reader and the useful format and level of detail. For example, request a comparison table before a recommendation."
+  ],
+  [
+    "quality",
+    "How will you judge whether the work is useful?",
+    "Describe an observable standard. A complete comparison, for example, should address every identified requirement without assuming missing facts."
+  ],
+  [
+    "evidence",
+    "What support must accompany the conclusions?",
+    "Specify the source locations or other evidence that will let you inspect important findings. Do not rely on a general assurance that sources were checked."
+  ],
+  [
+    "prohibited",
+    "What must the agent not do?",
+    "State explicit prohibitions, such as inventing a missing fact or disclosing information outside the approved setting."
+  ],
+  [
+    "stop",
+    "When must it stop and ask a person?",
+    "Identify the missing information or conflict that should stop the work. Name the question it should return to you."
+  ],
+  [
+    "approval",
+    "Who approves the important next steps?",
+    "Identify the reviewer and what cannot proceed without approval. Implement the restriction in the actual software where needed."
+  ],
+  [
+    "tests",
+    "Which examples should the workflow be tested on?",
+    "Include representative assignments and known failure cases. Describe what the system should do when it cannot complete the task."
+  ],
+  [
+    "record",
+    "What record will be kept and updated?",
+    "Identify which instructions, results, and approvals should be retained, where they belong, and who maintains the current version."
+  ]
+];
+const ORDER_PRESET = {
+  "outcome": "Help the client decide what must be established or done before terminating a software vendor for reported service failures.",
+  "scope": "Identify the relevant contractual requirements and compare them with the supplied factual record. Prepare an internal recommendation only after the lawyer reviews the comparison. Do not conduct new legal research or contact anyone.",
+  "inputs": "Use the signed agreement, the supplied amendment, service records, correspondence, and the lawyer’s governing-law analysis. Keep the source locations for each material finding.",
+  "tools": "Read and compare the approved documents. Prepare tables and a draft for the lawyer. Do not send messages, share the source material elsewhere, or change any external records.",
+  "deliverable": "First provide separate requirements and timeline tables. Then compare the reviewed findings. After approval, prepare a one-page internal recommendation that preserves unresolved questions.",
+  "quality": "Address each relevant requirement and distinguish established evidence from allegations. Do not treat a sent notice as proof of receipt. The lawyer must be able to trace every material conclusion to the provided support.",
+  "evidence": "Cite the contract provision and record location for each material finding. Identify contrary evidence and information that the packet does not establish.",
+  "prohibited": "Do not invent dates or missing documents. Do not assume that termination is permitted merely because a receipt date is established. Do not contact the client or vendor.",
+  "stop": "Stop before a complete recommendation if receipt evidence or another material requirement is unresolved. Return the missing information to the lawyer and ask how to proceed.",
+  "approval": "The reviewing lawyer approves the comparison and the approach before drafting. The lawyer then reviews the draft before any external use. Adding a document does not count as approval.",
+  "tests": "Test the plan with receipt evidence missing, supplied, and conflicting. Confirm that a missing amendment is reported and that a request to send the recommendation is not acted on without approval.",
+  "record": "Save the approved assignment, source versions, reviewed findings, decisions, and draft in the authorized matter workspace. The supervising lawyer maintains the current record."
+};
+const FEE_ORIGINAL = "The foregoing Fee Table is intended to assist investors in understanding the costs and expenses that a shareholder in the Fund will bear directly or indirectly.";
+const FEE_OPTIONS = [
+  {
+    "label": "A · General clarity request",
+    "text": "The above Fee Table aims to help investors comprehend the costs and expenses that a shareholder in the Fund will incur, either directly or indirectly.",
+    "note": "This version replaces some words but keeps the indirect description of the table’s purpose. Consider whether “aims to help” and “comprehend” make the relationship easier to understand."
+  },
+  {
+    "label": "B · Stronger-verb request",
+    "text": "The Fee Table informs investors of the costs and expenses borne by Fund shareholders.",
+    "note": "“Informs” gives the sentence a more direct verb. Read closely, though: the original distinction between costs borne directly and indirectly is no longer explicit. A shorter sentence must still convey the intended information."
+  },
+  {
+    "label": "C · Guided alternative",
+    "text": "The Fee Table above shows investors the costs and expenses a shareholder in the Fund will bear, directly or indirectly.",
+    "note": "“Shows” describes what the table does, while the sentence preserves direct and indirect costs. This is one possible revision. Judge whether it fits the surrounding document and its reader."
+  }
+];
+const STONEBRIDGE = {
+  "original": "With respect to Stonebridge’s request for confirmation concerning its proposed $12 million dividend, which it has asked us to respond to by Friday, we reviewed Section 6.04 and the leverage calculation provided by Stonebridge. Section 6.04 provides that a restricted payment may be made so long as no default exists and the total net leverage ratio, calculated on a pro forma basis, does not exceed 4.75x. No separate default has been identified. Stonebridge’s calculation reflects a leverage ratio of 4.68x, but it should be noted that the calculation includes $3.2 million in projected cost savings. The projected savings are relevant because, if they are excluded, the leverage ratio is 4.93x rather than 4.68x. Although the agreement allows projected cost savings to be included, it also provides that such savings must be reasonably identifiable, factually supportable, and expected to be realized within 18 months. To date, no materials supporting the projected savings have been provided. Therefore, although the dividend may be permitted, we do not currently have enough information to confirm that it is permitted, and additional support should be requested from Stonebridge.",
+  "revision": "We cannot yet confirm that Stonebridge may pay its proposed $12 million dividend. Before responding by Friday, we should request support for the $3.2 million in projected cost savings included in its leverage calculation.\n\nSection 6.04 permits a restricted payment if no default exists and the pro forma total net leverage ratio does not exceed 4.75x. No separate default has been identified. Stonebridge reports a ratio of 4.68x with the projected savings, but the ratio would be 4.93x without them.\n\nThe agreement allows projected savings that are reasonably identifiable, factually supportable, and expected to be realized within 18 months. Because Stonebridge has not supplied supporting materials, we cannot yet determine whether the savings satisfy those conditions.",
+  "checks": [
+    "The conclusion remains “cannot yet confirm,” not “prohibited.”",
+    "The $12 million request and Friday response date survive.",
+    "The 4.75x ceiling, 4.68x with savings, and 4.93x without savings remain distinct.",
+    "All three conditions for projected savings survive, including 18 months.",
+    "“No separate default has been identified” does not become a guarantee that no default exists."
+  ],
+  "source": "The original practice passage is from Joe Regalia’s writing and prompting workshop, slide 56. The sample revision and review questions were developed for this guide."
+};
+const FALCON = {
+  "original": "The issue is whether Falcon Medical’s monthly reporting package can be sent today to Redwood, which is a prospective assignee and has signed our standard NDA. As an initial matter, disclosure of confidential information to a prospective assignee is permitted under Section 9.12 if confidentiality obligations at least as protective as those in Section 9.12 are agreed to by the recipient. Although an NDA has been signed by Redwood, the NDA contains a residuals clause, meaning that information retained in unaided memory may be used. A comparable provision is not included in Section 9.12, under which use is limited to evaluating or acquiring the loan. This difference could mean that the NDA is not as protective. It should also be noted that customer-level revenue, pricing information, and annual forecasts are included in the package, even though Redwood currently needs only summary financial information. In light of the fact that the NDA may not satisfy Section 9.12, consideration should be given either to revising the NDA or removing certain information before the package is sent.",
+  "revision": "Before sending Falcon Medical’s monthly reporting package to Redwood today, we should resolve whether Redwood’s NDA meets Section 9.12 and review how much information Redwood needs.\n\nSection 9.12 permits disclosure to a prospective assignee that agrees to confidentiality obligations at least as protective as its own. Although Redwood has signed our standard NDA, the NDA allows use of information retained in unaided memory. Section 9.12 has no comparable provision and limits use to evaluating or acquiring the loan, so the NDA may be less protective.\n\nThe package also contains customer-level revenue, pricing information, and annual forecasts, even though Redwood currently needs only summary financial information. Consider revising the NDA or narrowing the package before sending it. Removing unnecessary detail should not be treated as resolving the separate question of whether the proposed disclosure complies with Section 9.12.",
+  "checks": [
+    "A signed NDA is not automatically a qualifying NDA.",
+    "The residuals clause and use limitation remain the central comparison.",
+    "The concern remains conditional: the NDA may be less protective.",
+    "The package contains more than Redwood currently needs.",
+    "Narrowing the package is not declared a complete legal cure without further review."
+  ],
+  "source": "The original practice passage is from Joe Regalia’s writing and prompting workshop, slide 57. The sample revision and review questions were developed for this guide."
+};
+const AIISM_TEXT = "In today’s rapidly evolving employment landscape, it is crucial to underscore that Ms. Chen’s pre-termination download presents a multifaceted challenge. Her conduct is not merely suspicious—it may potentially support a trade-secret claim. Moreover, the downloaded materials included customer lists, pricing models, and strategic forecasts, all of which could be considered highly sensitive. Furthermore, courts have reached varying conclusions regarding when downloading information becomes threatened misappropriation. Importantly, the company also faces meaningful business, reputational, and litigation risks if it moves too aggressively. Ultimately, we recommend a holistic and measured approach that leverages the existing record while proactively addressing these pivotal concerns. The company should carefully consider its options before deciding whether to seek immediate relief.";
+const AIISM_LENSES = [
+  {
+    "name": "Words",
+    "phrases": [
+      "In today’s rapidly evolving employment landscape",
+      "crucial to underscore",
+      "multifaceted challenge",
+      "Moreover",
+      "Furthermore",
+      "Importantly",
+      "Ultimately",
+      "holistic and measured approach",
+      "leverages",
+      "proactively",
+      "pivotal"
+    ],
+    "explain": "The highlighted language announces importance without explaining the problem. “Multifaceted challenge” leaves the reader to discover which question matters. Replace the phrase with a supported point, or identify the information needed to make one."
+  },
+  {
+    "name": "Sentences",
+    "phrases": [
+      "not merely suspicious—it may potentially support",
+      "could be considered highly sensitive",
+      "should carefully consider its options"
+    ],
+    "explain": "The repeated transitions and artificial contrast make different ideas sound mechanically similar. “May potentially support” also adds a hedge without explaining the uncertainty. Decide how each sentence should advance the analysis and name what remains unresolved."
+  },
+  {
+    "name": "Formatting",
+    "phrases": [],
+    "explain": "The paragraph gives similar space to several concerns without showing which deserves attention first. Decide what the reader needs to know before choosing paragraph breaks or headings. Formatting should reveal the reasoning rather than impose a pattern on it."
+  },
+  {
+    "name": "Substance",
+    "phrases": [
+      "courts have reached varying conclusions",
+      "meaningful business, reputational, and litigation risks",
+      "should carefully consider its options before deciding whether to seek immediate relief"
+    ],
+    "explain": "The passage never identifies the controlling authority or explains how the facts support a particular next step. Removing conspicuous words will not supply that analysis. Name the unanswered question and the source or investigation needed before making a recommendation."
+  }
+];
+const CHECKLIST = [
+  [
+    "Before opening a tool",
+    [
+      "Check whether the particular use is permitted.",
+      "Confirm that the system is appropriate for the information.",
+      "Develop enough of your own understanding to direct the task.",
+      "Identify the consequences of error and how you will review the result."
+    ]
+  ],
+  [
+    "While working with it",
+    [
+      "Give the system a defined assignment.",
+      "Supply appropriate sources and examine important support.",
+      "Ask questions that help you develop or challenge the work.",
+      "Limit permissions and keep required approval with the designated person."
+    ]
+  ],
+  [
+    "Before relying on the result",
+    [
+      "Complete the substantive checks the use requires.",
+      "Decide what to accept, change, or reject.",
+      "Keep a record and disclose the use when required.",
+      "Continue practicing the underlying skills without AI."
+    ]
+  ]
+];
+const PLAYBOOK_FIELDS = [
+  [
+    "principles",
+    "What principles will guide your use of AI?",
+    "Explain what assistance should help you achieve and which decisions you intend to make yourself. Begin with a principle you could apply to a specific assignment."
+  ],
+  [
+    "limits",
+    "When will you decide not to use AI?",
+    "Record a situation in which permission, sensitive information, learning, or the cost of review makes another approach more appropriate."
+  ],
+  [
+    "library",
+    "Which instructions are worth reusing?",
+    "Describe an instruction that helped, the approved material it needed, and how you checked the result. Include enough context to recognize when it would not fit."
+  ],
+  [
+    "workflow",
+    "How will you organize a recurring assignment?",
+    "Explain where AI could contribute and where you need to review or decide before the next task begins."
+  ],
+  [
+    "failures",
+    "What have you learned from a failure?",
+    "Describe what went wrong and where it entered the work. Explain the change you would test next rather than recording only that the answer was poor."
+  ],
+  [
+    "development",
+    "What will you practice next?",
+    "Choose a legal skill to develop independently and explain how permitted AI assistance might extend that practice after your own attempt."
+  ]
+];
+const SHIPPING = [
+  [
+    "People can understand and use the tool",
+    "Ask representative users to try it without coaching. Record where they are confused and whether they understand the result and its limits."
+  ],
+  [
+    "The legal logic and sources have been reviewed",
+    "Identify the relevant jurisdiction and sources. Record who checked the rules, exceptions, and distinction between authority and inference."
+  ],
+  [
+    "The tool responds appropriately when it cannot proceed",
+    "Test missing facts, conflicting material, requests outside scope, and instructions in source material that try to redirect the system."
+  ],
+  [
+    "The information and permissions are appropriately protected",
+    "Review the environment and the access it provides. Establish how the system handles retention and logging for the intended data."
+  ],
+  [
+    "A person handles decisions that require human review",
+    "Identify who receives exceptions and approves consequential actions. Check that users can reach that person when needed."
+  ],
+  [
+    "Someone is responsible for maintaining the tool",
+    "Name who updates sources, reviews changes, reruns tests, and withdraws a version that should no longer be used."
+  ]
+];
+const REFLECTIONS = [
+  {
+    "group": "The profession",
+    "source": "AI-enabled lawyering, p. 17",
+    "questions": [
+      "What work deserves a law license?",
+      "Which legal tasks exist because information used to be scarce?",
+      "What should remain human?",
+      "What should become a product or process?",
+      "How does advocacy change when AI reads first?",
+      "What should clients pay for?",
+      "How will novices become experts?",
+      "Who bears the error?",
+      "Who receives the gain?",
+      "Can technology close the justice gap without scaling bad advice?",
+      "How should lawyers lead mixed teams?",
+      "What previously uneconomic solution can now exist?"
+    ]
+  },
+  {
+    "group": "Legal work",
+    "source": "AI foundations, pp. 13–14; adapted selections",
+    "questions": [
+      "Which parts of legal work are valuable because they produce an answer—and which are valuable because they force the lawyer to think?",
+      "What does meaningful supervision look like when an agent performs hundreds of actions in minutes?",
+      "How should firms preserve institutional knowledge when much of the work occurs inside private AI conversations?",
+      "How do we preserve dissent when AI presents one polished recommendation as the natural answer?",
+      "Will lawyers investigate less because AI can construct a plausible story from incomplete facts?"
+    ]
+  },
+  {
+    "group": "Clients",
+    "source": "AI foundations, pp. 14–15; adapted selections",
+    "questions": [
+      "Should clients decide whether AI is used in their matters?",
+      "Can clients understand enough about AI to consent meaningfully?",
+      "Can a lawyer delegate emotionally or morally significant conversations to AI?",
+      "Whose interests does the system serve when the client, lawyer, firm, insurer, and vendor want different things?",
+      "Should clients be able to inspect how AI influenced important advice or decisions?"
+    ]
+  },
+  {
+    "group": "The public’s experience of law",
+    "source": "AI foundations, pp. 15–16; adapted selections",
+    "questions": [
+      "How can someone challenge a decision when no person can explain how it was reached?",
+      "Can access to a chatbot substitute for access to representation?",
+      "Will courts become less accessible if they assume everyone has AI assistance?",
+      "Could AI make rights practically usable rather than merely available on paper?",
+      "How do we prevent institutions from using AI to scale pressure faster than individuals can scale resistance?"
+    ]
+  },
+  {
+    "group": "Legal institutions",
+    "source": "AI foundations, pp. 16–17; adapted selections",
+    "questions": [
+      "Which exercises of state or government power may never be automated?",
+      "May judges use AI trained on material the parties never had an opportunity to address?",
+      "Can AI-generated judicial reasoning create legitimate precedent?",
+      "Should litigants have access to the tools used to investigate, score, prosecute, sentence, or supervise them?",
+      "Who is accountable when lawmakers adopt machine-generated language they do not fully understand?"
+    ]
+  },
+  {
+    "group": "Law’s role in an AI society",
+    "source": "AI foundations, pp. 17–19; adapted selections",
+    "questions": [
+      "Should people be able to refuse consequential AI decisions?",
+      "When must a person be judged as an individual rather than as a member of a predicted group?",
+      "What duties should developers owe people who never agreed to use their systems?",
+      "What human capacities should society deliberately preserve even if machines can outperform us?",
+      "Are we using AI to improve the legal and social order we want, or allowing available technology to choose that order for us?"
+    ]
+  }
+];
+const LABS = [
+  {
+    "id": "preflight",
+    "title": "Decide whether to use AI",
+    "desc": "Apply the five questions to one proposed use and record what you need to resolve before proceeding.",
+    "chapter": "permission",
+    "time": "3 min",
+    "icon": "shield",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "pause",
+    "title": "Assess your work before feedback",
+    "desc": "Record your own view before asking for feedback, then return to explain what you would accept, change, or reject.",
+    "chapter": "think",
+    "time": "4 min",
+    "icon": "clock",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "graph",
+    "title": "Follow the vendor-review workflow",
+    "desc": "Work through a fictional assignment and decide what should happen when the evidence does not establish receipt of notice.",
+    "chapter": "graphing",
+    "time": "8 min",
+    "icon": "flow",
+    "kind": "Exercise"
+  },
+  {
+    "id": "promptbuilder",
+    "title": "Prepare a prompt for your assignment",
+    "desc": "Describe the work you need. The form assembles instructions you can review and copy into an approved AI tool.",
+    "chapter": "prompting",
+    "time": "5 min",
+    "icon": "spark",
+    "kind": "Prompt builder"
+  },
+  {
+    "id": "workorder",
+    "title": "Write an assignment for an AI agent",
+    "desc": "Specify the work, permitted actions, required support, and decisions that must return to a person.",
+    "chapter": "agents",
+    "time": "8 min",
+    "icon": "list",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "fee",
+    "title": "Revise the fee-table sentence",
+    "desc": "Try a revision, then examine how different verbs and structures affect the meaning and readability.",
+    "chapter": "writing",
+    "time": "3 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "stonebridge",
+    "title": "Explain the Stonebridge dividend question",
+    "desc": "Reorganize the advice so the reader understands why permission cannot yet be confirmed and what support is needed.",
+    "chapter": "writing",
+    "time": "8 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "falcon",
+    "title": "Explain the Falcon disclosure question",
+    "desc": "Clarify the proposed disclosure while preserving both the NDA concern and the question of unnecessary information.",
+    "chapter": "writing",
+    "time": "8 min",
+    "icon": "pen",
+    "kind": "Exercise"
+  },
+  {
+    "id": "aiisms",
+    "title": "Edit a deliberately generic paragraph",
+    "desc": "Identify the writing and analytical problems before examining the prepared annotations.",
+    "chapter": "aiisms",
+    "time": "5 min",
+    "icon": "scan",
+    "kind": "Exercise"
+  },
+  {
+    "id": "process",
+    "title": "Plan a change to a legal process",
+    "desc": "Describe how the work happens now, identify a problem, and prepare a limited change to test.",
+    "chapter": "process",
+    "time": "10 min",
+    "icon": "flow",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "shipping",
+    "title": "Review a tool before people rely on it",
+    "desc": "Record the tests, reviews, and unresolved questions relevant to a proposed pilot.",
+    "chapter": "building",
+    "time": "6 min",
+    "icon": "shield",
+    "kind": "Worksheet"
+  },
+  {
+    "id": "reflection",
+    "title": "Revisit a question about legal practice",
+    "desc": "Keep an initial view and return after experience gives you something new to consider.",
+    "chapter": "leadership",
+    "time": "5 min",
+    "icon": "book",
+    "kind": "Reflection"
+  },
+  {
+    "id": "priorities",
+    "title": "Choose what to investigate first",
+    "desc": "Read the employee-departure facts and explain your priorities before considering other approaches.",
+    "chapter": "think",
+    "time": "7 min",
+    "icon": "person",
+    "kind": "Exercise"
+  },
+  {
+    "id": "playbook",
+    "title": "Keep a playbook of useful methods",
+    "desc": "Record what you learned from an assignment, including the instructions, checks, and limits that matter when reusing the method.",
+    "kind": "Worksheet",
+    "chapter": "playbook",
+    "time": "10 min",
+    "icon": "note"
+  }
+];
+const PRIORITY_FACTS = "A former sales director signed a confidentiality agreement and a 12-month nonsolicitation clause. The clause allows her to accept business if the customer initiates contact. At 11:52 p.m., three days before resigning, someone using her credentials exported a spreadsheet listing 214 customers, renewal dates, discounts, margins, and pipeline notes. Minutes later, she texted a coworker: “I grabbed the whole playbook before they shut me out.” The company let every sales director export that data, did not use two-factor authentication, and another director sometimes logged in under her credentials.\n\nWithin two weeks at a competitor, she spoke with four former accounts. Two customers say they contacted her first after seeing her LinkedIn update. None of the four renews in the next 90 days. One competitor proposal used the same odd pricing label and typo found in one of the company’s internal templates. The company learned of her action on March 1, sent a demand letter on March 3, and waited until April 14 to file. It has declarations from IT and a vice president, but none from any customer. The company asks the court to bar her from working on any healthcare account, turn over every device used since resignation, and stop all contact with company customers. The competitor already imaged her laptop and says no company files were found.";
+const PRIORITY_OPTIONS = [
+  [
+    "Who used the credentials?",
+    "What links the export to this individual, given the shared credentials?"
+  ],
+  [
+    "How was the information protected?",
+    "What did the company do to protect information that directors could export?"
+  ],
+  [
+    "Who initiated customer contact?",
+    "How does the exception for customer-initiated contact affect the alleged solicitation?"
+  ],
+  [
+    "What does the matching proposal show?",
+    "What does the matching label and typo establish, and what might explain it?"
+  ],
+  [
+    "What explains the timing?",
+    "How do the delay and renewal dates affect the request for immediate relief?"
+  ],
+  [
+    "Which assertions need better evidence?",
+    "Which material proposition lacks a witness with firsthand knowledge?"
+  ],
+  [
+    "How broad is the requested relief?",
+    "How does the requested restraint relate to the alleged harm?"
+  ],
+  [
+    "What does the client need to protect?",
+    "What practical protection does the client need, and what less intrusive option might serve it?"
+  ]
+];

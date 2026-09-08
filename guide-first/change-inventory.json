@@ -1,0 +1,242 @@
+[
+  {
+    "chapter": "lawyer",
+    "section": 0,
+    "title": "AI changes what we can do with legal knowledge."
+  },
+  {
+    "chapter": "lawyer",
+    "section": 1,
+    "title": "The lawyer turns uncertainty into a decision someone can use."
+  },
+  {
+    "chapter": "lawyer",
+    "section": 2,
+    "title": "Supervising AI draws on skills lawyers already use."
+  },
+  {
+    "chapter": "lawyer",
+    "section": 4,
+    "title": "Look beyond making the existing task faster."
+  },
+  {
+    "chapter": "basics",
+    "section": 0,
+    "title": "A generated answer is different from a source you have checked."
+  },
+  {
+    "chapter": "basics",
+    "section": 3,
+    "title": "A few distinctions explain most of the vocabulary."
+  },
+  {
+    "chapter": "basics",
+    "section": 4,
+    "title": "Test the use you are considering."
+  },
+  {
+    "chapter": "permission",
+    "section": 1,
+    "title": "Answer the five questions for the particular use."
+  },
+  {
+    "chapter": "permission",
+    "section": 2,
+    "title": "Consider what AI may do to your thinking, too."
+  },
+  {
+    "chapter": "permission",
+    "section": 3,
+    "title": "Stop at a concern you cannot resolve."
+  },
+  {
+    "chapter": "think",
+    "section": 1,
+    "title": "Make your own assessment before receiving feedback."
+  },
+  {
+    "chapter": "think",
+    "section": 2,
+    "title": "Different priorities can produce different investigations."
+  },
+  {
+    "chapter": "think",
+    "section": 3,
+    "title": "Return to the problem after considering the suggestions."
+  },
+  {
+    "chapter": "ethics",
+    "section": 0,
+    "title": "Turn a professional duty into a decision about the work."
+  },
+  {
+    "chapter": "ethics",
+    "section": 4,
+    "title": "Direction from someone else does not settle your responsibility."
+  },
+  {
+    "chapter": "method",
+    "section": 0,
+    "title": "Build the exchange around six working practices."
+  },
+  {
+    "chapter": "method",
+    "section": 1,
+    "title": "Ask for alternatives that expose a writing decision."
+  },
+  {
+    "chapter": "method",
+    "section": 2,
+    "title": "Make the follow-up as specific as the problem."
+  },
+  {
+    "chapter": "method",
+    "section": 4,
+    "title": "Keep the five-stage process distinct from the six practices."
+  },
+  {
+    "chapter": "prompting",
+    "section": 1,
+    "title": "Use the ten principles to explain the assignment."
+  },
+  {
+    "chapter": "prompting",
+    "section": 3,
+    "title": "Choose the variables that matter to this task."
+  },
+  {
+    "chapter": "prompting",
+    "section": 4,
+    "title": "Review the proposed approach before substantial work begins."
+  },
+  {
+    "chapter": "graphing",
+    "section": 2,
+    "title": "Follow the reasoning from the sources to the recommendation."
+  },
+  {
+    "chapter": "graphing",
+    "section": 6,
+    "title": "Separate tasks where separation improves the work."
+  },
+  {
+    "chapter": "harness",
+    "section": 0,
+    "title": "Build a working file that someone else could understand."
+  },
+  {
+    "chapter": "harness",
+    "section": 1,
+    "title": "Make the current version easy to identify."
+  },
+  {
+    "chapter": "agents",
+    "section": 1,
+    "title": "A work order makes the delegated decisions visible."
+  },
+  {
+    "chapter": "agents",
+    "section": 2,
+    "title": "Look for the error that made the final answer possible."
+  },
+  {
+    "chapter": "agents",
+    "section": 4,
+    "title": "Include examples where stopping is the correct result."
+  },
+  {
+    "chapter": "writing",
+    "section": 0,
+    "title": "Diagnose what the reader needs before requesting a rewrite."
+  },
+  {
+    "chapter": "writing",
+    "section": 1,
+    "title": "A more specific request gives you a more useful comparison."
+  },
+  {
+    "chapter": "writing",
+    "section": 2,
+    "title": "Teach a writing choice, not a writer's surface mannerisms."
+  },
+  {
+    "chapter": "writing",
+    "section": 3,
+    "title": "Place an unresolved condition beside the decision it affects."
+  },
+  {
+    "chapter": "writing",
+    "section": 4,
+    "title": "Explain separate concerns as separate questions."
+  },
+  {
+    "chapter": "writing",
+    "section": 5,
+    "title": "Ask for an explanation you can check against the revision."
+  },
+  {
+    "chapter": "aiisms",
+    "section": 0,
+    "title": "Ask what a phrase contributes to the reader."
+  },
+  {
+    "chapter": "aiisms",
+    "section": 2,
+    "title": "A plain paragraph can still have no useful analysis."
+  },
+  {
+    "chapter": "aiisms",
+    "section": 4,
+    "title": "Teach the system choices from your own writing."
+  },
+  {
+    "chapter": "process",
+    "section": 1,
+    "title": "Examine each part of the service before choosing the technology."
+  },
+  {
+    "chapter": "process",
+    "section": 2,
+    "title": "A process map can reveal a problem another memo would miss."
+  },
+  {
+    "chapter": "process",
+    "section": 3,
+    "title": "Measure the work that happens after the draft appears."
+  },
+  {
+    "chapter": "building",
+    "section": 1,
+    "title": "Describe the behavior instead of naming an impressive feature."
+  },
+  {
+    "chapter": "building",
+    "section": 2,
+    "title": "Six questions separate a prototype from a responsible pilot."
+  },
+  {
+    "chapter": "playbook",
+    "section": 1,
+    "title": "Record enough for another lawyer to understand the method."
+  },
+  {
+    "chapter": "leadership",
+    "section": 0,
+    "title": "Examine what an existing practice is doing for people."
+  },
+  {
+    "chapter": "leadership",
+    "section": 1,
+    "title": "Keep the profession's unresolved questions in view."
+  },
+  {
+    "chapter": "leadership",
+    "section": 2,
+    "title": "Make it possible to question impressive-looking work."
+  },
+  {
+    "chapter": "leadership",
+    "section": 3,
+    "title": "Judge progress by capabilities you can demonstrate."
+  }
+]

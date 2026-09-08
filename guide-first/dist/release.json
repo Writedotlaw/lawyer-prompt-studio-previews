@@ -1,0 +1,118 @@
+{
+  "edition": "Write.law reading-first guide",
+  "date": "2026-09-08",
+  "baseSha256": "fff210bd1dfc317c2f80f493e0a30c6c72e55d8cec15c5468e1162776eafe16e",
+  "sha256": "c44908ec1bc83b911b80a1807b8e1cab1beb19af7b0ed7e93c9f9569b9b359db",
+  "bytes": 542397,
+  "chapterCount": 16,
+  "sectionCount": 84,
+  "readingWords": 21517,
+  "changedSections": 48,
+  "readingQuestionCount": 103,
+  "glossaryTerms": 57,
+  "sourceCoverageEntries": 46,
+  "existingChapterSectionAddressesPreserved": true,
+  "exerciseSourcePassagesPreserved": true,
+  "savedStateFormatPreserved": true,
+  "requiredExercises": 0,
+  "chapterWidgets": 0,
+  "deployedByThisBuild": false,
+  "chapters": [
+    {
+      "id": "lawyer",
+      "title": "Good AI work begins with good lawyering",
+      "sections": 5,
+      "readingWords": 1379
+    },
+    {
+      "id": "basics",
+      "title": "Understand the tool well enough to direct it.",
+      "sections": 5,
+      "readingWords": 1320
+    },
+    {
+      "id": "permission",
+      "title": "Decide whether AI belongs in this assignment.",
+      "sections": 4,
+      "readingWords": 1159
+    },
+    {
+      "id": "think",
+      "title": "Do enough of the thinking to direct the work.",
+      "sections": 5,
+      "readingWords": 1301
+    },
+    {
+      "id": "ethics",
+      "title": "Take responsibility for the work you use.",
+      "sections": 5,
+      "readingWords": 954
+    },
+    {
+      "id": "method",
+      "title": "Use the conversation to develop better work.",
+      "sections": 5,
+      "readingWords": 1345
+    },
+    {
+      "id": "prompting",
+      "title": "Give the AI an assignment it can act on.",
+      "sections": 5,
+      "readingWords": 1540
+    },
+    {
+      "id": "graphing",
+      "title": "Map the work before you ask AI to carry it out.",
+      "sections": 9,
+      "readingWords": 1965
+    },
+    {
+      "id": "harness",
+      "title": "Give the AI the right materials for the next task.",
+      "sections": 5,
+      "readingWords": 1028
+    },
+    {
+      "id": "agents",
+      "title": "Supervise the assignment as well as the answer.",
+      "sections": 5,
+      "readingWords": 1681
+    },
+    {
+      "id": "writing",
+      "title": "Make the writing clearer without changing what it says.",
+      "sections": 6,
+      "readingWords": 2584
+    },
+    {
+      "id": "aiisms",
+      "title": "Edit the habits that make writing feel generic.",
+      "sections": 5,
+      "readingWords": 1303
+    },
+    {
+      "id": "process",
+      "title": "Improve the process before adding more technology.",
+      "sections": 5,
+      "readingWords": 1093
+    },
+    {
+      "id": "building",
+      "title": "Build a small version and test what it does.",
+      "sections": 5,
+      "readingWords": 968
+    },
+    {
+      "id": "playbook",
+      "title": "Keep a record that improves the next assignment.",
+      "sections": 5,
+      "readingWords": 823
+    },
+    {
+      "id": "leadership",
+      "title": "Decide how the technology should change your work.",
+      "sections": 5,
+      "readingWords": 1074
+    }
+  ]
+}
