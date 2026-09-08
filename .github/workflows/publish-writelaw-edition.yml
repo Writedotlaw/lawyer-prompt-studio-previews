@@ -1,0 +1,65 @@
+name: Publish Write.law edition at the existing guide URL
+on:
+  push:
+    branches: [writelaw-public-edition-20260908]
+    paths: [.github/workflows/publish-writelaw-edition.yml]
+permissions:
+  contents: write
+concurrency:
+  group: ai-guide-original-vercel-publication
+  cancel-in-progress: false
+jobs:
+  authorize-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      APPROVED_GUIDE_SHA: fff210bd1dfc317c2f80f493e0a30c6c72e55d8cec15c5468e1162776eafe16e
+    steps:
+      - name: Read the tested public edition and guarded publisher
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify the approved build before requesting authorization
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          source=Path('public-edition/dist/index.html').read_bytes()
+          release=json.loads(Path('public-edition/dist/release.json').read_text())
+          assert hashlib.sha256(source).hexdigest()==os.environ['APPROVED_GUIDE_SHA']==release['sha256']
+          assert release['chapterCount']==16 and release['sectionCount']==84
+          assert release['chapterSectionAddressesPreserved'] and release['savedStateFormatPreserved'] and release['exerciseSourcePassagesPreserved']
+          print('Approved public edition verified:',len(source),'bytes. No website has been changed.')
+          PY
+          python -m py_compile .github/writelaw-release/publish.py
+      - name: Install official Vercel CLI and browser test runner
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/vercel-cli" --no-audit --no-fund vercel@58.4.4
+          echo "VERCEL_CLI=$RUNNER_TEMP/vercel-cli/node_modules/.bin/vercel" >> "$GITHUB_ENV"
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Obtain direct approval, update the same project, and verify the original public URL
+        env:
+          GH_STATUS_TOKEN: ${{ github.token }}
+          CI: 'true'
+          NO_COLOR: '1'
+          VERCEL_TELEMETRY_DISABLED: '1'
+        run: python .github/writelaw-release/publish.py
+      - name: Preserve only sanitized publication evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writelaw-original-url-result-${{ github.run_id }}
+          path: .github/writelaw-release/results/
+          retention-days: 14
+          if-no-files-found: warn
+      - name: Remove any temporary Vercel authorization files
+        if: always()
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os,shutil
+          for folder in Path(os.environ['RUNNER_TEMP']).glob('writelaw-vercel-auth-*'):
+              if folder.is_dir():shutil.rmtree(folder)
+          PY
