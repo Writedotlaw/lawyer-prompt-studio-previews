@@ -1,0 +1,21 @@
+{
+  "sha256": "a6f81494379d734fadd828e58e488bf78d7ae70b88c41e1ce15bcadee9f351a0",
+  "parts": 5,
+  "encoding": "base64",
+  "compression": "xz",
+  "chunks": [
+    {"file":"part-01.txt","bytes":13500,"sha256":"e1bef3b50f4bf60deb346403be22801e9404f9169703b682f383f9dde6262502"},
+    {"file":"part-02.txt","bytes":13500,"sha256":"83f326a8febca195205b8f73d83eb1c71ec187acd5116a9d2e82cc2f067f77b2"},
+    {"file":"part-03.txt","bytes":13500,"sha256":"988583c48e35c1d9d916818bf7fc326b09039cdb6fe6a83a06f413cd870270a8"},
+    {"file":"part-04.txt","bytes":13500,"sha256":"07f224d6dddf0992d87c10efa4c14a53cd180151c2465b9e0b5d7c6fb6f01742"},
+    {"file":"part-05.txt","bytes":9520,"sha256":"f8cdc87986fe627bfab22c082bf452bf7db8db68ad065653dbcf721ad3ca41e5"}
+  ],
+  "sourceFiles": [
+    {"file":"guide-first/sections.py","sha256":"1b72865089b9680dd33316c4b146765fd28b733e6c036a15acff9893a16546ec"},
+    {"file":"guide-first/reference.py","sha256":"7f4a2603d40f79b967191b3599d69de147ad925f16e847aa412df420ab63e942"},
+    {"file":"guide-first/reading-ui.js","sha256":"66dbc64f201c261011f1282b0b2433b38b241237a6baa2709f879c785e826383"},
+    {"file":"guide-first/reading.css","sha256":"add1100115dd77df54fc4c8e9f293882e8636c459f4eecb0e5600f2dd3cddb1b"},
+    {"file":"guide-first/build_guide.py","sha256":"341ff2e58f93376016acccb777c47287fb9f76e76081d44264839a3dc0491552"},
+    {"file":"guide-first/test_guide.py","sha256":"5f63562b8dfa9d7117dbf3216d5af5ee9a4b499e2135a65138a34c4604cc12b6"}
+  ]
+}
