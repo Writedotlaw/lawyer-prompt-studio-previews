@@ -7,8 +7,9 @@
   "sourceSha256": "fff210bd1dfc317c2f80f493e0a30c6c72e55d8cec15c5468e1162776eafe16e",
   "runId": "34268720042",
   "runUrl": "https://github.com/Writedotlaw/lawyer-prompt-studio-previews/actions/runs/34268720042",
-  "stage": "verifying_original_url",
-  "updatedAt": "2026-09-08T19:29:38.537752+00:00",
+  "stage": "original_url_content_verified",
+  "updatedAt": "2026-09-08T19:29:39.817641+00:00",
   "previousDeploymentId": "dpl_AxC5oFwE7WopMbW2HRko6PkqAok6",
-  "deploymentId": "dpl_J26zFdypo7dj3zAQwAWfWkjb3aJG"
+  "deploymentId": "dpl_J26zFdypo7dj3zAQwAWfWkjb3aJG",
+  "publicWithoutLogin": true
 }
