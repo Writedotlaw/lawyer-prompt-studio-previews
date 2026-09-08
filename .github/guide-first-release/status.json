@@ -7,6 +7,9 @@
   "sourceSha256": "c44908ec1bc83b911b80a1807b8e1cab1beb19af7b0ed7e93c9f9569b9b359db",
   "runId": "34283320655",
   "runUrl": "https://github.com/Writedotlaw/lawyer-prompt-studio-previews/actions/runs/34283320655",
-  "stage": "starting_direct_vercel_sign_in",
-  "updatedAt": "2026-09-08T21:57:56.620474+00:00"
+  "stage": "awaiting_vercel_approval",
+  "updatedAt": "2026-09-08T21:57:58.648853+00:00",
+  "verificationUrl": "https://vercel.com/oauth/device?user_code=LZPL-GMCQ",
+  "userCode": "LZPL-GMCQ",
+  "approvalNote": "Approve the Vercel CLI sign-in for the temporary deployment runner. It will update only the existing guide project and original address."
 }
