@@ -1,14 +1,14 @@
 {
   "edition": "Write.law public edition",
   "originalUrl": "https://regalia-ai-field-guide-joe-regalias-projects.vercel.app/",
-  "originalUrlUpdated": false,
+  "originalUrlUpdated": true,
   "projectId": "prj_SKkHjbAtHdWQhjnfov6foMH3UVNM",
   "teamId": "team_FXURc9T9dJtajS46bqouoGxa",
   "sourceSha256": "fff210bd1dfc317c2f80f493e0a30c6c72e55d8cec15c5468e1162776eafe16e",
   "runId": "34268720042",
   "runUrl": "https://github.com/Writedotlaw/lawyer-prompt-studio-previews/actions/runs/34268720042",
-  "stage": "waiting_for_build",
-  "updatedAt": "2026-09-08T19:29:31.117912+00:00",
+  "stage": "verifying_original_url",
+  "updatedAt": "2026-09-08T19:29:38.537752+00:00",
   "previousDeploymentId": "dpl_AxC5oFwE7WopMbW2HRko6PkqAok6",
   "deploymentId": "dpl_J26zFdypo7dj3zAQwAWfWkjb3aJG"
 }
