@@ -1,0 +1,43 @@
+name: Read Write.law guide assets
+on:
+  push:
+    branches: [writelaw-public-edition-20260908]
+    paths: [.github/workflows/writelaw-guide-assets.yml]
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Retrieve only the public guide and official brand asset
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request, json, hashlib
+          root=Path('editorial-assets');root.mkdir()
+          urls={
+            'current-production.html':'https://regalia-ai-field-guide-joe-regalias-projects.vercel.app/',
+            'writelaw-logo.png':'https://lwfiles.mycourse.app/writedotlaw-public/83ed958a73471953e5ca7b5a5b789709.png',
+            'brand-homepage.html':'https://write.law/'
+          }
+          report=[]
+          for filename,url in urls.items():
+            with urllib.request.urlopen(url,timeout=40) as response:
+              data=response.read(12000000)
+              assert response.status==200
+              (root/filename).write_bytes(data)
+              report.append({'file':filename,'url':url,'finalUrl':response.url,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+          assert hashlib.sha256((root/'current-production.html').read_bytes()).hexdigest()=='be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96','Current production differs from the expected revision; review before editing.'
+          (root/'sources.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: writelaw-editorial-assets
+          path: editorial-assets/
+          retention-days: 14
+          if-no-files-found: error
