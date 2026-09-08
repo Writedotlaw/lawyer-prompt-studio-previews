@@ -1,0 +1,148 @@
+{
+  "edition": "Write.law public edition",
+  "author": "Joe Regalia",
+  "baseSha256": "be11c3d012c00f81404f7374910b42d3d3a29ac1524037fa46d06076f608bb96",
+  "sha256": "3048add01bcbe413c76d0695b7cf119791ad85b62782019cc368dee14250ff32",
+  "bytes": 443133,
+  "chapterCount": 16,
+  "sectionCount": 84,
+  "wordCount": 14363,
+  "chapters": [
+    {
+      "id": "lawyer",
+      "title": "Good AI work begins with good lawyering",
+      "sections": 5,
+      "words": 929
+    },
+    {
+      "id": "basics",
+      "title": "Understand the tool well enough to direct it.",
+      "sections": 5,
+      "words": 1004
+    },
+    {
+      "id": "permission",
+      "title": "Decide whether AI belongs in this assignment.",
+      "sections": 4,
+      "words": 705
+    },
+    {
+      "id": "think",
+      "title": "Do enough of the thinking to direct the work.",
+      "sections": 5,
+      "words": 830
+    },
+    {
+      "id": "ethics",
+      "title": "Take responsibility for the work you use.",
+      "sections": 5,
+      "words": 894
+    },
+    {
+      "id": "method",
+      "title": "Use the conversation to develop better work.",
+      "sections": 5,
+      "words": 896
+    },
+    {
+      "id": "prompting",
+      "title": "Give the AI an assignment it can act on.",
+      "sections": 5,
+      "words": 845
+    },
+    {
+      "id": "graphing",
+      "title": "Map the work before you ask AI to carry it out.",
+      "sections": 9,
+      "words": 1591
+    },
+    {
+      "id": "harness",
+      "title": "Give the AI the right materials for the next task.",
+      "sections": 5,
+      "words": 868
+    },
+    {
+      "id": "agents",
+      "title": "Supervise the assignment as well as the answer.",
+      "sections": 5,
+      "words": 841
+    },
+    {
+      "id": "writing",
+      "title": "Make the writing clearer without changing what it says.",
+      "sections": 6,
+      "words": 977
+    },
+    {
+      "id": "aiisms",
+      "title": "Edit the habits that make writing feel generic.",
+      "sections": 5,
+      "words": 880
+    },
+    {
+      "id": "process",
+      "title": "Improve the process before adding more technology.",
+      "sections": 5,
+      "words": 824
+    },
+    {
+      "id": "building",
+      "title": "Build a small version and test what it does.",
+      "sections": 5,
+      "words": 752
+    },
+    {
+      "id": "playbook",
+      "title": "Keep a record that improves the next assignment.",
+      "sections": 5,
+      "words": 773
+    },
+    {
+      "id": "leadership",
+      "title": "Decide how the technology should change your work.",
+      "sections": 5,
+      "words": 754
+    }
+  ],
+  "exerciseSourcePassagesPreserved": true,
+  "chapterSectionAddressesPreserved": true,
+  "savedStateFormatPreserved": true,
+  "chapterIds": [
+    "lawyer",
+    "basics",
+    "permission",
+    "think",
+    "ethics",
+    "method",
+    "prompting",
+    "graphing",
+    "harness",
+    "agents",
+    "writing",
+    "aiisms",
+    "process",
+    "building",
+    "playbook",
+    "leadership"
+  ],
+  "activityIds": [
+    "preflight",
+    "pause",
+    "graph",
+    "promptbuilder",
+    "workorder",
+    "fee",
+    "stonebridge",
+    "falcon",
+    "aiisms",
+    "process",
+    "shipping",
+    "reflection",
+    "priorities",
+    "playbook"
+  ],
+  "glossaryTerms": 43,
+  "deploymentStatus": "not-published-by-this-build",
+  "presentationReview": "Official wordmark and brand colors; desktop and mobile presentation reviewed."
+}
