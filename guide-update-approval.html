@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Guide publication · Write.law</title><style>body{margin:0;background:#f7f8fc;color:#080a36;font:17px/1.8 system-ui,-apple-system,sans-serif}main{max-width:660px;margin:8vh auto;padding:32px}h1{font-size:32px;line-height:1.3;letter-spacing:-.025em}p{margin:18px 0}.brand{color:#2255ff;font-weight:650}.button{display:inline-block;background:#2255ff;color:white;border-radius:8px;padding:12px 20px;text-decoration:none;margin:12px 0;line-height:1.5}a{color:#2255ff}.muted{color:#626a83;font-size:14px}code{background:#e8edfb;padding:5px 10px;border-radius:5px}#details{white-space:pre-wrap;overflow-wrap:anywhere}.hidden{display:none}button{font:inherit;cursor:pointer}</style></head><body><main><div class="brand">Write.law</div><h1 id="heading">Checking the guide’s publication.</h1><p id="message">This page checks the current release job. It does not collect your password or authorize anything on your behalf.</p><a id="approve" class="button hidden" rel="noreferrer">Continue to Vercel</a><p id="code" class="hidden"></p><p id="details" class="muted"></p><p><a id="guide" href="https://regalia-ai-field-guide-joe-regalias-projects.vercel.app/">Open the existing guide</a></p><p class="muted">The guide’s address is unchanged. This is only a publication-status page. Any sign-in and approval happen on vercel.com.</p></main><script>
+(()=>{'use strict';
+const repo='Writedotlaw/lawyer-prompt-studio-previews',branch='writelaw-guide-first-20260908';
+const raw='https://raw.githubusercontent.com/'+repo+'/'+branch+'/';
+const original='https://regalia-ai-field-guide-joe-regalias-projects.vercel.app/';
+const heading=document.getElementById('heading'),message=document.getElementById('message'),details=document.getElementById('details'),approve=document.getElementById('approve'),code=document.getElementById('code');
+let attempts=0;
+async function read(path){const response=await fetch(raw+path+'?check='+Date.now(),{cache:'no-store',credentials:'omit'});if(!response.ok)throw new Error('Status not yet available');return response.json()}
+async function update(){attempts++;try{
+const s=await read('.github/guide-first-release/status.json');
+if(s.originalUrl!==original||s.projectId!=='prj_SKkHjbAtHdWQhjnfov6foMH3UVNM')throw new Error('Unexpected project identity');
+approve.classList.add('hidden');code.classList.add('hidden');
+if(s.stage==='awaiting_vercel_approval'){
+ const u=new URL(s.verificationUrl),value=u.searchParams.get('user_code');
+ if(u.origin!=='https://vercel.com'||u.pathname!=='/oauth/device'||!value||!/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(value)||value!==s.userCode)throw new Error('The approval address could not be verified');
+ const age=Date.now()-Date.parse(s.updatedAt);
+ if(!Number.isFinite(age)||age>9*60*1000){heading.textContent='This approval request has expired.';message.textContent='Do not use an earlier code. The publication job needs a new one-time sign-in request.';details.textContent='No approval is being requested by this page.';return}
+ heading.textContent='Approve the update on Vercel.';
+ message.textContent='The tested reading-first guide is ready. Continue to Vercel and approve Vercel CLI with the account that owns Joe Regalia’s projects. The temporary deployment runner will update only the existing guide project and address.';
+ approve.href=u.href;approve.textContent='Approve on Vercel';approve.classList.remove('hidden');
+ code.textContent='Current code: '+value;code.classList.remove('hidden');
+ details.textContent='This is the current request returned by the official Vercel CLI. Leave this page open to see the result after approval.';
+}else if(s.stage==='completed_verified_same_url'){
+ const r=await read('guide-first/dist/release.json');
+ if(s.originalUrlUpdated!==true||s.publicWithoutLogin!==true||s.browserChecksFailed!==0||s.sourceSha256!==r.sha256)throw new Error('The final verification is incomplete');
+ heading.textContent='The reading-first guide is published.';
+ message.textContent='The existing Vercel address now serves the verified reading-first edition. No replacement student link is needed.';
+ details.textContent='Public browser checks: '+s.browserChecksPassed+' passed; 0 failed.\nReading: '+r.chapterCount+' chapters and '+r.sectionCount+' sections.\n'+(r.readingWords?Number(r.readingWords).toLocaleString()+' words of guidance.\n':'')+'Verified '+new Date(s.updatedAt).toLocaleString()+'.';
+ document.getElementById('guide').className='button';return;
+}else if(s.stage==='stopped_requires_attention'){
+ heading.textContent='Publication needs attention.';message.textContent=s.originalUrlUpdated?'The new release was assigned to the original address, but the job did not complete its verification.':'The job stopped before completing the update.';
+ details.textContent=s.failure||'The publication result is not verified.';return;
+}else{
+ heading.textContent=s.stage==='starting_direct_vercel_sign_in'?'Preparing the Vercel approval.':'The publication job is running.';
+ message.textContent='The job is checking or publishing the reading-first revision at the existing address. This page will show the current approval link if authorization is needed.';
+ details.textContent='Last status update: '+new Date(s.updatedAt).toLocaleString();
+}
+}catch(error){heading.textContent='Waiting for the release status.';message.textContent='The review may still be running. This page will show an official Vercel approval link only after the release job produces one.';details.textContent='The existing guide remains at its original address. Publication has not been confirmed here.';}
+if(attempts<100)setTimeout(update,6000);
+}
+update();})();
+</script></body></html>
