@@ -1,14 +1,14 @@
 {
   "edition": "Write.law reading-first guide",
   "originalUrl": "https://regalia-ai-field-guide-joe-regalias-projects.vercel.app/",
-  "originalUrlUpdated": false,
+  "originalUrlUpdated": true,
   "projectId": "prj_SKkHjbAtHdWQhjnfov6foMH3UVNM",
   "teamId": "team_FXURc9T9dJtajS46bqouoGxa",
   "sourceSha256": "c44908ec1bc83b911b80a1807b8e1cab1beb19af7b0ed7e93c9f9569b9b359db",
   "runId": "34283320655",
   "runUrl": "https://github.com/Writedotlaw/lawyer-prompt-studio-previews/actions/runs/34283320655",
-  "stage": "waiting_for_build",
-  "updatedAt": "2026-09-08T22:02:25.098906+00:00",
+  "stage": "verifying_original_url",
+  "updatedAt": "2026-09-08T22:02:32.327283+00:00",
   "previousDeploymentId": "dpl_J26zFdypo7dj3zAQwAWfWkjb3aJG",
   "deploymentId": "dpl_3BVvtKw5Ngh1ZVL8YyzKCUxoMMX1"
 }
