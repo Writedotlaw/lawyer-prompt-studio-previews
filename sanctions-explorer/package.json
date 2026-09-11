@@ -1,0 +1,1 @@
+{"name":"writelaw-sanctions-explorer","version":"1.0.0","private":true,"description":"A portable, source-linked research explorer for AI-related court decisions.","scripts":{"build":"python3 build.py","test":"node tests/core.test.cjs","serve":"python3 -m http.server 8765"},"engines":{"node":">=18"}}

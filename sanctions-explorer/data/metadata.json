@@ -1,0 +1,13 @@
+{
+  "name": "AI Hallucination Cases Database",
+  "author": "Damien Charlotin",
+  "source": "https://www.damiencharlotin.com/hallucinations/",
+  "sourceBase": "https://www.damiencharlotin.com/",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "snapshot": "2026-09-10",
+  "retrieved": "2026-09-11",
+  "oneIsUnknown": true,
+  "sha256": "a7c4346622ba0464828a617fbfb26fa4c2408602fd35ef925ec5367ef7b7d61c",
+  "note": "Public decision-level records. This is a fixed snapshot, not a live feed."
+}

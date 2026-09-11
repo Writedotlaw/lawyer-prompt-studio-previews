@@ -1,0 +1,95 @@
+"""Behavior and responsive-layout checks. Pass a public URL to test a deployed copy."""
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+import json,sys,os
+ROOT=Path(__file__).resolve().parents[1]
+url=sys.argv[1] if len(sys.argv)>1 else (ROOT/'index.html').as_uri()
+out=ROOT/'tests/results';out.mkdir(exist_ok=True)
+checks=[];errors=[]
+def check(name,cond,detail=''):
+ checks.append({'name':name,'passed':bool(cond),'detail':str(detail)});print(('PASS ' if cond else 'FAIL ')+name,flush=True)
+ if not cond: raise AssertionError(name+' '+str(detail))
+def goto(page,route):
+ page.evaluate('(r)=>{location.hash=r}',route);page.wait_for_timeout(120)
+with sync_playwright() as p:
+ opts={'headless':True,'args':['--no-sandbox']}
+ if Path('/usr/bin/chromium').exists():opts['executable_path']='/usr/bin/chromium'
+ b=p.chromium.launch(**opts);context=b.new_context(viewport={'width':1440,'height':1000},accept_downloads=True)
+ page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)));
+ if url.startswith('file:'):page.set_content((ROOT/'index.html').read_text(),wait_until='domcontentloaded')
+ else:page.goto(url)
+ page.wait_for_timeout(250)
+ check('Full snapshot is available',page.evaluate('App.getData().total')==2036)
+ check('No initial JavaScript error',not errors,errors)
+ for route in ['overview','decisions','geography','patterns','study','practice','review','settings','sources']:
+  goto(page,route)
+  check('Desktop route: '+route,page.locator('h1').count()==1 and 'could not be rendered' not in page.locator('main').inner_text())
+  check('Desktop width: '+route,page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
+  if route in ['geography','practice','overview']:page.screenshot(path=str(out/(route+'-desktop.png')),full_page=True)
+ goto(page,'decisions');page.locator('[data-filter="country"]').select_option('USA')
+ check('Jurisdiction filter uses multi-value fields',page.evaluate('App.getData().filtered')==1393)
+ page.locator('[data-filter="actor"]').select_option('Lawyer')
+ check('Combined filters reduce the set',0<page.evaluate('App.getData().filtered')<809)
+ count=page.evaluate('App.getData().filtered');page.locator('nav a[href="#geography"]').click()
+ check('Shared filters survive navigation',page.evaluate('App.getData().filtered')==count)
+ page.locator('[data-action="reset"]').first.click();page.locator('[data-action="map-state"][data-value="NV"]').click()
+ check('State map opens the filtered records',page.evaluate('App.getState().filters.state')=='NV')
+ page.locator('[data-action="reset"]').first.click();page.locator('#case-search').fill('Mata');page.wait_for_timeout(400)
+ check('Text search responds',0<page.evaluate('App.getData().filtered')<50)
+ page.locator('[data-action="case"]').first.click()
+ check('Source-backed detail opens',page.locator('[role="dialog"]').is_visible())
+ check('Source link uses permitted HTTP URL',page.locator('[role="dialog"] a').first.get_attribute('href').startswith('https://'))
+ page.keyboard.press('Escape');check('Escape closes dialog',page.locator('[role="dialog"]').count()==0)
+ page.locator('[data-action="reset"]').first.click()
+ page.locator('[data-compare]').nth(0).check();page.locator('[data-compare]').nth(1).check();page.locator('[data-action="compare"]').click()
+ check('Two-record comparison opens',page.locator('[role="dialog"] article').count()==2);page.keyboard.press('Escape')
+ page.locator('[data-action="save"]').first.click();page.locator('#only-saved').check()
+ check('Saved collection filters',page.evaluate('App.getData().filtered')==1)
+ page.locator('#only-saved').uncheck()
+ with page.expect_download() as dl:page.locator('[data-action="export-csv"]').click()
+ dl.value.save_as(str(out/'filtered.csv'));check('CSV export includes records',Path(out/'filtered.csv').stat().st_size>10000)
+ goto(page,'overview')
+ with page.expect_download() as dl:page.locator('[data-action="chart-export"]').click()
+ dl.value.save_as(str(out/'chart.svg'));check('Standalone SVG export resolves colors','var(--' not in (out/'chart.svg').read_text())
+ goto(page,'review');page.locator('[data-action="quote-example"]').click();page.locator('[data-action="quote-compare"]').click()
+ check('Quote comparator detects differences',page.locator('#quote-results del').count()>0)
+ page.locator('#quote-a').fill('A  B');page.locator('#quote-b').fill('A B');page.locator('#quote-normalize').check();page.locator('[data-action="quote-compare"]').click()
+ check('Whitespace normalization works','passages match' in page.locator('#quote-results').inner_text())
+ page.locator('[data-review="0"]').check();check('Checklist updates completion','1 of 7' in page.locator('main').inner_text())
+ page.locator('[data-action="evidence-add"]').click();check('Evidence log adds a row',page.locator('.evidence-row').count()==2)
+ page.locator('[data-evidence="0"][data-field="claim"]').fill('=unsafe spreadsheet formula')
+ with page.expect_download() as dl:page.locator('[data-action="evidence-export"]').click()
+ dl.value.save_as(str(out/'notes.csv'));check('Evidence export escapes formulas',"'=unsafe" in (out/'notes.csv').read_text())
+ goto(page,'practice');page.locator('[name="exercise-answer"][value="1"]').check();page.locator('[data-action="reveal"]').click()
+ check('Practice explanation and progress appear',page.locator('.answer').count()==1 and '1 of 12' in page.locator('main').inner_text())
+ goto(page,'settings');page.locator('[name="name"]').fill('Joe’s Research Lab');page.locator('#settings-form [type="submit"]').click()
+ check('Brand settings update the app','Joe’s Research Lab' in page.title())
+ # Custom upload tests mapping, literal $1, no execution of source strings, and a portable export.
+ sample='title,date,country,amount,details,url\nAlpha,2026-09-01,USA,1 USD,"<img src=x onerror=alert(1)>",javascript:alert(1)\nBeta,2026-09-02,Canada,200 CAD,Example,https://example.com/source\n'
+ page.locator('#import-file').set_input_files({'name':'custom.csv','mimeType':'text/csv','buffer':sample.encode()})
+ page.wait_for_selector('#import-form');page.locator('#import-form [type="submit"]').click()
+ check('CSV import replaces the active dataset',page.evaluate('App.getData().total')==2)
+ check('Custom import does not auto-enable source sentinel',page.evaluate('App.getData().meta.oneIsUnknown')==False)
+ check('Imported markup is not executable',page.locator('img[src="x"]').count()==0)
+ goto(page,'settings')
+ with page.expect_download() as dl:page.locator('[data-action="portable"]').click()
+ portable=out/'portable-custom.html';dl.value.save_as(str(portable))
+ clean=b.new_context(viewport={'width':1200,'height':900});pp=clean.new_page();pp.set_content(portable.read_text(),wait_until='domcontentloaded')
+ check('Portable copy retains imported mapping and data',pp.evaluate('App.getData().total')==2)
+ check('Portable copy retains custom project name','custom.csv' in pp.title());clean.close()
+ page.locator('[data-action="restore-source"]').click();page.locator('[data-action="restore-confirm"]').click()
+ check('Included snapshot can be restored',page.evaluate('App.getData().total')==2036)
+ # Verify every route at phone size, after transitions settle.
+ page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(300)
+ for route in ['overview','decisions','geography','patterns','study','practice','review','settings','sources']:
+  goto(page,route);page.wait_for_timeout(250)
+  check('Phone route: '+route,page.locator('h1').count()==1 and 'could not be rendered' not in page.locator('main').inner_text())
+  check('Phone width: '+route,page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
+  if route in ['overview','geography','practice']:page.screenshot(path=str(out/(route+'-mobile.png')),full_page=True)
+ page.locator('[data-action="menu"]').click();page.wait_for_timeout(300)
+ check('Mobile menu opens',page.locator('#sidebar').bounding_box()['x']>=-1)
+ page.locator('nav a[href="#decisions"]').click();page.wait_for_timeout(300)
+ check('Mobile menu closes after navigation',page.locator('#sidebar').bounding_box()['x']< -200)
+ check('No JavaScript page errors during checks',not errors,errors)
+ report={'url':url,'passed':sum(x['passed'] for x in checks),'failed':sum(not x['passed'] for x in checks),'checks':checks,'pageErrors':errors}
+ (out/'browser-report.json').write_text(json.dumps(report,indent=2));print(json.dumps({k:report[k] for k in ['url','passed','failed','pageErrors']}),flush=True);b.close()
