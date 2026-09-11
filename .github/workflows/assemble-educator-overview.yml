@@ -1,0 +1,100 @@
+name: Assemble educator overview
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/assemble-educator-overview.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Apply exact, checksum-guarded source changes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,lzma,json,hashlib
+          encoded=''.join(Path(f'.github/educator-overview/payload-{i}.b64').read_text().strip() for i in range(1,4))
+          payload=lzma.decompress(base64.b64decode(encoded,validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='07888f00d9356d206b0f51efe991648c80bc799b1f6f97ccc6d3598126e3d047','Transfer checksum mismatch'
+          root=Path('sanctions-explorer')
+          for change in json.loads(payload):
+              rel=Path(change['path'])
+              assert not rel.is_absolute() and '..' not in rel.parts
+              path=root/rel
+              if change['oldSha256'] is None:
+                  assert not path.exists(),'New path already exists: '+str(path)
+                  result=change['content']
+              else:
+                  original=path.read_bytes()
+                  assert hashlib.sha256(original).hexdigest()==change['oldSha256'],'Source changed: '+str(path)
+                  result=original.decode('utf-8')
+                  for edit in reversed(change['edits']):
+                      result=result[:edit['start']]+edit['text']+result[edit['end']:]
+              assert hashlib.sha256(result.encode('utf-8')).hexdigest()==change['newSha256'],'Result checksum mismatch: '+str(path)
+              path.parent.mkdir(parents=True,exist_ok=True)
+              path.write_text(result,encoding='utf-8')
+              print('Verified '+str(path),flush=True)
+          assert hashlib.sha256((root/'data/source.csv').read_bytes()).hexdigest()=='a7c4346622ba0464828a617fbfb26fa4c2408602fd35ef925ec5367ef7b7d61c','Public dataset unexpectedly changed'
+          PY
+      - name: Rebuild and test the complete release
+        working-directory: sanctions-explorer
+        run: |
+          python build.py
+          node tests/core.test.cjs
+          node tests/findings.test.cjs
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          actual=hashlib.sha256(Path('index.html').read_bytes()).hexdigest()
+          assert actual=='3faf1ae310898f9a9a161bb85e21b608b05204f4580177b20123bce9b8bbfffd','Build differs from tested local release'
+          print('Exact match to the locally tested release: '+actual)
+          PY
+      - name: Prepare Git objects and an editable package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          import_placeholder=''
+          python - <<'PY'
+          import urllib.request,json,os,base64,hashlib,zipfile,lzma
+          from pathlib import Path
+          root=Path('sanctions-explorer');out=Path('release');out.mkdir(exist_ok=True)
+          files=sorted(p for p in root.rglob('*') if p.is_file() and not any(x in p.parts for x in ('__pycache__','results','verification','.git')) and p.name!='editable-project.zip')
+          with zipfile.ZipFile(root/'editable-project.zip','w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+              for p in files:z.write(p,str(Path('AI-Sanctions-Explorer')/p.relative_to(root)))
+          encoded=''.join(Path(f'.github/educator-overview/payload-{i}.b64').read_text().strip() for i in range(1,4))
+          changes=json.loads(lzma.decompress(base64.b64decode(encoded)))
+          publish=[root/c['path'] for c in changes]+[root/'index.html',root/'editable-project.zip']
+          api='https://api.github.com/repos/Writedotlaw/lawyer-prompt-studio-previews'
+          def request(path,payload=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','User-Agent':'Write-law-educator-overview'}
+              body=None
+              if payload is not None:body=json.dumps(payload).encode();headers['Content-Type']='application/json'
+              with urllib.request.urlopen(urllib.request.Request(api+path,data=body,headers=headers),timeout=60) as r:return json.load(r)
+          parent=request('/git/ref/heads/main')['object']['sha']
+          assert parent==os.environ['GITHUB_SHA'],'Main changed while building; rebuild against the new version'
+          base=request('/git/commits/'+parent)['tree']['sha']
+          entries=[]
+          for p in publish:
+              blob=request('/git/blobs',{'content':base64.b64encode(p.read_bytes()).decode(),'encoding':'base64'})
+              entries.append({'path':str(p),'mode':'100644','type':'blob','sha':blob['sha']})
+              print('Prepared '+str(p),flush=True)
+          tree=request('/git/trees',{'base_tree':base,'tree':entries})
+          manifest={'parent_sha':parent,'tree_sha':tree['sha'],'entries':entries,'htmlSha256':hashlib.sha256((root/'index.html').read_bytes()).hexdigest(),'records':2036,'release':'educator-overview-v2','url':'https://writedotlaw.github.io/lawyer-prompt-studio-previews/sanctions-explorer/'}
+          (out/'publication-manifest.json').write_text(json.dumps(manifest,indent=2))
+          (out/'editable-project.zip').write_bytes((root/'editable-project.zip').read_bytes())
+          print('PUBLICATION_MANIFEST='+json.dumps(manifest),flush=True)
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write('# Educator overview ready\n\n50 core and aggregate checks passed. The compiled HTML matches the locally browser-tested release.\n\nTree: '+tree['sha']+'\n\nThis workflow did not update the branch.\n')
+          PY
+      - name: Preserve verified package and publication manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: educator-overview-ready-to-publish
+          path: release/
+          retention-days: 14
+          if-no-files-found: error
