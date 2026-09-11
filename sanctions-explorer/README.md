@@ -10,15 +10,23 @@ Use **Customize & import** to change the project name, introduction, appearance,
 
 Browser settings do not change the public website for other visitors. **Export portable website** produces a self-contained copy with the active data and settings. **Export project JSON** preserves the raw data and mapping for another editing session. Neither export includes review notes or exercise progress.
 
+## Educator overview
+
+The opening page now brings the principal findings together in one scrolling reading page: participant identity, lawyer experience, practice size, courts, workflows, error types, explanations, court responses, monetary consequences, trends, and teaching applications. Its section buttons scroll within this page rather than opening another category. All principal findings are visible without expanding an accordion.
+
+The overview always uses the full active dataset. Case-browser filters remain available in the separate browser and its advanced charts. The main page distinguishes the September 10 public database from the September 2 study aggregates, and shows denominators at the figure level. Imported custom datasets do not inherit the legal-study findings.
+
+The case browser and the existing teaching/review tools remain available. Older geography, patterns, and study routes still work under **Additional data views**. The overview also supports printing, a text export for teaching, and shareable section links.
+
 ## Features
 
 The app includes monthly and cumulative charts, shared filters, searchable and paginated decision views, source-linked details, saved selections, two-record comparison, jurisdiction charts and a U.S. tile map, error/outcome/tool/field charts, single-currency monetary distributions, chart and data exports, twelve new fictional training exercises, a local quotation comparator, review checklists, and an evidence log.
 
-The 450-order study page contains selected published aggregate findings from Kyle Bahr’s expanded project. It is explicitly separate from the 2,036 decision-level source records and does not respond to dataset filters. This is a functional independent rebuild, not a pixel-for-pixel reproduction or a copy of every original essay, research directory, or exercise. Private lawyer-level coding workbooks are not included.
+The educator overview includes published aggregate findings from Kyle Bahr’s expanded project, including the 450-order coding, 420-person roster, 394 resolved admission years, 395 private-practice firm-size bands, and 1,378-record court classification. These are explicitly distinguished from the 2,036 decision-level source records and do not respond to dataset filters. This is a functional independent rebuild, not a pixel-for-pixel reproduction or a copy of every original essay, research directory, or exercise. Private lawyer-level coding workbooks are not included.
 
 ## Source files
 
-`src/app.js` contains views and interaction handling. `src/core.js` contains normalization, filtering, CSV handling, money parsing, and text comparison. `src/content.js` contains the original fictional exercises, checklists, and attributed study aggregates. `src/styles.css` controls appearance; `src/shell.html` provides the page shell. `build.py` assembles these with `data/source.csv` into the portable `index.html`.
+`src/findings.js` contains the consolidated educator reading page. `src/findings-data.js` contains the anonymous published study aggregates and source metadata. `src/app.js` contains views and interaction handling. `src/core.js` contains normalization, filtering, CSV handling, money parsing, and text comparison. `src/content.js` contains the original fictional exercises, checklists, and attributed study aggregates. `src/styles.css` controls appearance; `src/shell.html` provides the page shell. `build.py` assembles these with `data/source.csv` into the portable `index.html`.
 
 To rebuild with Python 3:
 

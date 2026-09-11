@@ -30,7 +30,7 @@ with sync_playwright() as p:
  check('Jurisdiction filter uses multi-value fields',page.evaluate('App.getData().filtered')==1393)
  page.locator('[data-filter="actor"]').select_option('Lawyer')
  check('Combined filters reduce the set',0<page.evaluate('App.getData().filtered')<809)
- count=page.evaluate('App.getData().filtered');page.locator('nav a[href="#geography"]').click()
+ count=page.evaluate('App.getData().filtered');page.locator('.advanced-nav > summary').click();page.locator('nav a[href="#geography"]').click()
  check('Shared filters survive navigation',page.evaluate('App.getData().filtered')==count)
  page.locator('[data-action="reset"]').first.click();page.locator('[data-action="map-state"][data-value="NV"]').click()
  check('State map opens the filtered records',page.evaluate('App.getState().filters.state')=='NV')

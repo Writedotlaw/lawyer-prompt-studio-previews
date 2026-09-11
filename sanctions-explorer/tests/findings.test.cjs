@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const ctx={window:{}};vm.runInNewContext(fs.readFileSync('src/findings-data.js','utf8'),ctx);const F=ctx.window.ExplorerFindings;
+let passed=0;function check(name,test){test();console.log('PASS '+name);passed++;}
+const sum=a=>a.reduce((s,x)=>s+x,0);
+check('Experience bands sum to resolved people',()=>assert.equal(sum(F.experience.dist.map(x=>x[1])),394));
+check('Resolved and unresolved people total 420',()=>assert.equal(394+26,F.experience.people));
+check('Experience of at least twenty matches bands',()=>assert.equal(F.experience.at_least_20,F.experience.dist[4][1]+F.experience.dist[5][1]));
+check('Experience under five matches bands',()=>assert.equal(F.experience.under_5,F.experience.dist[0][1]+F.experience.dist[1][1]));
+check('Firm bands sum to 395',()=>assert.equal(sum(F.firm_size.bands.map(x=>x[1])),395));
+check('Other practice roles total 23',()=>assert.equal(sum(Object.values(F.firm_size.nonprivate)),23));
+check('Pronoun categories total 420',()=>assert.equal(F.pronouns.he+F.pronouns.she+F.pronouns.unresolved,420));
+check('Courts use separate 1378-record denominator',()=>assert.equal(sum(Object.values(F.us_level)),F.us_n));
+check('Court types cover 1378 records',()=>assert.equal(sum(Object.values(F.us_tier)),F.us_n));
+check('Side categories cover all 450 orders',()=>assert.equal(sum(F.caseSide.map(x=>x[1])),450));
+check('Who-used coding covers all 450',()=>assert.equal(sum(Object.values(F.micro.who_used_ai)),450));
+check('Detection coding covers all 450',()=>assert.equal(sum(Object.values(F.micro.who_caught_it)),450));
+check('Candor coding covers all 450 including unknowns',()=>assert.equal(sum(Object.values(F.micro.candor)),450));
+check('Product coverage accounts for named and unnamed',()=>assert.equal(F.products.named+F.products.unnamed,450));
+check('Jurisdiction and study dates are not overwritten',()=>assert.equal(F.meta.snapshot,'2026-09-02'));
+check('Source states include fifty states and DC',()=>assert.equal(Object.keys(F.us_states).length,51));
+check('Half-year participant rows cover U.S. sample',()=>assert.equal(sum(F.us_half_by_party.map(row=>sum(Object.entries(row).filter(([key])=>key!=='half').map(([,value])=>value)))),1378));
+console.log(JSON.stringify({passed,failed:0}));
