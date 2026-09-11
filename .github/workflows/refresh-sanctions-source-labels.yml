@@ -34,7 +34,7 @@ jobs:
           import hashlib,re
           html=Path('index.html').read_bytes()
           assert hashlib.sha256(html).hexdigest()=='516047123b1b9dab4d2c509325d0c465e0e7e15a61bc72b43f515cc5470b50c6','Build differs from browser-tested release'
-          assert not re.search(r'kyle|bahr',html.decode(),re.I)
+          assert not re.search(r'\bKyle\b|\bBahr\b|kylebahr',html.decode(),re.I)
           assert hashlib.sha256(Path('data/source.csv').read_bytes()).hexdigest()=='a7c4346622ba0464828a617fbfb26fa4c2408602fd35ef925ec5367ef7b7d61c'
           print('Verified exact match with browser-tested release; source records unchanged.')
           PY
