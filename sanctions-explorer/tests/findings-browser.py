@@ -52,7 +52,7 @@ try:
   with page.expect_download() as dl:page.locator('[data-action="findings-export"]').click()
   dl.value.save_as(str(out/'teaching-findings.txt'));export=(out/'teaching-findings.txt').read_text()
   check('Teaching export contains experience and courts','21 years' in export and '1,378' in export)
-  check('Teaching export preserves source information','kylebahr.netlify.app' in export and 'damiencharlotin.com' in export)
+  check('Teaching export identifies database and separate analyses','damiencharlotin.com' in export and 'Supplemental analyses:' in export)
   page.emulate_media(media='print');check('Print hides jump navigation',not page.locator('.finding-jumps').is_visible());check('Print retains experience figures',page.locator('#finding-experience').is_visible());page.emulate_media(media='screen')
   for width in [1440,1024,768,390,360]:
    page.set_viewport_size({'width':width,'height':900});page.evaluate('scrollTo(0,0)')

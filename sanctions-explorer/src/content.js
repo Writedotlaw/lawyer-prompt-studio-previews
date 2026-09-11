@@ -33,7 +33,7 @@ checklists:{
 ['Dates','Check dates, renewal mechanisms, notice triggers, and delivery rules against the relevant calendar.'],
 ['Approval','Flag departures from instructions and obtain approval for unresolved choices.']
 ]},
-study:{denominator:450,date:'September 2, 2026',source:'https://kylebahr.netlify.app/2000/expanded/',
+study:{denominator:450,date:'September 2, 2026',methodRoute:'sources',
 responses:[['Warning',93],['Fine',88],['Bar referral',87],['Fee award',70],['Reprimand',56],['Filing struck',48],['Certification required',43],['Client notification',42],['Education required',41]],
 detection:[['Court',235],['Opposing party',188],['Other',27]],
 errors:[['No invented case identified',128],['Only nonexistent cases',92]],

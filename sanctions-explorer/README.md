@@ -22,11 +22,11 @@ The case browser and the existing teaching/review tools remain available. Older 
 
 The app includes monthly and cumulative charts, shared filters, searchable and paginated decision views, source-linked details, saved selections, two-record comparison, jurisdiction charts and a U.S. tile map, error/outcome/tool/field charts, single-currency monetary distributions, chart and data exports, twelve new fictional training exercises, a local quotation comparator, review checklists, and an evidence log.
 
-The educator overview includes published aggregate findings from Kyle Bahr’s expanded project, including the 450-order coding, 420-person roster, 394 resolved admission years, 395 private-practice firm-size bands, and 1,378-record court classification. These are explicitly distinguished from the 2,036 decision-level source records and do not respond to dataset filters. This is a functional independent rebuild, not a pixel-for-pixel reproduction or a copy of every original essay, research directory, or exercise. Private lawyer-level coding workbooks are not included.
+The educator overview includes supplemental analyses of reported AI-related decisions, including the 450-order coding, 420-person roster, 394 resolved admission years, 395 private-practice firm-size bands, and 1,378-record court classification. These are explicitly distinguished from the 2,036 decision-level source records and do not respond to dataset filters. This is a functional independent rebuild, not a pixel-for-pixel reproduction or a copy of every original essay, research directory, or exercise. Private lawyer-level coding workbooks are not included.
 
 ## Source files
 
-`src/findings.js` contains the consolidated educator reading page. `src/findings-data.js` contains the anonymous published study aggregates and source metadata. `src/app.js` contains views and interaction handling. `src/core.js` contains normalization, filtering, CSV handling, money parsing, and text comparison. `src/content.js` contains the original fictional exercises, checklists, and attributed study aggregates. `src/styles.css` controls appearance; `src/shell.html` provides the page shell. `build.py` assembles these with `data/source.csv` into the portable `index.html`.
+`src/findings.js` contains the consolidated educator reading page. `src/findings-data.js` contains the anonymous published study aggregates and source metadata. `src/app.js` contains views and interaction handling. `src/core.js` contains normalization, filtering, CSV handling, money parsing, and text comparison. `src/content.js` contains the original fictional exercises, checklists, and supplemental study aggregates. `src/styles.css` controls appearance; `src/shell.html` provides the page shell. `build.py` assembles these with `data/source.csv` into the portable `index.html`.
 
 To rebuild with Python 3:
 
@@ -50,9 +50,9 @@ A new source CSV can be passed with `python3 build.py --csv path/to/source.csv`.
 
 Changes include a new interface and presentation, new explanations and exercises, limited court-label-based U.S. state inference, grouping source items once per record, a corrected display spelling for “Government Lawyer,” and case-insensitive grouping of outcome-chart labels. The original source values remain available in the dataset. A `1` monetary value in this source denotes an unknown amount; it is not included in numeric monetary summaries. Different currencies are never aggregated.
 
-Selected study aggregates are attributed to **Kyle Bahr**, https://kylebahr.netlify.app/2000/expanded/, September 2, 2026 edition. Their sample of 450 U.S. lawyer-related orders differs from the full public database. Single-pass AI-assisted coding was not accompanied by a second coder or an intercoder-reliability assessment. This version does not imply either source author’s endorsement.
+The supplemental analyses use a September 2, 2026 snapshot and separate samples, including 450 U.S. lawyer-related orders. These published aggregates were not recomputed from the current database export. The underlying analysis used a single AI-assisted coding pass without a second coder or an intercoder-reliability assessment. The additional coding is not presented as work performed by the database compiler.
 
-The original site’s source code, embedded fonts, and proprietary person-level files are not redistributed. The application uses system fonts.
+The application uses system fonts. Person-level workbooks are not included.
 
 ## Limits
 
