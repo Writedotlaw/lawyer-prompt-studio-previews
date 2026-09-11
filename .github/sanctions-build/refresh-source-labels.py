@@ -39,8 +39,8 @@ replace('src/findings.js',
     'Additional aggregate findings: Kyle Bahr’s expanded study, September 2, 2026 snapshot.',
     'Supplemental analyses: September 2, 2026 snapshot; sample sizes are shown with each figure.')
 replace('src/findings.js',
-    "if(config.study&&!dataset.meta.custom)text+='Published aggregate study: '+F.meta.source+'\n';",
-    "if(config.study&&!dataset.meta.custom)text+='Supplemental analyses: '+F.meta.snapshot+' snapshot. These aggregates use separate samples and were not recomputed from the current database export. See Sources and methods in this explorer.\n';")
+    r"if(config.study&&!dataset.meta.custom)text+='Published aggregate study: '+F.meta.source+'\n';",
+    r"if(config.study&&!dataset.meta.custom)text+='Supplemental analyses: '+F.meta.snapshot+' snapshot. These aggregates use separate samples and were not recomputed from the current database export. See Sources and methods in this explorer.\n';")
 replace('README.md',
     'The educator overview includes published aggregate findings from Kyle Bahr’s expanded project, including',
     'The educator overview includes supplemental analyses of reported AI-related decisions, including')
