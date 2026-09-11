@@ -1,0 +1,72 @@
+name: Verify published sanctions explorer
+on:
+  push:
+    branches: [main]
+    paths:
+      - sanctions-explorer/**
+      - .github/workflows/verify-sanctions-explorer.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sanctions-explorer-public-verification
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check whether release source has been published
+        id: ready
+        run: |
+          if [ -f sanctions-explorer/index.html ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; else echo "ready=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Match the public HTML to the committed source
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          python - <<'PY'
+          import urllib.request, urllib.error, time, hashlib, json, datetime, os
+          from pathlib import Path
+          url='https://writedotlaw.github.io/lawyer-prompt-studio-previews/sanctions-explorer/'
+          expected=hashlib.sha256(Path('sanctions-explorer/index.html').read_bytes()).hexdigest()
+          out=Path('sanctions-explorer/tests/results');out.mkdir(exist_ok=True)
+          for attempt in range(60):
+              try:
+                  req=urllib.request.Request(url,headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(req,timeout=15) as r:
+                      data=r.read(5000000)
+                      assert r.status==200 and r.url==url and 'text/html' in r.headers.get('Content-Type','')
+                      actual=hashlib.sha256(data).hexdigest()
+                      if actual==expected:break
+                      print('Waiting for the exact committed release.',flush=True)
+              except Exception as e:print(type(e).__name__+': '+str(e),flush=True)
+              time.sleep(5)
+          else:raise RuntimeError('Public release never matched the committed HTML')
+          report={'url':url,'httpStatus':200,'sha256':actual,'bytes':len(data),'commit':os.environ['GITHUB_SHA'],'verifiedWithoutLogin':True,'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          (out/'publication-report.json').write_text(json.dumps(report,indent=2))
+          print('PUBLIC_RELEASE_VERIFIED='+json.dumps(report),flush=True)
+          PY
+      - name: Verify normalization and aggregate counts
+        if: steps.ready.outputs.ready == 'true'
+        working-directory: sanctions-explorer
+        run: node tests/core.test.cjs
+      - name: Install a fresh test browser
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.55.0
+          python -m playwright install --with-deps chromium
+      - name: Test all public routes, filters, imports and exports
+        if: steps.ready.outputs.ready == 'true'
+        run: python sanctions-explorer/tests/browser.py https://writedotlaw.github.io/lawyer-prompt-studio-previews/sanctions-explorer/
+      - name: Preserve browser and publication evidence
+        if: always() && steps.ready.outputs.ready == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sanctions-explorer-public-verification
+          path: |
+            sanctions-explorer/tests/results/*report.json
+            sanctions-explorer/tests/results/*.png
+          retention-days: 14
+          if-no-files-found: error
