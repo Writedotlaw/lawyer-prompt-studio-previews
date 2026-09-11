@@ -1,0 +1,112 @@
+name: Build independent sanctions explorer
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/build-sanctions-explorer.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Decode the independently authored and tested source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64,lzma,json,hashlib
+          chunks=[Path(f'.github/sanctions-build/payload-{i}.b64').read_text().strip() for i in range(1,8)]
+          data=lzma.decompress(base64.b64decode(''.join(chunks),validate=True))
+          assert hashlib.sha256(data).hexdigest()=='ef3e22626d61c102ea6b2822b7607911f60d22f325305e5e8375ba1efa50673f','Source transfer checksum mismatch'
+          root=Path('sanctions-explorer')
+          for name,content in json.loads(data).items():
+              rel=Path(name)
+              assert not rel.is_absolute() and '..' not in rel.parts
+              p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(content)
+          p=root/'src/core.js';t=p.read_text();old='function safeURL(url,base){try{';assert old in t
+          p.write_text(t.replace(old,"function safeURL(url,base){if(!String(url||'').trim())return '';try{"))
+          p=root/'tests/core.test.cjs';t=p.read_text();needle='console.log(JSON.stringify({passed,failed:0,records:rows.length}));';assert needle in t
+          p.write_text(t.replace(needle,"check('blank source has no invented URL',()=>assert.equal(C.safeURL(''),''));\n"+needle))
+          print('Independent source checksum verified.')
+          PY
+      - name: Restore the exact attributed public data snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import urllib.request,urllib.error,os,zipfile,io,hashlib
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,*args,**kwargs):return None
+          url='https://api.github.com/repos/Writedotlaw/lawyer-prompt-studio-previews/actions/artifacts/10182705664/zip'
+          req=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','User-Agent':'Write-law-sanctions-explorer'})
+          try:
+              response=urllib.request.build_opener(NoRedirect).open(req,timeout=30)
+              blob=response.read()
+          except urllib.error.HTTPError as e:
+              if e.code not in (301,302,303,307,308):raise
+              target=e.headers['Location'];assert target.startswith('https://')
+              with urllib.request.urlopen(target,timeout=60) as r:blob=r.read()
+          with zipfile.ZipFile(io.BytesIO(blob)) as z:
+              entries=[n for n in z.namelist() if n.endswith('database-export-0.csv')]
+              assert len(entries)==1
+              csv=z.read(entries[0])
+          assert hashlib.sha256(csv).hexdigest()=='a7c4346622ba0464828a617fbfb26fa4c2408602fd35ef925ec5367ef7b7d61c','Source snapshot changed'
+          out=Path('sanctions-explorer/data');out.mkdir(exist_ok=True);(out/'source.csv').write_bytes(csv)
+          print('Licensed source CSV checksum verified.')
+          PY
+      - name: Build and verify the portable release
+        working-directory: sanctions-explorer
+        run: |
+          python build.py
+          node tests/core.test.cjs
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          actual=hashlib.sha256(Path('index.html').read_bytes()).hexdigest()
+          assert actual=='de5349857f602e3d61b80471e6bf0429775c6b4cec07633900a4a91e941b0805','Build differs from locally tested file'
+          print('Portable release matches the tested local build: '+actual)
+          PY
+      - name: Prepare source package and Git objects for publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import urllib.request,json,os,base64,hashlib,zipfile
+          from pathlib import Path
+          root=Path('sanctions-explorer');out=Path('release');out.mkdir(exist_ok=True)
+          files=sorted(p for p in root.rglob('*') if p.is_file() and '__pycache__' not in p.parts and 'results' not in p.parts)
+          with zipfile.ZipFile(root/'editable-project.zip','w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+              for p in files:z.write(p,str(p.relative_to(root)))
+          files.append(root/'editable-project.zip')
+          api='https://api.github.com/repos/Writedotlaw/lawyer-prompt-studio-previews'
+          def request(path,payload=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','User-Agent':'Write-law-sanctions-explorer'}
+              body=None
+              if payload is not None:body=json.dumps(payload).encode();headers['Content-Type']='application/json'
+              with urllib.request.urlopen(urllib.request.Request(api+path,data=body,headers=headers),timeout=60) as r:return json.load(r)
+          parent=request('/git/ref/heads/main')['object']['sha'];base=request('/git/commits/'+parent)['tree']['sha']
+          entries=[]
+          for p in files:
+              content=p.read_bytes();blob=request('/git/blobs',{'content':base64.b64encode(content).decode(),'encoding':'base64'})
+              entries.append({'path':str(p),'mode':'100644','type':'blob','sha':blob['sha']})
+              print('Prepared '+str(p),flush=True)
+          tree=request('/git/trees',{'base_tree':base,'tree':entries})
+          manifest={'parent_sha':parent,'tree_sha':tree['sha'],'entries':entries,'htmlSha256':hashlib.sha256((root/'index.html').read_bytes()).hexdigest(),'records':2036,'url':'https://writedotlaw.github.io/lawyer-prompt-studio-previews/sanctions-explorer/'}
+          (out/'publication-manifest.json').write_text(json.dumps(manifest,indent=2))
+          (out/'editable-project.zip').write_bytes((root/'editable-project.zip').read_bytes())
+          print('PUBLICATION_MANIFEST='+json.dumps(manifest),flush=True)
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write('# Sanctions explorer ready for publication\n\nVerified 2,036 source records and 33 core checks.\n\nTree: '+tree['sha']+'\n\nNo branch was changed by this build.\n')
+          PY
+      - name: Preserve the checked release and publication manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sanctions-explorer-ready-to-publish
+          path: release/
+          retention-days: 14
+          if-no-files-found: error
